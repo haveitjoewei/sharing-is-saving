@@ -4,23 +4,28 @@ $(document).ready(function(){
   $("#darken").hide();
 
   $("#signup").click(function(){
-    $("#signup_dialog").show();
-    $("#darken").show();
+    $("#signup_dialog").fadeIn(100);
+    $("#darken").fadeIn(100);
   });
 
   $("#login").click(function(){
-    $("#login_dialog").show()
-    $("#darken").show();
+    $("#login_dialog").fadeIn(100);
+    $("#darken").fadeIn(100);
   });
 
   $("#darken").click(function(){
-    $("#signup_dialog").hide();
-    $("#login_dialog").hide();
-    $("#darken").hide();
-  })
+    $("#signup_dialog").fadeOut(100);
+    $("#login_dialog").fadeOut(100);
+    $("#darken").fadeOut(100);
+  });
 
   $("#signup_submit").click(function(){
-    $("#signup_dialog").hide();
-    $("#darken").hide();
-  })
+    $("#signup_dialog").fadeOut(100);
+    $("#darken").fadeOut(100);
+  });
+
+  $("#login_submit").click(function(){
+    $("#login_dialog").fadeOut(100);
+    $("#darken").fadeOut(100);
+  });
 });
