@@ -6,6 +6,9 @@
     <link rel="stylesheet" type="text/css" href="styles/style.css">
     <script src="scripts/jquery.min.js"></script>
     <script type="text/javascript" src="scripts/script.js"></script>
+    <script type="text/javascript" src="scripts/share.js"></script>
+    <script type="text/javascript">
+    </script>
     <!-- <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
   </head>
   <body>
@@ -36,15 +39,21 @@
 			</form>
 		</div>
 
-		<div id="container">
-			<form action="itemview.html">
-				<input type="file" name="pic" accept="image/*">
-				<input type="text" name="Title" id="posttitle" placeholder="Title">
-				<input type="text" name="description" id="postdescription" placeholder="Description">
-				<input type="text" name="price" id="postprice" placeholder="Price">
-				<input type="text" name="security_deposit" id="postsecuritydeposit" placeholder="Security Deposit">
-				<input id="post_submit" type="submit" value="Submit Post">
-			</form>
+		<div id="mainbody">
+			<div class = "create">
+				<form action="listings.html">
+					<input type="file" name="pic" accept="image/*">
+					<input type="text" name="title" id="title" placeholder="Title" class="title-input">
+					<input type="text" name="latitude" id="latitude" placeholder="Latitude (must be number)" class="latitude-input">
+					<input type="text" name="longitude" id="longitude" placeholder="Longitude (must be number)" class="longitude-input">
+					<input type="text" name="description" id="description" placeholder="Description" class="description-input">
+					<input type="text" name="price" id="price" placeholder="Price" class="price-input">
+					<input type="text" name="security_deposit" id="deposit" placeholder="Security Deposit" class="deposit-input">
+					<input type="text" name="status" id="status" placeholder="Status (must be number between 1 and 3)" class="title-input">
+					<input type="text" name="user" id="user" placeholder="User" class="user-input">
+					<input id="post_submit" type="submit" value="Submit Post" class="submit-input">
+				</form>
+			</div>
 		</div>
   </body>
 </html>
