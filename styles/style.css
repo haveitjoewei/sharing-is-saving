@@ -1,13 +1,12 @@
 body {
 	margin: 0;
 	padding: 0;
-	background-color: #EEEEEE;
+	background-color: #EFEFEF;
 }
 
 a {
 	text-decoration: none;
 	font-family: Arial;
-	margin: 0 5px;
 }
 
 header {
@@ -18,6 +17,8 @@ header {
 header a {
 	color: white;
 	padding: 15px;
+	margin: 0 5px;
+	transition: background 0.25s ease-in-out;
 }
 
 header a:hover {
@@ -33,8 +34,9 @@ nav {
 	background-color: #0094FF;
 	padding: 15px;
 	color: white;
-	font-size: 1.1em;
+	font-size: 1.5em;
 	border-radius: 3px;
+	transition: background 0.25s ease-in-out;
 }
 
 .button:hover {
@@ -101,4 +103,12 @@ input[type="submit"] {
 	padding: 25px;
 	margin: 10px;
 	box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.25);
+}
+
+.listing:hover {
+	background-color: #FCFCFC;
+}
+
+.listing a {
+	font-size: 1.5em;
 }
