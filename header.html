@@ -1,10 +1,17 @@
+<script type="text/javascript" src="scripts/script.js"></script>
+<script type="text/javascript">
+	$(function() {
+		User.start()
+	});
+</script>
 <header>
 	<a href="home.html">Sharing Is Saving</a>
 	<nav>
 		<a href="post.html">Post</a>
 		<a href="#" id="signup">Sign up</a>
 		<a href="#" id="login">Log In</a>
-		<a href="home.html">Log Out</a>
+		<a href="#" id="user"></a>
+		<a href="home.html" id="logout">Log Out</a>
 	</nav>
 </header>
 <div id="darken"></div>
@@ -14,13 +21,15 @@
 		<input type="text" name="last_name" id="last_name" placeholder="Last Name">
 		<input type="text" name="email" id="email" placeholder="Email">
 		<input type="password" name="password" id="password" placeholder="Password">
+		<input type="password" name="password_confirmation" id="password_confirmation" placeholder="Confirm Password">
+		<input type="text" name="date_of_birth" id="date_of_birth" placeholder="Date of Birth (YYYY-MM-DD)">
 		<input id="signup_submit" type="submit" value="Sign Up">
 	</form>
 </div>
 <div id="login_dialog">
 	<form>
-		<input type="text" name="email" id="email" placeholder="Email">
-		<input type="password" name="password" id="password" placeholder="Password">
+		<input type="text" name="email" id="loginemail" placeholder="Email">
+		<input type="password" name="password" id="loginpassword" placeholder="Password">
 		<input id="login_submit" type="submit" value="Log In">
 	</form>
 </div>

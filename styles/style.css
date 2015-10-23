@@ -2,6 +2,9 @@ body {
 	margin: 0;
 	padding: 0;
 	background-color: #EFEFEF;
+	background-image: url("http://wscreenwallpapers.com/wp-content/uploads/2015/03/new-york-4k-city-wallpaper-9.jpg");
+	background-repeat: no-repeat; 
+	background-size: cover;
 }
 
 a {
@@ -90,7 +93,7 @@ input[type="submit"] {
 
 #mainbody {
 	text-align: center;
-	/*margin-top: 50px;*/
+	margin-top: 20%;
 	padding: 50px 25px;
 }
 

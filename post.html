@@ -1,62 +1,40 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Sharing Is Saving</title>
-    <link rel="stylesheet" type="text/css" href="styles/style.css">
-    <script src="scripts/jquery.min.js"></script>
-    <script type="text/javascript" src="scripts/script.js"></script>
-    <script type="text/javascript" src="scripts/share.js"></script>
-    <script type="text/javascript">
-    	$(function() {
-    		Share.start();
-    	});
-    </script>
-    <!-- <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
-  </head>
-  <body>
-  	<header>
-  		<a href="home.html">Sharing Is Saving</a>
-  		<nav>
-	  		<a href="post.html">Post</a>
-	  		<a href="#" id="signup">Sign up</a>
-	  		<a href="#" id="login">Log In</a>
-	  		<a href="home.html">Log Out</a>
-	  	</nav>
-  	</header>
-		<div id="darken"></div>
-		<div id="signup_dialog">
-			<form>
-	      <input type="text" name="first_name" id="first_name" placeholder="First Name">
-	      <input type="text" name="last_name" id="last_name" placeholder="Last Name">
-	      <input type="text" name="email" id="email" placeholder="Email">
-	      <input type="password" name="password" id="password" placeholder="Password">
-	      <input id="signup_submit" type="submit" value="Sign Up">
-		  </form>
-		</div>
-		<div id="login_dialog">
-			<form>
-				<input type="text" name="email" id="email" placeholder="Email">
-				<input type="password" name="password" id="password" placeholder="Password">
-				<input id="login_submit" type="submit" value="Log In">
+<head>
+	<meta charset="UTF-8">
+	<title>Sharing Is Saving</title>
+	<link rel="stylesheet" type="text/css" href="styles/style.css">
+	<script src="scripts/jquery.min.js"></script>
+	<script type="text/javascript" src="scripts/script.js"></script>
+	<script type="text/javascript" src="scripts/share.js"></script>
+	<script type="text/javascript" src="scripts/user.js"></script>
+	<script type="text/javascript">
+	$(function() {
+		Share.start();
+	});
+	$(function() {
+		User.start()
+	});
+	$(function(){
+		$("#header").load("header.html"); 
+	});
+	</script>
+	<!-- <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
+</head>
+<body>
+	<div id="header"></div>
+
+	<div id="mainbody">
+		<div class = "create">
+			<form action="listings.html">
+				<input type="file" name="pic" accept="image/*">
+				<input type="text" name="title" id="title" placeholder="Title" class="title-input">
+				<input type="text" name="description" id="description" placeholder="Description" class="description-input">
+				<input type="text" name="price" id="price" placeholder="Price" class="price-input">
+				<input type="text" name="security_deposit" id="deposit" placeholder="Security Deposit" class="deposit-input">
+				<input id="post_submit" type="submit" value="Submit Post" class="submit-input">
 			</form>
 		</div>
-
-		<div id="mainbody">
-			<div class = "create">
-				<form action="listings.html">
-					<input type="file" name="pic" accept="image/*">
-					<input type="text" name="title" id="title" placeholder="Title" class="title-input">
-					<input type="text" name="latitude" id="latitude" placeholder="Latitude (must be number)" class="latitude-input">
-					<input type="text" name="longitude" id="longitude" placeholder="Longitude (must be number)" class="longitude-input">
-					<input type="text" name="description" id="description" placeholder="Description" class="description-input">
-					<input type="text" name="price" id="price" placeholder="Price" class="price-input">
-					<input type="text" name="security_deposit" id="deposit" placeholder="Security Deposit" class="deposit-input">
-					<input type="text" name="status" id="status" placeholder="Status (must be number between 1 and 3)" class="status-input">
-					<input type="text" name="user" id="user" placeholder="User" class="user-input">
-					<input id="post_submit" type="submit" value="Submit Post" class="submit-input">
-				</form>
-			</div>
-		</div>
-  </body>
+	</div>
+</body>
 </html>

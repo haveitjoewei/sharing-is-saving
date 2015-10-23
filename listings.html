@@ -6,41 +6,22 @@
     <link rel="stylesheet" type="text/css" href="styles/style.css">
     <script src="scripts/jquery.min.js"></script>
     <script type="text/javascript" src="scripts/script.js"></script>
+    <script type="text/javascript" src="scripts/user.js"></script>
     <script type="text/javascript" src="scripts/listings.js"></script>
     <script type="text/javascript">
     	$(function() {
-    		sis.start();
+    		User.start()
     	});
+    	$(function() {
+    		sis.start()
+    	});
+		$(function(){
+			$("#header").load("header.html"); 
+		});
     </script>
   </head>
   <body>
-  	<header>
-  		<a href="home.html">Sharing Is Saving</a>
-  		<nav>
-	  		<a href="post.html">Post</a>
-	  		<a href="#" id="signup">Sign up</a>
-	  		<a href="#" id="login">Log In</a>
-	  		<a href="home.html">Log Out</a>
-	  	</nav>
-  	</header>
-		<div id="darken"></div>
-		<div id="signup_dialog">
-			<form>
-	      <input type="text" name="first_name" id="first_name" placeholder="First Name">
-	      <input type="text" name="last_name" id="last_name" placeholder="Last Name">
-	      <input type="text" name="email" id="email" placeholder="Email">
-	      <input type="password" name="password" id="password" placeholder="Password">
-	      <input id="signup_submit" type="submit" value="Sign Up">
-		  </form>
-		</div>
-		<div id="login_dialog">
-			<form>
-				<input type="text" name="email" id="email" placeholder="Email">
-				<input type="password" name="password" id="password" placeholder="Password">
-				<input id="login_submit" type="submit" value="Log In">
-			</form>
-		</div>
-
+		<div id="header"></div>
 		<div id="mainbody">
 			<section class="listings">
 				<article class="listing">
