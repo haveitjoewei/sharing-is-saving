@@ -8,6 +8,9 @@
     <script type="text/javascript" src="scripts/script.js"></script>
     <script type="text/javascript" src="scripts/share.js"></script>
     <script type="text/javascript">
+    	$(function() {
+    		Share.start();
+    	});
     </script>
     <!-- <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
   </head>
@@ -49,7 +52,7 @@
 					<input type="text" name="description" id="description" placeholder="Description" class="description-input">
 					<input type="text" name="price" id="price" placeholder="Price" class="price-input">
 					<input type="text" name="security_deposit" id="deposit" placeholder="Security Deposit" class="deposit-input">
-					<input type="text" name="status" id="status" placeholder="Status (must be number between 1 and 3)" class="title-input">
+					<input type="text" name="status" id="status" placeholder="Status (must be number between 1 and 3)" class="status-input">
 					<input type="text" name="user" id="user" placeholder="User" class="user-input">
 					<input id="post_submit" type="submit" value="Submit Post" class="submit-input">
 				</form>

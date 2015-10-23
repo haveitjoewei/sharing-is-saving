@@ -6,6 +6,12 @@
     <link rel="stylesheet" type="text/css" href="styles/style.css">
     <script src="scripts/jquery.min.js"></script>
     <script type="text/javascript" src="scripts/script.js"></script>
+    <script type="text/javascript" src="scripts/user.js"></script>
+    <script type="text/javascript">
+    	$(function() {
+    		User.start()
+    	});
+    </script>
   </head>
   <body>
   	<header>
@@ -24,6 +30,10 @@
 	      <input type="text" name="last_name" id="last_name" placeholder="Last Name">
 	      <input type="text" name="email" id="email" placeholder="Email">
 	      <input type="password" name="password" id="password" placeholder="Password">
+	      <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Confirm Password">
+	      <input type="text" name="date_of_birth" id="date_of_birth" placeholder="Date of Birth (1992-03-19">
+	      <input type="text" name="latitude" id="latitude" placeholder="Latitude">
+	      <input type="text" name="longitude" id="longitude" placeholder="Longitude">
 	      <input id="signup_submit" type="submit" value="Sign Up">
 		  </form>
 		</div>
