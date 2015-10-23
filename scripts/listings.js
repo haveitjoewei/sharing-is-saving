@@ -43,7 +43,6 @@ var sis = (function() {
 
 	var displayListings = function() {
 		var onSuccess = function(data) {
-			console.error('displayListings success')
 			for (var i = 0; i < data.post.length; i++) {
 				insertListing(data.post[i], false);
 			}

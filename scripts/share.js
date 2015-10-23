@@ -36,7 +36,7 @@ var Share = (function() {
     var attachCreateHandler = function(e) {
     	create.on('click', '.submit-input', function(e) {
     		e.preventDefault();
-    		
+
     		var post = {};
     		post["title"] = create.find('.title-input').val();
     		post["latitude"] = parseInt(create.find('.latitude-input').val());
@@ -70,7 +70,7 @@ var Share = (function() {
     			console.error('create post failed');
     		};
 
-    		makePostRequest("/api/v1/users/1/posts", post, onSuccess, onFailure);
+    		makePostRequest("/api/v1/posts", post, onSuccess, onFailure);
     	});
     };
 
