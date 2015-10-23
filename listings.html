@@ -1,37 +1,37 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Sharing Is Saving</title>
-    <link rel="stylesheet" type="text/css" href="styles/style.css">
-    <script src="scripts/jquery.min.js"></script>
-    <script type="text/javascript" src="scripts/script.js"></script>
-    <script type="text/javascript" src="scripts/user.js"></script>
-    <script type="text/javascript" src="scripts/listings.js"></script>
-    <script type="text/javascript">
-    	$(function() {
-    		User.start()
-    	});
-    	$(function() {
-    		sis.start()
-    	});
-		$(function(){
-			$("#header").load("header.html"); 
-		});
-    </script>
-  </head>
-  <body>
-		<div id="header"></div>
-		<div id="mainbody">
-			<section class="listings">
-				<article class="listing">
-					<a href="#" class="title">Listing 1</a>
-					<p class="posted_by">Posted by User 1</p>
-					<p class="description">Some description about this listing and how great it is and how you should totally check it out and if you're interested definitely rent it because it's a quality item and it's cheap and it's nearby so really you have no excuse to not take this trip to value town.</p>
-					<p class="price">$0.69 per day</p>
-					<p class="deposit">$6.90 security deposit</p>
-				</article>
-			</section>
-		</div>
-  </body>
+<head>
+	<meta charset="UTF-8">
+	<title>Sharing Is Saving</title>
+	<link rel="stylesheet" type="text/css" href="styles/style.css">
+	<script src="scripts/jquery.min.js"></script>
+	<script type="text/javascript" src="scripts/script.js"></script>
+	<script type="text/javascript" src="scripts/user.js"></script>
+	<script type="text/javascript" src="scripts/listings.js"></script>
+	<script type="text/javascript">
+	$(function() {
+		User.start()
+	});
+	$(function() {
+		sis.start()
+	});
+	$(function(){
+		$("#header").load("header.html"); 
+	});
+	</script>
+</head>
+<body>
+	<div id="header"></div>
+	<div id="mainbody">
+		<section class="listings">
+			<article class="listing">
+				<a href="#" class="title">Listing 1</a>
+				<p class="posted_by">Posted by User 1</p>
+				<p class="description">Some description about this listing and how great it is and how you should totally check it out and if you're interested definitely rent it because it's a quality item and it's cheap and it's nearby so really you have no excuse to not take this trip to value town.</p>
+				<p class="price">$0.69 per day</p>
+				<p class="deposit">$6.90 security deposit</p>
+			</article>
+		</section>
+	</div>
+</body>
 </html>
