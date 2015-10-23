@@ -2,6 +2,8 @@ $(document).ready(function(){
   $("#signup_dialog").hide();
   $("#login_dialog").hide();
   $("#darken").hide();
+  $("#logout").hide();
+  $("#user").hide();
 
   $("#signup").click(function(){
     $("#signup_dialog").fadeIn(100);
