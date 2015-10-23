@@ -1,5 +1,5 @@
 var User = (function() {
-	var apiUrl = "http://sis-backend.herokuapp.com";
+	var apiUrl = "https://sis-backend.herokuapp.com";
 
 	var signup;
     var login;
