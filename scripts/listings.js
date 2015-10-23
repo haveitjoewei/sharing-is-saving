@@ -1,5 +1,5 @@
 var sis = (function() {
-	var apiUrl = '';
+	var apiUrl = 'http://sis-backend.herokuapp.com/api/v1/';
 
 	var listings;
 	var listingTemplateHtml;
@@ -30,27 +30,28 @@ var sis = (function() {
 		var newElem = $(listingTemplateHtml);
 		newElem.attr('id', listing.id);
 		newElem.find('.title').text(listing.title);
-		newElem.find('.posted_by').text(listing.user.first_name);
+		newElem.find('.posted_by').text(listing.user_id);
 		newElem.find('.description').text(listing.description);
 		newElem.find('.price').text(listing.price);
 		newElem.find('.deposit').text(listing.security_deposit);
 		if (beginning) {
-			smiles.prepend(newElem);
+			listings.prepend(newElem);
 		} else {
-			smiles.append(newElem);
+			listings.append(newElem);
 		}
 	}
 
 	var displayListings = function() {
 		var onSuccess = function(data) {
-			for (var i = 0; i < data.listings.length; i++) {
-				insertListing(data.listings[i], false);
+			console.error('displayListings success')
+			for (var i = 0; i < data.post.length; i++) {
+				insertListing(data.post[i], false);
 			}
 		};
 		var onFailure = function(data) {
-			console.error('displayLisings failed');
+			console.error('displayListings failed');
 		};
-		makeGetRequest('/api/v1/posts', onSuccess, onFailure);
+		makeGetRequest('posts', onSuccess, onFailure);
 	};
 
 	var start = function() {
@@ -63,6 +64,8 @@ var sis = (function() {
 	}
 
 	return {
-		start: start
+		start: start,
+		displayListings: displayListings
 	};
+
 })();
