@@ -24,9 +24,9 @@ var Share = (function() {
     var makePostRequest = function(url, data, onSuccess, onFailure) {
         $.ajax({
             type: 'POST',
-            headers: {          
-               Accept : "application/json; charset=utf-8",         
-               "Content-Type": "application/json; charset=utf-8",  
+            headers: {
+               Accept : "application/json; charset=utf-8",
+               "Content-Type": "application/json; charset=utf-8",
                "X-API-EMAIL" : readCookie('email'),
                "X-API-TOKEN" : readCookie('auth_token')
             },

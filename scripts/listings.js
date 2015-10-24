@@ -29,11 +29,11 @@ var sis = (function() {
 	var insertListing = function(listing, beginning) {
 		var newElem = $(listingTemplateHtml);
 		newElem.attr('id', listing.id);
-		newElem.find('.title').text(listing.title);
-		newElem.find('.posted_by').text(listing.user_id);
+		newElem.find('.title').text(listing.id.toString() + '. ' + listing.title);
+		newElem.find('.posted_by').text('Posted by ' + listing.user_id);
 		newElem.find('.description').text(listing.description);
-		newElem.find('.price').text(listing.price);
-		newElem.find('.deposit').text(listing.security_deposit);
+		newElem.find('.price').text('$' + listing.price + ' per day');
+		newElem.find('.deposit').text('$' + listing.security_deposit + ' security deposit');
 		if (beginning) {
 			listings.prepend(newElem);
 		} else {
