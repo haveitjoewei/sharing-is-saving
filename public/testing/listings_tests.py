@@ -5,8 +5,7 @@ import unittest
 class ListingsTestCase(unittest.TestCase):
 	def setUp(self):
 		chrome_options = Options()
-		chrome_options.binary_location = 'C:\Users\Victor\AppData\Local\Google\Chrome SxS\Application\chrome.exe'
-		self.browser = webdriver.Chrome(chrome_options=chrome_options)
+		self.browser = webdriver.Chrome('./chromedriver')
 		self.browser.get('http://sharingissaving.herokuapp.com/listings.html')
 		self.addCleanup(self.browser.quit)
 	def testPageTitle(self):

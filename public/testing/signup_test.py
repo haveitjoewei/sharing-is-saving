@@ -8,13 +8,13 @@ import random
 class SignupTestCase(unittest.TestCase):
 	def setUp(self):
 		chrome_options = Options()
-		chrome_options.binary_location = "/Users/josephwei/Downloads/chromedriver"
-		self.browser = webdriver.Chrome("/Users/josephwei/Downloads/chromedriver")
+		self.browser = webdriver.Chrome("./chromedriver")
 		self.browser.get('http://sharingissaving.herokuapp.com/')
 		self.addCleanup(self.browser.quit)
 
 	def testPageTitle(self):
-		self.assertIn('Sharing Is Saving', self.browser.title)
+		time.sleep(2)
+		self.assertIn('SharingIsSaving', self.browser.title)
 	def testDialog(self):
 		self.browser.find_element_by_id('signup').click()
 		self.assertTrue(self.browser.find_element_by_id('darken').is_displayed())
