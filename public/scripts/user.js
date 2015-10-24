@@ -1,5 +1,5 @@
 var User = (function() {
-	var apiUrl = "https://sis-backend.herokuapp.com/api/v1/";
+	var apiUrl = "https://sharingissaving.herokuapp.com/api/v1/";
 
 	var signup;
     var login;
