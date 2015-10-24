@@ -1,5 +1,5 @@
 var sis = (function() {
-	var apiUrl = 'http://sis-backend.herokuapp.com/api/v1/';
+	var apiUrl = 'https://sis-backend.herokuapp.com/api/v1/';
 
 	var listings;
 	var listingTemplateHtml;

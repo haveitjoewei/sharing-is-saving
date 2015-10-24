@@ -1,5 +1,5 @@
 var User = (function() {
-	var apiUrl = "http://sis-backend.herokuapp.com";
+	var apiUrl = "https://sis-backend.herokuapp.com/api/v1/";
 
 	var signup;
     var login;
@@ -99,7 +99,7 @@ var User = (function() {
                     console.error('login user failed');
                 }; 
 
-                makePostRequest("/api/v1/users/sign_in", login_user, onSuccess, onFailure);
+                makePostRequest("users/sign_in", login_user, onSuccess, onFailure);
                 signup_button.hide();
                 login_button.hide();
                 logout.show();
@@ -111,7 +111,7 @@ var User = (function() {
                 console.log(data);
             };
 
-            makePostRequest("/api/v1/users", user, onSuccess, onFailure);
+            makePostRequest("users", user, onSuccess, onFailure);
         });
     };
 
@@ -146,7 +146,7 @@ var User = (function() {
                 console.error('login user failed');
             }; 
 
-            makePostRequest("/api/v1/users/sign_in", user, onSuccess, onFailure);
+            makePostRequest("users/sign_in", user, onSuccess, onFailure);
         });
     };
 
@@ -171,7 +171,7 @@ var User = (function() {
                 console.log("damn");
             };
 
-            makeDeleteRequest("/api/v1/users/sign_out", onSuccess, onFailure);
+            makeDeleteRequest("users/sign_out", onSuccess, onFailure);
         });
     };
 

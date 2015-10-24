@@ -46,6 +46,20 @@ nav {
 	background-color: #38ACFF;
 }
 
+#mainbody .button {
+	background-color: #0094FF;
+	padding: 15px;
+	margin: 10px;
+	color: white;
+	font-size: 1.5em;
+	border-radius: 3px;
+	transition: background 0.25s ease-in-out;
+}
+
+#mainbody .button:hover {
+	background-color: #38ACFF;
+}
+
 #darken {
 	position: fixed;
 	top: 0;
@@ -93,7 +107,7 @@ input[type="submit"] {
 
 #mainbody {
 	text-align: center;
-	margin-top: 20%;
+	margin-top: 50px;
 	padding: 50px 25px;
 }
 

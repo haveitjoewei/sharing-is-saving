@@ -1,5 +1,5 @@
 var Share = (function() {
-	var apiUrl = "http://sis-backend.herokuapp.com";
+	var apiUrl = "https://sis-backend.herokuapp.com/api/v1/";
 
 	var create;
 
@@ -94,7 +94,7 @@ var Share = (function() {
     			console.error('create post failed');
     		};
 
-    		makePostRequest("/api/v1/posts", post, onSuccess, onFailure);
+    		makePostRequest("posts", post, onSuccess, onFailure);
     	});
     };
 
