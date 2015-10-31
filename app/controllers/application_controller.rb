@@ -46,6 +46,11 @@ class ApplicationController < ActionController::Base
   def authenticate_user_from_token!
     user_email = request.headers["X-API-EMAIL"].presence
     user_auth_token = request.headers["X-API-TOKEN"].presence
+
+    if !user_email or !user_auth_token
+      render :json => { :status => '-1', :message => 'Email or auth token is not present. Please add it to your headers using X-API-EMAIL and X-API-TOKEN.' }, :status => 404
+    end
+
     user = user_email && User.find_by_email(user_email)
 
     # Notice how we use Devise.secure_compare to compare the token
@@ -54,7 +59,7 @@ class ApplicationController < ActionController::Base
     if user && Devise.secure_compare(user.authentication_token, user_auth_token)
       sign_in(user, store: false)
     else
-	    render :json => { :status => '-1', :message => 'Email/token combination is invalid.' }, :status => 404
+	    render :json => { :status => '-1', :message => 'Email and token combination is invalid.' }, :status => 404
     end
   end
 end
