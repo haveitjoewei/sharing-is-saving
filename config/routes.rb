@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'application#index'
+  root 'application#render_home'
 
   # connect ':action', :controller => 'static'
   # apipie

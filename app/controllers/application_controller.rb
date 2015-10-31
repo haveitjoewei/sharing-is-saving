@@ -4,17 +4,16 @@ class ApplicationController < ActionController::Base
   # protect_from_forgery with: :exception
   acts_as_token_authentication_handler_for User
   
-  skip_before_action :verify_authenticity_token, if: :json_request?
+  # skip_before_action :verify_authenticity_token, if: :json_request?
   before_filter :authenticate_user_from_token!
   before_filter :authenticate_user!
   before_filter :cors_set_access_control_headers
 
-  
-  skip_before_filter :authenticate_user!, :only => [:index]
-  skip_before_filter :authenticate_user_from_token!, :only => [:index]
-  
+  # Only skip authentication when trying to load the homepage
+  skip_before_filter :authenticate_user!, :only => [:render_home]
+  skip_before_filter :authenticate_user_from_token!, :only => [:render_home]
 
-  def index
+  def render_home
     render :file => 'public/home.html'
   end
 
