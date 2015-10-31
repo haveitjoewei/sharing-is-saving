@@ -87,7 +87,7 @@ class Api::V1::Post::PostController < ApplicationController
 			return render_errors(errorsArr)
 		end
 
-		byebug
+
 		# Actual filtering logic happens here.
 		# To keep the `SELECT` queries fast, we isolate the results by those that are within 1deg (lat/lon)
 		# of the center. Once that is done, we calculate the distances and return them to the callee.

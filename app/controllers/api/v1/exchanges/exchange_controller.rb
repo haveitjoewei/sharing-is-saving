@@ -1,6 +1,6 @@
 class Api::V1::Exchanges::ExchangeController < ApplicationController
-	skip_before_filter :authenticate_user!, :only => [:show, :index]
-	skip_before_filter :authenticate_user_from_token!, :only => [:show, :index]
+	skip_before_filter :authenticate_user!, :only => [:show, :index, :destroy]
+	skip_before_filter :authenticate_user_from_token!, :only => [:show, :index, :destroy]
 	respond_to :json
 	#POST   /api/v1/exchanges(.:format)  
 	def create
@@ -69,6 +69,15 @@ class Api::V1::Exchanges::ExchangeController < ApplicationController
 
 	#DELETE /api/v1/exchanges/:id(.:format)  
 	def destroy
+		begin
+			@exchange = ::Exchange.find(params[:id])
+		rescue
+			ActiveRecord::RecordNotFound
+			render :json => {:status => -1, :message => 'Couldn\'t delete exchange because post does not exist.' }, :status => 404
+		else
+			::Exchange.delete(params[:id])
+			render :json => {:status => 1}
+		end
 	end
 
 
