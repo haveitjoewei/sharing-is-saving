@@ -39,7 +39,6 @@ class Api::V1::Users::SessionsController < Devise::SessionsController
         if user
           user.authentication_token = nil
           user.save
-          # byebug
           render :json => { :status => 1, :message => 'Session deleted.' }, :success => true, :status => 200
         else
           render :json => { :status => -1, :message => 'Invalid token.' }, :status => 404

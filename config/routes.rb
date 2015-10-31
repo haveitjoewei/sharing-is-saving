@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     resources :posts, :controller => 'api/v1/post/post' do
       collection do
         get :categories
+        get :statuses
       end
     end
 

@@ -20,6 +20,7 @@ class ApplicationController < ActionController::Base
   def options_for_mopd
     render :nothing => true, :status => 200
   end
+  
   protected
 
   def handle_options_request

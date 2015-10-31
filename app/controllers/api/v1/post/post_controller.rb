@@ -5,7 +5,7 @@ class Api::V1::Post::PostController < ApplicationController
 	respond_to :json
 
 	# POST /api/v1/posts(.:format)
-	# create one post
+	# Creates one post
 	def create
 		@user = current_user
 		@post = ::Post.new(post_params.merge!(user: @user))
@@ -26,7 +26,7 @@ class Api::V1::Post::PostController < ApplicationController
 	end
 
 	# GET /api/v1/posts(.:format)   
-	# gets all posts
+	# Gets all posts
 	def index
 		allPosts = ::Post.all.order(:created_at).reverse_order # gets all posts, apply filters
 
@@ -103,7 +103,7 @@ class Api::V1::Post::PostController < ApplicationController
 	end
 
 	# GET /api/v1/posts/:id(.:format)
-	# gets one post
+	# Gets one post
 	def show
 		begin
 			onePost = ::Post.find(params[:id])
@@ -120,7 +120,7 @@ class Api::V1::Post::PostController < ApplicationController
 	end		
 
 	# DELETE /api/v1/posts/:id(.:format) 
-	# deletes one post
+	# Deletes one post
 	def destroy
 		currentUserId = current_user.id
 		postId = params[:id]
@@ -142,6 +142,26 @@ class Api::V1::Post::PostController < ApplicationController
 		end
 	end
 
+	# PUT /api/v1/posts/:id
+	# Updates one post
+	def update
+		postId = params[:id]
+		currentUserId = current_user.id
+		thePost = ::Post.find(postId)
+		if thePost.user_id == currentUserId # Delete the post
+			if thePost.update_attributes(post_params)
+				render :json => {:status => 1}, :status => 200
+				return 
+			else
+				render :json => {:status => -1, :message => 'User does not have permissions to update this post.' }, :status => 404
+				return
+			end
+		else
+			render :json => {:status => -1, :message => 'Updating post failed.' }, :status => 404
+			return
+		end
+	end
+
 	# DELETE /api/v1/users/:user_id/posts(.:format)
 	# def destroyAll
 	# 	byebug
@@ -149,10 +169,19 @@ class Api::V1::Post::PostController < ApplicationController
 	# 	render :json => {'status' => 1}
 	# end
 
+	# GET /api/v1/posts/categories
+	# Gets all post categories
 	def categories
 		render :json => {:status => 1, :categories => {"1" => "Apparel & Accessories", "2" => "Arts and Crafts", "3" => "Electronics", 
 			"4" => "Home Appliances", "5" => "Kids & Baby", "6" => "Movies, Music, Books & Games", "7" => "Motor Vehicles", 
-			"8" => "Office & Education", "9" => "Parties & Events", "10" => "Spaces & Venues", "11" => "Sports & Outdoors", "12" => "Tools & Gardening", "13" => "Other"} }, :status => 200
+			"8" => "Office & Education", "9" => "Parties & Events", "10" => "Spaces & Venues", "11" => "Sports & Outdoors", "12" => "Tools & Gardening", "13" => "Other"}}, :status => 200
+		return
+	end
+
+	# GET /api/v1/posts/statuses
+	# Gets all post statuses
+	def statuses
+		render :json => {:status => 1, :categories => {"1" => "Available", "2" => "On Hold", "3" => "Borrowed", "4" => "Unavailable"}}, :status => 200
 		return
 	end
 
