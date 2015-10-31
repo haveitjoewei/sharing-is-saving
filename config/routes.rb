@@ -13,8 +13,11 @@ Rails.application.routes.draw do
 
   scope '/api/v1' do
     devise_for :users, :controllers => {sessions: 'api/v1/users/sessions', registrations: 'api/v1/users/registrations'}  
-  
+
     resources :posts, :controller => 'api/v1/post/post' do
+      collection do
+        get :categories
+      end
     end
 
     resources :exchanges, :controller => 'api/v1/exchanges/exchange' do

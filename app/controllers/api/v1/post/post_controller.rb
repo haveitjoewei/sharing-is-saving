@@ -31,7 +31,6 @@ class Api::V1::Post::PostController < ApplicationController
 		allPosts = ::Post.all.order(:created_at).reverse_order # gets all posts, apply filters
 
 		# Location filtering
-		byebug
 		if params.has_key?(:radius) and params.has_key?(:center)
 			allPosts = filter_by_radius_and_center(allPosts); return if performed?
 		end
@@ -87,7 +86,6 @@ class Api::V1::Post::PostController < ApplicationController
 			return render_errors(errorsArr)
 		end
 
-
 		# Actual filtering logic happens here.
 		# To keep the `SELECT` queries fast, we isolate the results by those that are within 1deg (lat/lon)
 		# of the center. Once that is done, we calculate the distances and return them to the callee.
@@ -136,7 +134,7 @@ class Api::V1::Post::PostController < ApplicationController
 
 		if thePost.user_id == currentUserId # Delete the post
 			::Post.delete(params[:id])
-			render :json => {:status => 1}
+			render :json => {:status => 1}, :status => 200
 			return 
 		else
 			render :json => {:status => -1, :message => 'User does not have permissions to delete this post.' }, :status => 404
@@ -151,9 +149,17 @@ class Api::V1::Post::PostController < ApplicationController
 	# 	render :json => {'status' => 1}
 	# end
 
+	def categories
+		render :json => {:status => 1, :categories => {"1" => "Apparel & Accessories", "2" => "Arts and Crafts", "3" => "Electronics", 
+			"4" => "Home Appliances", "5" => "Kids & Baby", "6" => "Movies, Music, Books & Games", "7" => "Motor Vehicles", 
+			"8" => "Office & Education", "9" => "Parties & Events", "10" => "Spaces & Venues", "11" => "Sports & Outdoors", "12" => "Tools & Gardening", "13" => "Other"} }, :status => 200
+		return
+	end
+
+
 	private
 		def post_params
-			params.require(:post).permit(:title, :latitude, :longitude, :description, :price, :security_deposit, :user, :status)
+			params.require(:post).permit(:title, :latitude, :longitude, :description, :price, :security_deposit, :user, :status, :category)
 		end
 
 		def to_rad(degrees)
