@@ -1,15 +1,15 @@
 class Api::V1::Post::PostController < ApplicationController
-  	skip_before_action :verify_authenticity_token 
+	skip_before_action :verify_authenticity_token 
 	skip_before_filter :authenticate_user!, :only => [:index, :show]
 	skip_before_filter :authenticate_user_from_token!, :only => [:index, :show]
-  	respond_to :json
+	respond_to :json
 
 	# POST /api/v1/posts(.:format)
 	# create one post
 	def create
 		@user = User.find_by_authentication_token(request.headers['X-API-TOKEN'])
-        if @user
-        	@post = ::Post.new(post_params.merge!(user: @user))
+		if @user
+			@post = ::Post.new(post_params.merge!(user: @user))
 			respond_to do |format|
 				format.json {
 					if @post.save
@@ -23,31 +23,27 @@ class Api::V1::Post::PostController < ApplicationController
 					end
 				}
 			end
-        else
-          render :json => {:status => -1, :message => 'Couldn\'t create post because token is invalid.' }, :status => 404 # TODO. why 404? why not 401
-    	  response.headers['Access-Control-Allow-Origin'] = "*" # * means any. specify to 
-    end
-
-		
-	end
-
-	# helper for checking if a float is a price
-	def isTwoDecimals(a)
-    	num = 0
-    	while(a != a.to_i)
-        	num += 1
-        	a *= 10
-    	end
-    	num == 2
+		else
+		  render :json => {:status => -1, :message => 'Couldn\'t create post because token is invalid.' }, :status => 404 # TODO. why 404? why not 401
+		  response.headers['Access-Control-Allow-Origin'] = "*" # * means any. specify to 
+		end	
 	end
 
 	# GET /api/v1/posts(.:format)   
 	# gets all posts
 	def index
 		allPosts = ::Post.all.order(:created_at).reverse_order # gets all posts, apply filters
+
+		# Location filtering
+		byebug
+		if params.has_key?(:radius) and params.has_key?(:center)
+			allPosts = filter_by_radius_and_center(allPosts); return if performed?
+		end
+
 		if params.has_key?(:user)
 			allPosts = allPosts.where("user_id = ?", params[:user])
 		end
+
 		postArray = Array.new
 		allPosts.each do |post|
 			newPost = ActiveSupport::JSON.decode post.to_json
@@ -59,13 +55,66 @@ class Api::V1::Post::PostController < ApplicationController
 		response.headers['Access-Control-Allow-Origin'] = "*"# * means any. specify to 
 	end
 
+	def filter_by_radius_and_center(allPosts)
+		errorsArr = Array.new
+		if !params[:center].include? "," # Crucial error
+			errorsArr.push('Center does not have both latitude and longitude. Please make sure to separate them, e.g. center=37.152,38.100.')
+			render render_errors(errorsArr)
+		end
+
+		begin
+			latLon = params[:center].split(',')
+			latitude = Float(latLon[0])
+			longitude = Float(latLon[1])
+			radius = Float(params[:radius])
+		rescue ArgumentError
+			errorsArr.push('Radius or center cannot be parsed as numbers.') # Crucial error
+			return render_errors(errorsArr)
+		end
+
+		if radius > 100
+			errorsArr.push('Radius of beyond 100km not supported.')
+		end
+
+		minLatLon = -180
+		maxLatLon = 180
+
+		if !(minLatLon..maxLatLon).include?(latitude)
+			errorsArr.push('Latitude is not within the range of -180 to 180.')
+		end
+		if !(minLatLon..maxLatLon).include?(longitude)
+			errorsArr.push('Longitude is not within the range of -180 to 180.')
+		end
+
+		# Check if there are any errors so far, and if so, render json error.
+		if errorsArr.count > 0
+			return render_errors(errorsArr)
+		end
+
+		byebug
+		# Actual filtering logic happens here.
+		# To keep the `SELECT` queries fast, we isolate the results by those that are within 1deg (lat/lon)
+		# of the center. Once that is done, we calculate the distances and return them to the callee.
+		lon1 = longitude - radius/(Math.cos(to_rad(latitude)).abs*69);
+		lon2 = longitude + radius/(Math.cos(to_rad(latitude)).abs*69);
+		lat1 = latitude - (radius/69);
+		lat2 = latitude + (radius/69);
+
+		# This query calculates the distance between the center and all the filtered points (filtered using the where clause)
+		# Taken from https://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
+		selectQuery = "posts.*, 3956 * 2 * asin(sqrt( pow(sin((#{latitude} - posts.latitude) * pi()/180 / 2), 2) + cos(#{latitude} * pi()/180) * cos(posts.latitude * pi()/180) * power(sin((#{longitude} -posts.longitude) * pi()/180 / 2), 2) )) AS distance"
+
+		allPosts = allPosts.where(latitude: (lat1..lat2), longitude: (lon1..lon2)).select(selectQuery)
+		return allPosts
+	end
+
 	# GET /api/v1/posts/:id(.:format)
 	# gets one post
 	def show
 		begin
 			onePost = ::Post.find(params[:id])
 			rescue ActiveRecord::RecordNotFound  
-	        render :json => {:status => -1, :message => 'Couldn\'t find post because post does not exist.' }, :status => 404
+			render :json => {:status => -1, :message => 'Couldn\'t find post because post does not exist.' }, :status => 404
 			return
 		end
 		newPost = ActiveSupport::JSON.decode onePost.to_json
@@ -85,7 +134,7 @@ class Api::V1::Post::PostController < ApplicationController
 		begin
 			thePost = ::Post.find(postId)
 			rescue ActiveRecord::RecordNotFound  
-            render :json => {:status => -1, :message => 'Couldn\'t delete post because post does not exist.' }, :status => 404
+			render :json => {:status => -1, :message => 'Couldn\'t delete post because post does not exist.' }, :status => 404
 			return
 		end
 
@@ -109,6 +158,10 @@ class Api::V1::Post::PostController < ApplicationController
 	private
 		def post_params
 			params.require(:post).permit(:title, :latitude, :longitude, :description, :price, :security_deposit, :user, :status)
+		end
+
+		def to_rad(degrees)
+			return degrees/180 * Math::PI
 		end
 
 end

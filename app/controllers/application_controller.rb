@@ -37,6 +37,10 @@ class ApplicationController < ActionController::Base
     headers['Access-Control-Max-Age'] = "1728000"
   end
 
+  def render_errors(errorsArr)
+    return render :json => {:status => -1, :errors => errorsArr}
+  end
+
   private
   
   def authenticate_user_from_token!
