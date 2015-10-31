@@ -7,26 +7,22 @@ class Api::V1::Post::PostController < ApplicationController
 	# POST /api/v1/posts(.:format)
 	# create one post
 	def create
-		@user = User.find_by_authentication_token(request.headers['X-API-TOKEN'])
-		if @user
-			@post = ::Post.new(post_params.merge!(user: @user))
-			respond_to do |format|
-				format.json {
-					if @post.save
-						newPost = ActiveSupport::JSON.decode @post.to_json
-						newPost['created_at'] = @post.created_at.to_f
-						newPost['updated_at'] = @post.updated_at.to_f
-						newPost['status'] = 1 # TODO (Koji) 1 means it's
-						render :json => {:status => 1, :post => newPost}, :status => 201
-					else
-						render :json => {:status => -1, :errors => @post.errors.full_messages} #TODO, status
-					end
-				}
-			end
-		else
-		  render :json => {:status => -1, :message => 'Couldn\'t create post because token is invalid.' }, :status => 404 # TODO. why 404? why not 401
-		  response.headers['Access-Control-Allow-Origin'] = "*" # * means any. specify to 
-		end	
+		@user = current_user
+		@post = ::Post.new(post_params.merge!(user: @user))
+		respond_to do |format|
+			format.json {
+				if @post.save
+					newPost = ActiveSupport::JSON.decode @post.to_json
+					newPost['created_at'] = @post.created_at.to_f
+					newPost['updated_at'] = @post.updated_at.to_f
+					newPost['status'] = 1 # TODO (Koji) 1 means it's
+					render :json => {:status => 1, :post => newPost}, :status => 201
+				else
+					render :json => {:status => -1, :errors => @post.errors.full_messages} #TODO, status
+				end
+			}
+		end
+		
 	end
 
 	# GET /api/v1/posts(.:format)   
