@@ -1,5 +1,6 @@
 class Post < ActiveRecord::Base
   	belongs_to :user
+  	has_many :exchange
 	validates :title, presence: true, length: {maximum: 64}
 	validates :latitude, presence: true, numericality: true, :inclusion => {:in => -180..180}
 	validates :longitude, presence: true, numericality: true, :inclusion => {:in => -180..180}

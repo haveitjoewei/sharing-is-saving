@@ -16,6 +16,9 @@ Rails.application.routes.draw do
   
     resources :posts, :controller => 'api/v1/post/post' do
     end
+
+    resources :exchanges, :controller => 'api/v1/exchanges/exchange' do
+    end
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

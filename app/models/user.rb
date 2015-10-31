@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   
   # for posts
   has_many :post
+  has_many :exchange
   
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
