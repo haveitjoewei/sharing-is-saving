@@ -3,7 +3,6 @@ Rails.application.routes.draw do
 
   # connect ':action', :controller => 'static'
   # apipie
-  # match 'api/v1/users', to: 'api/v1/users/sessions#create', via: [:options]
   match '*path' => 'application#options_for_mopd', :via => :options
 
   # map.connect '*path', 
@@ -12,7 +11,22 @@ Rails.application.routes.draw do
             # :conditions => {:method => :options}
 
   scope '/api/v1' do
-    devise_for :users, :controllers => {sessions: 'api/v1/users/sessions', registrations: 'api/v1/users/registrations'}  
+
+    # DEVISE
+    # Overrode all with custom routes: http://iampedantic.com/post/41170460234/fully-customizing-devise-routes
+    # devise_for :users, :controllers => {sessions: 'api/v1/users/sessions', registrations: 'api/v1/users/registrations'}  
+    devise_for :users, skip: [:sessions, :registrations]
+
+    devise_scope :user do
+      # Sessions Controller
+      post '/users/sign_in', to: 'api/v1/users/sessions#create', as: 'user_session'
+      delete '/users/sign_out', to: 'api/v1/users/sessions#destroy', as: 'destroy_user_session'
+
+      # Registrations Controller
+      post '/users', to: 'api/v1/users/registrations#create', as: 'user_registration'
+      put '/users/update', to: 'api/v1/users/registrations#update_user', as: 'user_update'
+
+    end
 
     resources :posts, :controller => 'api/v1/post/post' do
       collection do
@@ -24,6 +38,7 @@ Rails.application.routes.draw do
     resources :exchanges, :controller => 'api/v1/exchanges/exchange' do
     end
   end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

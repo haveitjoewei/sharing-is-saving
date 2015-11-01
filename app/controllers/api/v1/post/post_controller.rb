@@ -1,7 +1,7 @@
 class Api::V1::Post::PostController < ApplicationController
 	skip_before_action :verify_authenticity_token 
-	skip_before_filter :authenticate_user!, :only => [:index, :show]
-	skip_before_filter :authenticate_user_from_token!, :only => [:index, :show]
+	skip_before_filter :authenticate_user!, :only => [:index, :show, :categories, :statuses]
+	skip_before_filter :authenticate_user_from_token!, :only => [:index, :show, :categories, :statuses]
 	respond_to :json
 
 	# POST /api/v1/posts(.:format)
@@ -15,7 +15,7 @@ class Api::V1::Post::PostController < ApplicationController
 					newPost = ActiveSupport::JSON.decode @post.to_json
 					newPost['created_at'] = @post.created_at.to_f
 					newPost['updated_at'] = @post.updated_at.to_f
-					newPost['status'] = 1 # TODO (Koji) 1 means it's
+					newPost['status'] = 1
 					render :json => {:status => 1, :post => newPost}, :status => 201
 				else
 					render :json => {:status => -1, :errors => @post.errors.full_messages} #TODO, status
@@ -153,11 +153,11 @@ class Api::V1::Post::PostController < ApplicationController
 				render :json => {:status => 1}, :status => 200
 				return 
 			else
-				render :json => {:status => -1, :message => 'User does not have permissions to update this post.' }, :status => 404
+				render :json => {:status => -1, :message => 'Updating post failed.' }, :status => 404
 				return
 			end
 		else
-			render :json => {:status => -1, :message => 'Updating post failed.' }, :status => 404
+			render :json => {:status => -1, :message => 'User does not have permissions to update this post.' }, :status => 404
 			return
 		end
 	end

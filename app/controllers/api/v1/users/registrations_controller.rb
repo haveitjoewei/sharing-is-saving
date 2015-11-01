@@ -50,9 +50,16 @@ class Api::V1::Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # PUT /users
-  def update
-    super
-    byebug
+  # Custom name, because the original does not work well with simple_token_authentication
+  def update_user
+    currentUserId = current_user.id
+    if current_user.update_attributes(user_params)
+      render :json => {:status => 1}, :status => 200
+      return 
+    else
+      render :json => {:status => -1, :message => 'Updating user failed.' }, :status => 404
+      return
+    end
   end
 
   # DELETE /resource
@@ -85,6 +92,11 @@ class Api::V1::Users::RegistrationsController < Devise::RegistrationsController
     end
     # devise_parameter_sanitizer.for(:account_update) << :attribute
   end
+
+  def user_params
+    params.require(:user).permit(:email, :password, :password_confirmation, :first_name, :last_name, :date_of_birth, :latitude, :longitude)
+  end
+
 
   # The path used after sign up.
   # def after_sign_up_path_for(resource)
