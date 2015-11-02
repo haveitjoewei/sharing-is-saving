@@ -1,9 +1,8 @@
 class Api::V1::Exchanges::ExchangeController < ApplicationController
-	skip_before_filter :authenticate_user!, :only => [:show, :index, :destroy]
-	skip_before_filter :authenticate_user_from_token!, :only => [:show, :index, :destroy]
 	respond_to :json
 
 	# POST /api/v1/exchanges
+	# Post an exchange
 	def create
 		@borrower = current_user
 		
@@ -42,11 +41,27 @@ class Api::V1::Exchanges::ExchangeController < ApplicationController
 	# Gets all posts
 	def index
 		@allExchanges = ::Exchange.all.order(:created_at).reverse_order
+
+		if params.has_key?(:filter)
+			filter = params[:filter].to_s
+			if filter == 'lender'
+				@allExchanges = @allExchanges.where(lender_id: current_user.id)
+			elsif filter == 'borrower'
+				@allExchanges = @allExchanges.where(borrower_id: current_user.id)
+			else
+				return render_errors(["Filter has to be either lender or borrower."])
+			end
+		else
+			@allExchanges = @allExchanges.where("lender_id = ? or borrower_id = ?", current_user.id, current_user.id)
+		end
+
 		exchangeArray = Array.new
+		
 		@allExchanges.each do |exchange|
 			newExchange = update_created_and_updated_at(exchange)
 			exchangeArray.push newExchange
 		end
+
 		render :json => {:status => 1, :exchange => exchangeArray}
 	end
 
@@ -59,12 +74,17 @@ class Api::V1::Exchanges::ExchangeController < ApplicationController
 			ActiveRecord::RecordNotFound
 			return render_errors(["Couldn't find exchange because exchange does not exist."])
 		else
-			newExchange = update_created_and_updated_at(@oneExchange)
-			render :json => {:status => 1, :exchange => newExchange}
+			if @oneExchange.borrower_id == current_user.id or @oneExchange.lender_id == current_user.id
+				newExchange = update_created_and_updated_at(@oneExchange)
+				return render :json => {:status => 1, :exchange => newExchange}
+			else
+				return render_errors(["User is not authorized to see this exchange."])
+			end
 		end
 	end
 
 	# DELETE /api/v1/exchanges/:id(.:format)  
+	# ONLY FOR ADMIN PURPOSES ONLY
 	def destroy
 		begin
 			@exchange = ::Exchange.find(params[:id])
@@ -120,7 +140,10 @@ class Api::V1::Exchanges::ExchangeController < ApplicationController
 				post.update_attributes(:status => 1)
 		end
 
-		@exchange.update_attributes(:status => status)
+		# To save in activity table for notifications
+		@exchange.create_activity(action: :update_status, owner: current_user, post_id: post.id, exchange_id: @exchange.id, parameters: {from_status: @exchange.status, to_status: status})
+
+		@exchange.update_attributes(status: status)
 
 		render :json => {:status => 1, :exchange => @exchange}
 
