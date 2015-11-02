@@ -4,7 +4,7 @@ class Api::V1::Users::RegistrationsController < Devise::RegistrationsController
   skip_before_filter :authenticate_user_from_token!, :only => [:create]
   respond_to :json
   before_filter :configure_sign_up_params, only: [:create]
-# before_filter :configure_account_update_params, only: [:update]  
+  before_filter :configure_account_update_params, only: [:update]  
 
   # GET /resource/sign_up
   def new
@@ -49,10 +49,18 @@ class Api::V1::Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
-  # PUT /resource
-  # def update
-  #   super
-  # end
+  # PUT /users
+  # Custom name, because the original does not work well with simple_token_authentication
+  def update_user
+    currentUserId = current_user.id
+    if current_user.update_attributes(user_params)
+      render :json => {:status => 1}, :status => 200
+      return 
+    else
+      render :json => {:status => -1, :message => 'Updating user failed.' }, :status => 404
+      return
+    end
+  end
 
   # DELETE /resource
   # def destroy
@@ -78,9 +86,17 @@ class Api::V1::Users::RegistrationsController < Devise::RegistrationsController
   end
 
   # If you have extra params to permit, append them to the sanitizer.
-  # def configure_account_update_params
-  #   devise_parameter_sanitizer.for(:account_update) << :attribute
-  # end
+  def configure_account_update_params
+    devise_parameter_sanitizer.for(:account_update) do |u|
+      u.permit(:email, :password, :password_confirmation, :first_name, :last_name, :date_of_birth, :latitude, :longitude)
+    end
+    # devise_parameter_sanitizer.for(:account_update) << :attribute
+  end
+
+  def user_params
+    params.require(:user).permit(:email, :password, :password_confirmation, :first_name, :last_name, :date_of_birth, :latitude, :longitude)
+  end
+
 
   # The path used after sign up.
   # def after_sign_up_path_for(resource)

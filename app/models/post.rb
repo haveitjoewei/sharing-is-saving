@@ -7,5 +7,6 @@ class Post < ActiveRecord::Base
 	validates :description, presence: true, length: {maximum: 4098}
 	validates :price, presence: true, :format => { :with => /\A\d+(?:\.\d{0,2})?\z/ }, :numericality => {:greater_than => 0}
 	validates :security_deposit, presence: true, :format => { :with => /\A\d+(?:\.\d{0,2})?\z/ }, :numericality => {:greater_than => 0}
-	validates :status, presence: true, numericality: true, :inclusion => {:in => 0..3, :message => "must be an integer between 0 and 3"}
+	validates :status, presence: true, numericality: true, :inclusion => {:in => 1..4, :message => "must be an integer between 1 and 4"}
+	validates :category, presence: true, numericality: true, :inclusion => {:in => 1..11, :message => "must be an integer between 1 and 11"}
 end
