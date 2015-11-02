@@ -181,7 +181,7 @@ class Api::V1::Post::PostController < ApplicationController
 	# GET /api/v1/posts/statuses
 	# Gets all post statuses
 	def statuses
-		render :json => {:status => 1, :categories => {"1" => "Available", "2" => "On Hold", "3" => "Borrowed", "4" => "Unavailable"}}, :status => 200
+		render :json => {:status => 1, :categories => {"1" => "Available", "2" => "Borrowed", "3" => "Unavailable"}}, :status => 200
 		return
 	end
 
