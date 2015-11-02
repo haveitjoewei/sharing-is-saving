@@ -21,19 +21,19 @@ class Api::V1::Exchanges::ExchangeController < ApplicationController
 			return render_errors(["Borrower and lender cannot be the same."])
 		end
 
-		existingExchanges = ::Exchange.where(post: @post, lender: @lender, borrower: @borrower, status:1..2)
+		existingExchanges = ::Exchange.where(post: @post, lender: @lender, borrower: @borrower, status:1)
 		if existingExchanges.count > 0
 			ids = existingExchanges.collect(&:id).to_sentence
-			return render_errors(["Transactions already exist for this specific post, lender, and borrower. Please delete them. The transaction ids are: #{ids}."])
+			return render_errors(["Transactions already exist for this specific post, lender, and borrower. The transaction ids are: #{ids}."])
 		end
 
 		@exchange = ::Exchange.new(post: @post, lender: @lender, borrower: @borrower, status: 1)
 
 		if @exchange.save
 			newExchange = update_created_and_updated_at(@exchange)
-			render :json => {:status => 1, :exchange => newExchange}
+			return render :json => {:status => 1, :exchange => newExchange}
 		else
-			render :json => {:status => '-1', :errors => @exchange.errors.full_messages}, :status => 404
+			return render :json => {:status => '-1', :errors => @exchange.errors.full_messages}, :status => 404
 		end
 	end
 
@@ -101,6 +101,10 @@ class Api::V1::Exchanges::ExchangeController < ApplicationController
 	def update_status
 		@exchange = ::Exchange.find(params[:id])
 
+		if !@exchange
+			return render_errors(['Exchange does not exist.'])
+		end
+
 		whats_available = "To query available statuses, call /api/v1/exchanges/statuses."
 
 		begin
@@ -141,7 +145,12 @@ class Api::V1::Exchanges::ExchangeController < ApplicationController
 		end
 
 		# To save in activity table for notifications
-		@exchange.create_activity(action: :update_status, owner: current_user, post_id: post.id, exchange_id: @exchange.id, parameters: {from_status: @exchange.status, to_status: status})
+		@owner = User.find(post.id)
+		if !@owner
+			return render_errors(["The post belongs to no one. The post that you linked to is #{post.id}."])
+		end
+
+		@exchange.create_activity(action: :update_status, owner: @owner, recipient: current_user, post_id: post.id, exchange_id: @exchange.id, parameters: {from_status: @exchange.status, to_status: status})
 
 		@exchange.update_attributes(status: status)
 
