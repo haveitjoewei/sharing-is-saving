@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_errors(errorsArr)
-    return render :json => {:status => -1, :errors => errorsArr}
+    return render :json => {:status => -1, :errors => errorsArr}, :status => 404
   end
 
   private
