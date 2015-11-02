@@ -36,6 +36,9 @@ Rails.application.routes.draw do
     end
 
     resources :exchanges, :controller => 'api/v1/exchanges/exchange' do
+      collection do
+        get :statuses
+      end
     end
   end
 
