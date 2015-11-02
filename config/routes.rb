@@ -39,6 +39,9 @@ Rails.application.routes.draw do
       collection do
         get :statuses
       end
+      member do
+        put :update_status
+      end
     end
   end
 
