@@ -43,6 +43,9 @@ Rails.application.routes.draw do
         put :update_status
       end
     end
+
+    get '/activity', to: 'api/v1/activity/activities#index'
+    
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

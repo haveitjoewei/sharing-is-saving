@@ -1,4 +1,6 @@
 class Exchange < ActiveRecord::Base
+  include PublicActivity::Model # For tracking updates
+  
   belongs_to :borrower, :class_name => 'User', required: true
   belongs_to :lender, :class_name => 'User', required: true
   belongs_to :post, :class_name => 'Post', required: true

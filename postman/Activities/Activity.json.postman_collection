@@ -1,0 +1,35 @@
+{
+	"id": "4a1470b7-8d03-884c-7f73-5ae9e92edec6",
+	"name": "Sharing Is Saving - Activity",
+	"description": "",
+	"order": [
+		"cdb3825b-1db1-4beb-e925-60c886142f38"
+	],
+	"folders": [],
+	"timestamp": 1446500728184,
+	"owner": "157474",
+	"remoteLink": "",
+	"public": false,
+	"requests": [
+		{
+			"id": "cdb3825b-1db1-4beb-e925-60c886142f38",
+			"headers": "X-API-TOKEN: q_FSzm3AkhV4uFDJY_4j\nX-API-EMAIL: sidwyn@gmail.com\nContent-Type: application/json\n",
+			"url": "http://localhost:3000/api/v1/activity",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "GET",
+			"collectionId": "4a1470b7-8d03-884c-7f73-5ae9e92edec6",
+			"data": [],
+			"dataMode": "params",
+			"name": "GET activity",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1446500755958,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		}
+	]
+}

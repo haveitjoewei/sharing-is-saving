@@ -50,6 +50,7 @@ class ApplicationController < ActionController::Base
 
     if !user_email or !user_auth_token
       render :json => { :status => '-1', :message => 'Email or auth token is not present. Please add it to your headers using X-API-EMAIL and X-API-TOKEN.' }, :status => 404
+      return
     end
 
     user = user_email && User.find_by_email(user_email)
@@ -61,6 +62,7 @@ class ApplicationController < ActionController::Base
       sign_in(user, store: false)
     else
 	    render :json => { :status => '-1', :message => 'Email and token combination is invalid.' }, :status => 404
+      return
     end
   end
 end
