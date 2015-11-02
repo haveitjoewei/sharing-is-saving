@@ -31,7 +31,6 @@ class Api::V1::Post::PostController < ApplicationController
 		allPosts = ::Post.all.order(:created_at).reverse_order # gets all posts, apply filters
 
 		# Location filtering
-		byebug
 		if params.has_key?(:radius) and params.has_key?(:center)
 			allPosts = filter_by_radius_and_center(allPosts); return if performed?
 		end

@@ -1,0 +1,101 @@
+{
+	"id": "ad49a927-886e-e1cd-399e-34033b244fc7",
+	"name": "Sharing is Saving - Exchanges",
+	"description": "",
+	"order": [
+		"c1c7c374-e927-0e87-6827-6ec179951a7e",
+		"700df5ed-98a9-1246-2814-b59f8f58d9c7",
+		"cbbcfa0e-7e10-cfab-2028-fa5204147d76",
+		"27ff1bf4-c5d9-60ee-f0b2-3326a08c523a"
+	],
+	"folders": [],
+	"timestamp": 1445586765985,
+	"owner": "",
+	"remoteLink": "",
+	"public": false,
+	"requests": [
+		{
+			"id": "27ff1bf4-c5d9-60ee-f0b2-3326a08c523a",
+			"headers": "",
+			"url": "http://localhost:3000/api/v1/exchanges/:id",
+			"preRequestScript": "",
+			"pathVariables": {
+I"id": "39"
+			},
+			"method": "DELETE",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1446271645259,
+			"name": "DELETE exchange",
+			"description": "",
+			"collectionId": "ad49a927-886e-e1cd-399e-34033b244fc7",
+			"responses": []
+		},
+		{
+			"id": "700df5ed-98a9-1246-2814-b59f8f58d9c7",
+			"headers": "",
+			"url": "http://localhost:3000/api/v1/exchanges",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "GET",
+			"collectionId": "ad49a927-886e-e1cd-399e-34033b244fc7",
+			"data": [],
+			"dataMode": "raw",
+			"name": "GET all exchange",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1446249659528,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": ""
+		},
+		{
+			"id": "c1c7c374-e927-0e87-6827-6ec179951a7e",
+			"headers": "Content-Type: application/json\nX-API-TOKEN: G4AfRyMAfr79P-_ZKurA\nX-API-EMAIL: sidwyn@gmail.com\n",
+			"url": "http://localhost:3000/api/v1/exchanges?post_id=1",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1446260981155,
+			"name": "POST exchange",
+			"description": "",
+			"collectionId": "ad49a927-886e-e1cd-399e-34033b244fc7",
+			"responses": [],
+			"rawModeData": "{\n    \"exchange\" : {\n        \"borrower\" : 1\n    }\n}"
+		},
+		{
+			"id": "cbbcfa0e-7e10-cfab-2028-fa5204147d76",
+			"headers": "",
+			"url": "http://localhost:3000/api/v1/exchanges/:id",
+			"preRequestScript": "",
+			"pathVariables": {
+				"id": "1"
+			},
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1446253509922,
+			"name": "GET one exchange",
+			"description": "",
+			"collectionId": "ad49a927-886e-e1cd-399e-34033b244fc7",
+			"responses": []
+		}
+	]
+}

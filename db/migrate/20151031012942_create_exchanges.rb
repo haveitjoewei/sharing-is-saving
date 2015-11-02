@@ -7,7 +7,7 @@ class CreateExchanges < ActiveRecord::Migration
       t.belongs_to :borrower
       # t.references :post_id, index: true, foreign_key: true
       t.belongs_to :post	
-      t.int :status
+      t.integer :status
       t.timestamps null: false
     end
   end
