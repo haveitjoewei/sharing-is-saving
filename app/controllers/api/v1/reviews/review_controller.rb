@@ -24,20 +24,45 @@ class Api::V1::Reviews::ReviewController < ApplicationController
 	#Shows all reviews
 	def index
 		@allReviews = ::Review.all.order(:created_at).reverse_order
+		#filter by reviewer
+		if params.has_key?(:reviewer_id)
+			@allReviews = @allReviews.where("reviewer_id = ?", params[:reviewer_id])
+		end
+		#filter by post?
+		#filter by lender
+
 		reviewArray = Array.new
 		@allReviews.each do |review|
 			newReview = update_created_and_updated_at(review)
 			reviewArray.push newReview
 		end
-		render :json => {:status => 1, :exchange => reviewArray}
+		render :json => {:status => 1, :review => reviewArray}
 	end
 
 	#GET /api/v1/reviews/:id(.:format)
 	def show
+		begin
+			@oneReview = ::Review.find(params[:id])
+		rescue
+			ActiveRecord::RecordNotFound
+			return render_errors(["Couldn't find review because review does not exist."])
+		else
+			newReview = update_created_and_updated_at(@oneReview)
+			render :json => {:status => 1, :review => newReview}
+		end
 	end
 
 	#/api/v1/reviews/:id(.:format)
 	def destroy
+		begin
+			@review = ::Review.find(params[:id])
+		rescue
+			ActiveRecord::RecordNotFound
+			return render_errors(["Couldn't delete review because review does not exist."])
+		else
+			::Review.delete(params[:id])
+			render :json => {:status => 1}
+		end
 	end
 
 	def update
@@ -45,7 +70,7 @@ class Api::V1::Reviews::ReviewController < ApplicationController
 
 	private
 	def review_params
-		params.require(:review).permit(:exchange_id, :rating, :review)	
+		params.require(:review).permit(:lender_id, :exchange_id, :rating, :review)	
 	end
 
 	def update_created_and_updated_at(exchange)
