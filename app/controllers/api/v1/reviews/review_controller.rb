@@ -4,6 +4,7 @@ class Api::V1::Reviews::ReviewController < ApplicationController
 	respond_to :json
 
 	#POST /api/v1/reviews(.:format) 
+	#Creates review
 	def create
 		@user = current_user
 		@review = ::Review.new(review_params.merge!(reviewer_id: @user.id))
@@ -20,7 +21,15 @@ class Api::V1::Reviews::ReviewController < ApplicationController
 	end
 
 	#GET /api/v1/reviews(.:format) 
+	#Shows all reviews
 	def index
+		@allReviews = ::Review.all.order(:created_at).reverse_order
+		reviewArray = Array.new
+		@allReviews.each do |review|
+			newReview = update_created_and_updated_at(review)
+			reviewArray.push newReview
+		end
+		render :json => {:status => 1, :exchange => reviewArray}
 	end
 
 	#GET /api/v1/reviews/:id(.:format)
