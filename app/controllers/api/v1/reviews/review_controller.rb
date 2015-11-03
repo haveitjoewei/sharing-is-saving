@@ -27,6 +27,7 @@ class Api::V1::Reviews::ReviewController < ApplicationController
 		#filter by reviewer
 		if params.has_key?(:reviewer_id)
 			@allReviews = @allReviews.where("reviewer_id = ?", params[:reviewer_id])
+			#error: if doesnt exist
 		end
 		#filter by post?
 		#filter by lender
@@ -40,6 +41,7 @@ class Api::V1::Reviews::ReviewController < ApplicationController
 	end
 
 	#GET /api/v1/reviews/:id(.:format)
+	#Show one review
 	def show
 		begin
 			@oneReview = ::Review.find(params[:id])
@@ -52,7 +54,8 @@ class Api::V1::Reviews::ReviewController < ApplicationController
 		end
 	end
 
-	#/api/v1/reviews/:id(.:format)
+	#DELETE /api/v1/reviews/:id(.:format)
+	#Delete one review
 	def destroy
 		begin
 			@review = ::Review.find(params[:id])
@@ -65,7 +68,26 @@ class Api::V1::Reviews::ReviewController < ApplicationController
 		end
 	end
 
+	#PATCH /api/v1/exchanges/:id(.:format)  
+	#Updates one review
 	def update
+		begin
+			@review = ::Review.find(params[:id])
+		rescue
+			return render_errors(['No review found.'])
+		end
+
+		if @review.reviewer_id == current_user.id # check for permission
+			if @review.update_attributes(review_patch_params)
+				newReview = update_created_and_updated_at(@review)
+				render :json => {:status => 1, review: newReview}, :status => 200
+				return 
+			else
+				return render_errors(["Updating review failed."])
+			end
+		else
+			return render_errors(["User does not have permissions to update this review."])
+		end
 	end
 
 	private
@@ -73,10 +95,14 @@ class Api::V1::Reviews::ReviewController < ApplicationController
 		params.require(:review).permit(:lender_id, :exchange_id, :rating, :review)	
 	end
 
-	def update_created_and_updated_at(exchange)
-		newExchange = ActiveSupport::JSON.decode exchange.to_json
-		newExchange['created_at'] = exchange.created_at.to_f
-		newExchange['updated_at'] = exchange.updated_at.to_f
-		return newExchange
+	def review_patch_params
+		params.require(:review).permit(:rating, :review)	
+	end
+
+	def update_created_and_updated_at(review)
+		newReview = ActiveSupport::JSON.decode review.to_json
+		newReview['created_at'] = review.created_at.to_f
+		newReview['updated_at'] = review.updated_at.to_f
+		return newReview
 	end
 end
