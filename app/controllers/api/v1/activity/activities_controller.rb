@@ -25,20 +25,36 @@ class Api::V1::Activity::ActivitiesController < ApplicationController
       @activities = @activities.where(key: key)
     end
 
-    return render :json => {:status => 1, :exchange => @activities}
+    activityArray = Array.new
+    
+    @activities.each do |activity|
+      newActivity = update_created_and_updated_at(activity)
+      activityArray.push newActivity
+    end
+
+    return render :json => {:status => 1, :activities => @activities}
 
   end
 
   # GET /activities/1
   # GET /activities/1.json
   def show
-    @activity = PublicActivity::Activity.all.find(params[:id])
-    
-    if !@activity
+
+    begin
+      @activity = PublicActivity::Activity.all.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
       return render_errors(['No activity found.'])
     end
 
-    return render :json => {:status => 1, :exchange => @activities}
+    return render :json => {:status => 1, :activities => @activities}
   end
+
+  private
+    def update_created_and_updated_at(activity)
+      newActivity = ActiveSupport::JSON.decode activity.to_json
+      newActivity['created_at'] = activity.created_at.to_f
+      newActivity['updated_at'] = activity.updated_at.to_f
+      return newActivity
+    end
 
 end

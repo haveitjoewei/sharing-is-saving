@@ -1,19 +1,24 @@
 class Api::V1::Exchanges::ExchangeController < ApplicationController
+	skip_before_action :verify_authenticity_token 
+	skip_before_filter :authenticate_user!, :only => [:statuses]
+	skip_before_filter :authenticate_user_from_token!, :only => [:statuses]
+
 	respond_to :json
 
 	# POST /api/v1/exchanges
 	# Post an exchange
 	def create
 		@borrower = current_user
-		
-		@post = ::Post.find(exchange_params[:post_id])
 
-		if !@post
+		begin
+			@post = ::Post.find(exchange_params[:post_id])
+		rescue ActiveRecord::RecordNotFound  
 			return render_errors(['Post does not exist.'])
 		end
 		
-		@lender = ::User.find(@post.user_id)
-		if !@lender
+		begin
+			@lender = ::User.find(@post.user_id)
+		rescue ActiveRecord::RecordNotFound
 			return render_errors(['Lender does not exist.'])
 		end
 
@@ -70,8 +75,7 @@ class Api::V1::Exchanges::ExchangeController < ApplicationController
 	def show
 		begin
 			@oneExchange = ::Exchange.find(params[:id])
-		rescue
-			ActiveRecord::RecordNotFound
+		rescue ActiveRecord::RecordNotFound
 			return render_errors(["Couldn't find exchange because exchange does not exist."])
 		else
 			if @oneExchange.borrower_id == current_user.id or @oneExchange.lender_id == current_user.id
@@ -88,8 +92,6 @@ class Api::V1::Exchanges::ExchangeController < ApplicationController
 	def destroy
 		begin
 			@exchange = ::Exchange.find(params[:id])
-		rescue
-			ActiveRecord::RecordNotFound
 			return render_errors(["Couldn't delete exchange because post does not exist."])
 		else
 			::Exchange.delete(params[:id])
@@ -99,9 +101,10 @@ class Api::V1::Exchanges::ExchangeController < ApplicationController
 
 	# PUT /api/v1/exchanges/:id/update_status
 	def update_status
-		@exchange = ::Exchange.find(params[:id])
 
-		if !@exchange
+		begin
+			@exchange = ::Exchange.find(params[:id])
+		rescue ActiveRecord::RecordNotFound
 			return render_errors(['Exchange does not exist.'])
 		end
 
@@ -127,9 +130,9 @@ class Api::V1::Exchanges::ExchangeController < ApplicationController
 			return render_errors(["The status of this exchange is already #{status}. #{whats_available}"])
 		end
 
-		post = ::Post.find(@exchange.post_id)
-
-		if !post
+		begin
+			post = ::Post.find(@exchange.post_id)
+		rescue ActiveRecord::RecordNotFound
 			return render_errors(["The post that this exchange is linked to is invalid. The post that you linked to is #{post.id}."])
 		end
 
@@ -145,8 +148,9 @@ class Api::V1::Exchanges::ExchangeController < ApplicationController
 		end
 
 		# To save in activity table for notifications
-		@owner = User.find(post.id)
-		if !@owner
+		begin
+			@owner = User.find(post.id)
+		rescue ActiveRecord::RecordNotFound
 			return render_errors(["The post belongs to no one. The post that you linked to is #{post.id}."])
 		end
 
