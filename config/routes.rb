@@ -44,7 +44,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :reviews do
+    resources :reviews, :controller => 'api/v1/reviews/review'  do
     end
   end
 

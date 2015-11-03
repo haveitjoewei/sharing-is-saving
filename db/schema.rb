@@ -42,8 +42,13 @@ ActiveRecord::Schema.define(version: 20151102201423) do
   add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
 
   create_table "reviews", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "reviewer_id"
+    t.integer  "lender_id"
+    t.integer  "exchange_id"
+    t.float    "rating"
+    t.text     "review"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "users", force: :cascade do |t|

@@ -2,7 +2,6 @@ class Api::V1::Exchanges::ExchangeController < ApplicationController
 	skip_before_filter :authenticate_user!, :only => [:show, :index, :destroy]
 	skip_before_filter :authenticate_user_from_token!, :only => [:show, :index, :destroy]
 	respond_to :json
-
 	# POST /api/v1/exchanges
 	def create
 		@borrower = current_user
