@@ -11,8 +11,13 @@ class Api::V1::Reviews::ReviewController < ApplicationController
 		byebug
 		@review = ::Review.new(review_params.merge!(reviewer_id: @user.id))
 		#remove lender
-		#check if exchange exists
+
 		#handle case if review already exists
+		existingReview = ::Review.where(:exchange_id => params[:review][:exchange_id])
+		if existingReview.count > 0
+			ids = existingReview.collect(&:id).to_sentence
+			return render_errors(["Review already exist for this specific exchange. The exchange id is: #{ids}."])
+		end
 		#shouldn't be able to write review if exchange.lender = user
 
 		if @review.save #bug: doesnt save to db when exchange_id > 10
