@@ -30,6 +30,18 @@ class PostsController < ApplicationController
 		@post.created_at = @post.created_at.to_f
 		@post.updated_at = @post.updated_at.to_f
 
+		# byebug
+		@allExchanges = ::Exchange.all.order(:created_at).reverse_order
+		@pendingExchange = @allExchanges.where(status: 1, post_id: @post.id)
+
+		@acceptedExchange = @allExchanges.where(status: 2, post_id: @post.id)
+
+		@rejectedExchange = @allExchanges.where(status: 3, post_id: @post.id)
+
+		@completedExchange = @allExchanges.where(status: 4, post_id: @post.id)
+
+		@cancelledExchange = @allExchanges.where(status: 5, post_id: @post.id)
+
 		# render :json => {:status => 1, :post => newPost}
 	end		
 
@@ -152,7 +164,7 @@ class PostsController < ApplicationController
 		currentUserId = current_user.id
 		@post = ::Post.find(postId)
 		if @post.user_id == currentUserId # Delete the post
-			byebug
+			# byebug
 			if @post.update_attributes(post_params)
 				# render :json => {:status => 1}, :status => 200
 				render :show
@@ -220,7 +232,7 @@ class PostsController < ApplicationController
 	# GET posts/statuses
 	# Gets all post statuses
 	def statuses
-		render :json => {:status => 1, :categories => {"1" => "Available", "2" => "Borrowed", "3" => "Unavailable"}}, :status => 200
+		render :json => {:status => 1, :categories => {"1" => "Available", "2" => "On Hold", "3" => "Borrowed", "4" => "Unavailable"}}, :status => 200
 		return
 	end
 

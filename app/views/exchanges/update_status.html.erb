@@ -1,0 +1,6 @@
+<% if @post.status == 3%>
+	<h1>This item is checked out!</h1>
+<% elsif @post.status == 1%>
+	<h1>This item is back on the market!</h1>
+<%end%>
+<%= link_to "OK", posts_path %>
