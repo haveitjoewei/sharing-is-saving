@@ -47,6 +47,10 @@ class PostsController < ApplicationController
 		@post.created_at = @post.created_at.to_f
 		@post.updated_at = @post.updated_at.to_f
 
+		# byebug
+		@allExchanges = ::Exchange.all.order(:created_at).reverse_order
+		@pendingExchange = @allExchanges.where(status: 1, post_id: @post.id)
+
 		# render :json => {:status => 1, :post => newPost}
 	end		
 

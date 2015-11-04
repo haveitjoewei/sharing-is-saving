@@ -7,7 +7,24 @@
 		<p class="price"><%= @post.price %></p>
 		<p class="deposit"><%= @post.security_deposit %></p>
 		<p class="status">Status: <%= @post.status %></p>
-		<%= link_to 'Borrow Item', exchanges_path(post_id: @post.id), :method => :post %>  
+		<% if @post.user_id != current_user.id%>
+			<% if @post.status != 2%>
+				<%= link_to 'Borrow Item', exchanges_path(post_id: @post.id), :method => :post %>  
+			<% else %>
+				<!-- TODO: if item status is not "available", it should not appear on listings -->
+				<%if @pendingExchange.first.borrower_id == current_user.id %>
+					<%= link_to 'Cancel Exchange', update_status_exchange_path %>
+				<% else %>
+					<h1>Listing is on hold</h1>
+				<% end %>
+			<% end %>
+		<% else %>
+			<%= link_to "Edit", edit_post_path %>
+			<% if @post.status == 2 %>
+				<%= link_to 'Accept', update_status_exchange_path %> 
+				<%= link_to 'Reject', update_status_exchange_path %> 
+			<% end %>
+		<% end %>
 	</article>
 	
 </section>
