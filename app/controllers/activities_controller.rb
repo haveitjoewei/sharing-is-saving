@@ -1,4 +1,4 @@
-class Api::V1::Activity::ActivitiesController < ApplicationController
+class Activity::ActivitiesController < ApplicationController
 
   # GET /activities
   # Get all activities, based on current_user and an optional tag for specifying task
@@ -39,7 +39,6 @@ class Api::V1::Activity::ActivitiesController < ApplicationController
   # GET /activities/1
   # GET /activities/1.json
   def show
-
     begin
       @activity = PublicActivity::Activity.all.find(params[:id])
     rescue ActiveRecord::RecordNotFound

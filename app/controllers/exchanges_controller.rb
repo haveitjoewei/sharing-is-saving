@@ -1,4 +1,4 @@
-class Api::V1::Exchanges::ExchangeController < ApplicationController
+class ExchangesController < ApplicationController
 	skip_before_action :verify_authenticity_token 
 	skip_before_filter :authenticate_user!, :only => [:statuses]
 	skip_before_filter :authenticate_user_from_token!, :only => [:statuses]

@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'application#render_home'
+  root 'application#home'
 
   # connect ':action', :controller => 'static'
   # apipie
@@ -10,44 +10,40 @@ Rails.application.routes.draw do
   #           :action => 'options_for_mopd', 
             # :conditions => {:method => :options}
 
-  scope '/api/v1' do
+  # DEVISE
+  devise_for :users, :controllers => {sessions: 'users/sessions', registrations: 'users/registrations'}  
+  # devise_for :users, skip: [:sessions, :registrations]
 
-    # DEVISE
-    # Overrode all with custom routes: http://iampedantic.com/post/41170460234/fully-customizing-devise-routes
-    # devise_for :users, :controllers => {sessions: 'api/v1/users/sessions', registrations: 'api/v1/users/registrations'}  
-    devise_for :users, skip: [:sessions, :registrations]
+  # devise_scope :user do
+  #   # Sessions Controller
+  #   post '/users/sign_in', to: 'users/sessions#create', as: 'user_session'
+  #   delete '/users/sign_out', to: 'users/sessions#destroy', as: 'destroy_user_session'
 
-    devise_scope :user do
-      # Sessions Controller
-      post '/users/sign_in', to: 'api/v1/users/sessions#create', as: 'user_session'
-      delete '/users/sign_out', to: 'api/v1/users/sessions#destroy', as: 'destroy_user_session'
+  #   # Registrations Controller
+  #   post '/users', to: 'users/registrations#create', as: 'user_registration'
+  #   put '/users/update', to: 'users/registrations#update_user', as: 'user_update'
 
-      # Registrations Controller
-      post '/users', to: 'api/v1/users/registrations#create', as: 'user_registration'
-      put '/users/update', to: 'api/v1/users/registrations#update_user', as: 'user_update'
+  # end
 
+  resources :posts, :controller => 'posts' do
+    collection do
+      get :categories
+      get :statuses
     end
+  end
 
-    resources :posts, :controller => 'api/v1/post/post' do
-      collection do
-        get :categories
-        get :statuses
-      end
+  resources :exchanges, :controller => 'exchanges' do
+    collection do
+      get :statuses
     end
+    member do
+      put :update_status
+    end
+  end
 
-    resources :exchanges, :controller => 'api/v1/exchanges/exchange' do
-      collection do
-        get :statuses
-      end
-      member do
-        put :update_status
-      end
-    end
-
-    get '/activity', to: 'api/v1/activity/activities#index'
-    
-    resources :reviews, :controller => 'api/v1/reviews/review'  do
-    end
+  get '/activity', to: 'activity/activities#index'
+  
+  resources :reviews, :controller => 'reviews/review'  do
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
