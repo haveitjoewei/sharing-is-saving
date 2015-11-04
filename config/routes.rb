@@ -1,30 +1,14 @@
 Rails.application.routes.draw do
   root 'application#home'
 
-  # connect ':action', :controller => 'static'
-  # apipie
   match '*path' => 'application#options_for_mopd', :via => :options
 
-  # map.connect '*path', 
-  #           :controller => 'application', 
-  #           :action => 'options_for_mopd', 
-            # :conditions => {:method => :options}
-
-  # DEVISE
-  devise_for :users, :controllers => {sessions: 'users/sessions', registrations: 'users/registrations'}  
-  # devise_for :users, skip: [:sessions, :registrations]
-
-  # devise_scope :user do
-  #   # Sessions Controller
-  #   post '/users/sign_in', to: 'users/sessions#create', as: 'user_session'
-  #   delete '/users/sign_out', to: 'users/sessions#destroy', as: 'destroy_user_session'
-
-  #   # Registrations Controller
-  #   post '/users', to: 'users/registrations#create', as: 'user_registration'
-  #   put '/users/update', to: 'users/registrations#update_user', as: 'user_update'
-
-  # end
-
+  # Users
+  devise_for :users, :controllers => {sessions: 'users/sessions', registrations: 'users/registrations'}
+  devise_scope :user do
+    get '/profile', to: 'users/registrations#view'
+  end
+  
   resources :posts, :controller => 'posts' do
     collection do
       get :categories
@@ -35,6 +19,7 @@ Rails.application.routes.draw do
   resources :exchanges, :controller => 'exchanges' do
     collection do
       get :statuses
+      post :create
     end
     member do
       put :update_status
@@ -42,6 +27,8 @@ Rails.application.routes.draw do
   end
 
   get '/activity', to: 'activity/activities#index'
+
+  # get '/exchanges', as: 'exchange_item'
   
   resources :reviews, :controller => 'reviews/review'  do
   end
