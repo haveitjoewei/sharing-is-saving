@@ -152,7 +152,6 @@ class PostsController < ApplicationController
 		currentUserId = current_user.id
 		@post = ::Post.find(postId)
 		if @post.user_id == currentUserId # Delete the post
-			byebug
 			if @post.update_attributes(post_params)
 				# render :json => {:status => 1}, :status => 200
 				render :show
