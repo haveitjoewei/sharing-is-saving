@@ -1,14 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Sharing Is Saving</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
+	<title>Sharing Is Saving</title>
+	<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+	<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+	<%= csrf_meta_tags %>
+	<script>
+		var pos;
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(function(position) {
+				pos = {
+					lat: position.coords.latitude,
+					lng: position.coords.longitude
+				};
+				var finds = document.getElementsByClassName("find")
+				for (i = 0; i < finds.length; i++) {
+					finds[i].href = "/posts?center=" + pos.lat + "," + pos.lng + "&radius=10"
+				}
+			});
+		}
+	</script>
+
+</head>
+<body>
 	<header>
 	    <%= link_to 'Sharing Is Saving', root_url  %>  
 		<nav>
-		    <%= link_to('Listings', posts_path)  %>  
+		    <%= link_to('Listings', posts_path)  %>
 	        <% if user_signed_in? %>
 			    <%= link_to('New Post', new_post_path)  %>  
                 <%= link_to("#{current_user.email}", profile_path) %>
@@ -20,10 +38,7 @@
 		</nav>
 	</header>
 
-</head>
-<body>
-
-<%= yield %>
+	<%= yield %>
 
 </body>
 </html>

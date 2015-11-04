@@ -1,16 +1,39 @@
-<section class="listings">
-
-	<article class="listing">
-		<p class="title">Title: <%= @post.title %></p>
-		<p class="posted_by">User ID: <%= @post.user_id %></p>
-		<p class="description">Description: <%= @post.description %></p>
-		<p class="price">Price: <%= @post.price %></p>
-		<p class="deposit">Security Deposit: <%= @post.security_deposit %></p>
-		<p class="category">Category: <%= map_category(@post.category) %></p>
-		<p class="status">Status: <%= map_status(@post.status) %></p>
-	</article>
-
-	<% if current_user.id == @post.user_id %>
-		<%= link_to "Update Item", {:controller => "posts", :action => "edit"}, :method => :get %>
-	<% end %>	
-</section>
+<div id="mainbody">	
+	<section class="listings">
+		<article class="listing">
+			<p class="title">Title: <%= @post.title %></p>
+			<p class="posted_by">User ID: <%= @post.user_id %></p>
+			<p class="description">Description: <%= @post.description %></p>
+			<p class="price">Price: <%= @post.price %></p>
+			<p class="deposit">Security Deposit: <%= @post.security_deposit %></p>
+			<p class="category">Category: <%= map_category(@post.category) %></p>
+			<p class="status">Status: <%= map_status(@post.status) %></p>
+			<% if @post.user_id != current_user.id%>
+				<% if @post.status == 1%>
+					<%= link_to 'Borrow Item', exchanges_path(post_id: @post.id), :method => :post %>  
+				<% elsif @post.status == 2%>
+					<!-- TODO: if item status is not "available", it should not appear on listings -->
+					<%if @pendingExchange.first.borrower_id == current_user.id %>
+						<%= link_to 'Cancel exchange', update_status_exchange_path(id: @pendingExchange.first.id, status: 5), :method => :put %>
+					<% else %>
+						<h1>Listing is on hold</h1>
+					<% end %>
+				<% elsif @post.status == 3%>
+					<%if @acceptedExchange.first.borrower_id == current_user.id %>
+						<h1>Don't forget to return this item</h1>
+					<% else %>
+						<h1>This item is currently being borrowed</h1>
+					<% end %>
+				<% end %>
+			<% else %>
+				<%= link_to "Update Item", {:controller => "posts", :action => "edit"}, :method => :get %>
+				<% if @post.status == 2 %>
+					<%= link_to 'Accept', update_status_exchange_path(id: @pendingExchange.first.id, status: 2), :method => :put %>
+					<%= link_to 'Reject', update_status_exchange_path(id: @pendingExchange.first.id, status: 3), :method => :put %>
+				<% elsif @post.status == 3 %>
+					<%= link_to 'Object returned', update_status_exchange_path(id: @acceptedExchange.first.id, status: 4), :method => :put %>
+				<% end %>
+			<% end %>
+		</article>
+	</section>
+</div>

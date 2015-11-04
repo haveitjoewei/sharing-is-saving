@@ -2,6 +2,7 @@ class PostsController < ApplicationController
 	skip_before_action :verify_authenticity_token 
 	skip_before_filter :authenticate_user!, :only => [:index, :show, :categories, :statuses]
 	skip_before_filter :authenticate_user_from_token!, :only => [:index, :show, :categories, :statuses]
+	before_action :set_s3_direct_post, only: [:new, :edit, :create, :update]
 	respond_to :json
 	helper_method :map_category, :map_status
 
@@ -29,6 +30,18 @@ class PostsController < ApplicationController
 		end
 		@post.created_at = @post.created_at.to_f
 		@post.updated_at = @post.updated_at.to_f
+
+		# byebug
+		@allExchanges = ::Exchange.all.order(:created_at).reverse_order
+		@pendingExchange = @allExchanges.where(status: 1, post_id: @post.id)
+
+		@acceptedExchange = @allExchanges.where(status: 2, post_id: @post.id)
+
+		@rejectedExchange = @allExchanges.where(status: 3, post_id: @post.id)
+
+		@completedExchange = @allExchanges.where(status: 4, post_id: @post.id)
+
+		@cancelledExchange = @allExchanges.where(status: 5, post_id: @post.id)
 
 		# render :json => {:status => 1, :post => newPost}
 	end		
@@ -219,18 +232,22 @@ class PostsController < ApplicationController
 	# GET posts/statuses
 	# Gets all post statuses
 	def statuses
-		render :json => {:status => 1, :categories => {"1" => "Available", "2" => "Borrowed", "3" => "Unavailable"}}, :status => 200
+		render :json => {:status => 1, :categories => {"1" => "Available", "2" => "On Hold", "3" => "Borrowed", "4" => "Unavailable"}}, :status => 200
 		return
 	end
 
 
 	private
 		def post_params
-			params.require(:post).permit(:title, :latitude, :longitude, :description, :price, :security_deposit, :user, :status, :category)
+			params.require(:post).permit(:title, :latitude, :longitude, :description, :price, :security_deposit, :user, :status, :category, :image_url)
 		end
 
 		def to_rad(degrees)
 			return degrees/180 * Math::PI
 		end
+
+	    def set_s3_direct_post
+			@s3_direct_post = S3_BUCKET.presigned_post(key: "uploads/#{SecureRandom.uuid}/${filename}", success_action_status: '201', acl: 'public-read')
+	    end
 
 end

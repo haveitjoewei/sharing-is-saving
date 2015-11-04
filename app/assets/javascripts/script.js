@@ -30,4 +30,5 @@ $(document).ready(function(){
     $("#login_dialog").fadeOut(100);
     $("#darken").fadeOut(100);
   });
+
 });

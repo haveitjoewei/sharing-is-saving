@@ -7,28 +7,24 @@
 	<script src="scripts/jquery.min.js"></script>
 	<script type="text/javascript" src="scripts/script.js"></script>
 	<script type="text/javascript" src="scripts/user.js"></script>
-	<script type="text/javascript" src="scripts/listings.js"></script>
+	<script type="text/javascript" src="scripts/userview.js"></script>
 	<script type="text/javascript">
 	$(function() {
-		User.start()
-	});
-	$(function() {
-		sis.start()
-	});
-	$(function(){
+		User.start();
+		userview.start();
 		$("#header").load("header.html"); 
 	});
 	</script>
 </head>
-<body style="background: #EFEFEF;">
+<body>
 	<div id="header"></div>
-	<div id="map"></div>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOdAeTafFu5ZgatsNFiZ51N9gVpOUjQDk&callback=sis.start" async defer></script>
 	<div id="mainbody">
-		<section class="listings">
+		<section class="user_info">
+			<a class="name">Joe Wei</a>
+		</section>
+		<section class="user_listings">
 			<article class="listing">
 				<a href="#" class="title">Listing 1</a>
-				<p class="posted_by">Posted by User 1</p>
 				<p class="description">Some description about this listing and how great it is and how you should totally check it out and if you're interested definitely rent it because it's a quality item and it's cheap and it's nearby so really you have no excuse to not take this trip to value town.</p>
 				<p class="price">$0.69 per day</p>
 				<p class="deposit">$6.90 security deposit</p>
