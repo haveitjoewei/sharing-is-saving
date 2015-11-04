@@ -54,9 +54,9 @@
 				<p class="description"><%= post.description %></p>
 				<p class="price"><%= '$%.2f per day' % post.price %></p>
 				<p class="deposit"><%= '$%.2f security deposit' % post.security_deposit %></p>
-				<%= link_to 'Rent it!', root_url, :class => 'rent' %>
 				<p class="category">Category: <%= map_category(post.category) %></p>
 				<p class="status">Status: <%= map_status(post.status) %></p>
+				<%= link_to 'Rent it!', root_url, :class => 'rent' %>
 			</article>
 			<% i = i + 1 %>
 		<% end %>

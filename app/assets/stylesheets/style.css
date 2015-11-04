@@ -46,7 +46,8 @@ nav {
 }
 
 .itemlink {
-	text-decoration: none; !important
+	text-decoration: none; !important;
+}
 
 #mainbody .button {
 	background-color: #0094FF;
@@ -134,7 +135,7 @@ input[type="submit"] {
 
 .listing .title {
 	font-size: 1.5em;
-	width: calc(100% - 40px);
+	width: calc(100%);
 	display: block;
 	background-color: #0094FF;
 	border-radius: 3px 3px 0 0;
@@ -151,7 +152,9 @@ input[type="submit"] {
 .listing .description,
 .listing .price,
 .listing .deposit,
-.listing .rent {
+.listing .rent,
+.listing .category,
+.listing .status {
 	padding: 5px 20px;
 }
 
