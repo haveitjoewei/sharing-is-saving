@@ -1,4 +1,4 @@
-class Api::V1::Reviews::ReviewController < ApplicationController
+class ReviewsController < ApplicationController
 	skip_before_filter :authenticate_user!, :only => [:show, :index, :destroy]
 	skip_before_filter :authenticate_user_from_token!, :only => [:show, :index, :destroy]
 	respond_to :json

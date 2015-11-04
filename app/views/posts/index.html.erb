@@ -1,0 +1,16 @@
+<section class="listings">
+
+	<% @allPosts.each do |post| %>
+
+	<article class="listing">
+		<p class="title">Title: <%= post.title %></p>
+		<p class="posted_by">User ID: <%= post.user_id %></p>
+		<p class="description">Description: <%= post.description %></p>
+		<p class="price">Price: <%= post.price %></p>
+		<p class="deposit">Security Deposit: <%= post.security_deposit %></p>
+		<p class="status">Status: <%= post.status %></p>
+	</article>
+
+	<% end %>
+	
+</section>

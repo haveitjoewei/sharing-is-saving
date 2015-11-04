@@ -1,0 +1,46 @@
+<div id="mainbody">
+	<div class = "create">
+	<%= form_for :post, url: {action: "create"} do |f| %>
+
+	  <div class="field">
+	    <%= f.label :title %><br />
+	    <%= f.text_field :title, autofocus: true %>
+	  </div>
+
+	  <div class="field">
+	    <%= f.label :latitude %><br />
+	    <%= f.text_field :latitude, autofocus: true %>
+	  </div>
+
+	  <div class="field">
+	    <%= f.label :longitude %><br />
+	    <%= f.text_field :longitude, autofocus: true %>
+	  </div>
+
+	  <div class="field">
+	    <%= f.label :description %><br />
+	    <%= f.text_field :description, autofocus: true %>
+	  </div>
+
+	  <div class="field">
+	    <%= f.label :price %><br />
+	    <%= f.text_field :price, autofocus: true %>
+	  </div>
+
+	  <div class="field">
+	    <%= f.label :security_deposit %><br />
+	    <%= f.text_field :security_deposit, autofocus: true %>
+	  </div>
+
+	  <div class="field">
+	    <%= f.label :category %><br />
+	    <%= f.select :category, ["Apparel & Accessories", "Arts and Crafts", "Electronics", "Home Appliances", "Kids & Baby", "Movies, Music, Books & Games", "Motor Vehicles", "Office & Education", "Parties & Events", "Spaces & Venues", "Sports & Outdoors", "Tools & Gardening", "Other"]%>
+	  </div>
+
+	  <div class="actions">
+	    <%= f.submit "Post" %>
+	  </div>
+	<% end %>
+
+	</div>
+</div>

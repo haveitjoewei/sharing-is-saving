@@ -2,19 +2,18 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   # protect_from_forgery with: :exception
-  acts_as_token_authentication_handler_for User
+  # acts_as_token_authentication_handler_for User
   
   # skip_before_action :verify_authenticity_token, if: :json_request?
-  before_filter :authenticate_user_from_token!
-  before_filter :authenticate_user!
+  # before_filter :authenticate_user_from_token!
+  # before_filter :authenticate_user!
   before_filter :cors_set_access_control_headers
 
   # Only skip authentication when trying to load the homepage
-  skip_before_filter :authenticate_user!, :only => [:render_home]
-  skip_before_filter :authenticate_user_from_token!, :only => [:render_home]
+  # skip_before_filter :authenticate_user!, :only => [:render_home]
+  # skip_before_filter :authenticate_user_from_token!, :only => [:render_home]
 
-  def render_home
-    render :file => 'public/home.html'
+  def home
   end
 
   def options_for_mopd
