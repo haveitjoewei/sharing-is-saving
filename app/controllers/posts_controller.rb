@@ -1,57 +1,76 @@
-class Api::V1::Post::PostController < ApplicationController
+class PostsController < ApplicationController
 	skip_before_action :verify_authenticity_token 
 	skip_before_filter :authenticate_user!, :only => [:index, :show, :categories, :statuses]
 	skip_before_filter :authenticate_user_from_token!, :only => [:index, :show, :categories, :statuses]
 	respond_to :json
 
-	# POST /api/v1/posts(.:format)
+	# POST posts(.:format)
 	# Creates one post
-	def create
-		@user = current_user
-		@post = ::Post.new(post_params.merge!(user: @user))
-		respond_to do |format|
-			format.json {
-				if @post.save
-					newPost = ActiveSupport::JSON.decode @post.to_json
-					newPost['created_at'] = @post.created_at.to_f
-					newPost['updated_at'] = @post.updated_at.to_f
-					newPost['status'] = 1
-					render :json => {:status => 1, :post => newPost}, :status => 201
-				else
-					render :json => {:status => -1, :errors => @post.errors.full_messages} #TODO, status
-				end
-			}
-		end
+	def new
 		
 	end
 
-	# GET /api/v1/posts(.:format)   
+	def create
+		@post = Post.new(post_params)
+		@post.status = 1
+		@post.category += 1
+		@post.user_id = current_user.id
+
+		@post.save
+		redirect_to @post
+
+		# @user = current_user
+		# @post = ::Post.new(post_params.merge!(user: @user))
+		# respond_to do |format|
+		# 	format.json {
+		# 		if @post.save
+		# 			newPost = ActiveSupport::JSON.decode @post.to_json
+		# 			newPost['created_at'] = @post.created_at.to_f
+		# 			newPost['updated_at'] = @post.updated_at.to_f
+		# 			newPost['status'] = 1
+		# 			render :json => {:status => 1, :post => newPost}, :status => 201
+		# 		else
+		# 			render :json => {:status => -1, :errors => @post.errors.full_messages} #TODO, status
+		# 		end
+		# 	}
+		# end
+	end
+
+	# GET posts/:id(.:format)
+	# Gets one post
+	def show
+		begin
+			@post = ::Post.find(params[:id])
+			rescue ActiveRecord::RecordNotFound  
+			render :json => {:status => -1, :message => 'Couldn\'t find post because post does not exist.' }, :status => 404
+			return
+		end
+		@post.created_at = @post.created_at.to_f
+		@post.updated_at = @post.updated_at.to_f
+
+		# render :json => {:status => 1, :post => newPost}
+	end		
+
+	# GET posts(.:format)   
 	# Gets all posts
 	def index
-		allPosts = ::Post.all.order(:created_at).reverse_order # gets all posts, apply filters
+		@allPosts = ::Post.all.order(:created_at).reverse_order # gets all posts, apply filters
 
 		# Location filtering
 		if params.has_key?(:radius) and params.has_key?(:center)
-			allPosts = filter_by_radius_and_center(allPosts); return if performed?
+			@allPosts = filter_by_radius_and_center(@allPosts); return if performed?
 		end
 
 		if params.has_key?(:user)
-			allPosts = allPosts.where("user_id = ?", params[:user])
+			@allPosts = allPostsPre.where("user_id = ?", params[:user])
 		end
 
-		if params.has_key?(:status)
-			allPosts = allPosts.where("status = ?", params[:status])
+		@allPosts.each do |post|
+			post.created_at = post.created_at.to_f
+			post.updated_at = post.updated_at.to_f
 		end
 
-		postArray = Array.new
-		allPosts.each do |post|
-			newPost = ActiveSupport::JSON.decode post.to_json
-			newPost['created_at'] = post.created_at.to_f
-			newPost['updated_at'] = post.updated_at.to_f
-			postArray.push newPost
-		end
-		render :json => {:status => 1, :post => postArray}
-		response.headers['Access-Control-Allow-Origin'] = "*"# * means any. specify to 
+		# render :json => {:status => 1, :post => postArray}
 	end
 
 	def filter_by_radius_and_center(allPosts)
@@ -106,24 +125,7 @@ class Api::V1::Post::PostController < ApplicationController
 		return allPosts
 	end
 
-	# GET /api/v1/posts/:id(.:format)
-	# Gets one post
-	def show
-		begin
-			onePost = ::Post.find(params[:id])
-			rescue ActiveRecord::RecordNotFound  
-			render :json => {:status => -1, :message => 'Couldn\'t find post because post does not exist.' }, :status => 404
-			return
-		end
-		newPost = ActiveSupport::JSON.decode onePost.to_json
-		newPost['created_at'] = onePost.created_at.to_f
-		newPost['updated_at'] = onePost.updated_at.to_f
-		
-		response.headers['Access-Control-Allow-Origin'] = "*"# * means any. specify to 
-		render :json => {:status => 1, :post => newPost}
-	end		
-
-	# DELETE /api/v1/posts/:id(.:format) 
+	# DELETE posts/:id(.:format) 
 	# Deletes one post
 	def destroy
 		currentUserId = current_user.id
@@ -146,7 +148,7 @@ class Api::V1::Post::PostController < ApplicationController
 		end
 	end
 
-	# PUT /api/v1/posts/:id
+	# PUT posts/:id
 	# Updates one post
 	def update
 		postId = params[:id]
@@ -166,14 +168,14 @@ class Api::V1::Post::PostController < ApplicationController
 		end
 	end
 
-	# DELETE /api/v1/users/:user_id/posts(.:format)
+	# DELETE users/:user_id/posts(.:format)
 	# def destroyAll
 	# 	byebug
 	# 	::Post.where("user_id = ?", params[:user_id]).delete_all
 	# 	render :json => {'status' => 1}
 	# end
 
-	# GET /api/v1/posts/categories
+	# GET posts/categories
 	# Gets all post categories
 	def categories
 		render :json => {:status => 1, :categories => {"1" => "Apparel & Accessories", "2" => "Arts and Crafts", "3" => "Electronics", 
@@ -182,7 +184,7 @@ class Api::V1::Post::PostController < ApplicationController
 		return
 	end
 
-	# GET /api/v1/posts/statuses
+	# GET posts/statuses
 	# Gets all post statuses
 	def statuses
 		render :json => {:status => 1, :categories => {"1" => "Available", "2" => "Borrowed", "3" => "Unavailable"}}, :status => 200
