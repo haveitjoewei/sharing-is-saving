@@ -3,6 +3,7 @@ class PostsController < ApplicationController
 	skip_before_filter :authenticate_user!, :only => [:index, :show, :categories, :statuses]
 	skip_before_filter :authenticate_user_from_token!, :only => [:index, :show, :categories, :statuses]
 	respond_to :json
+	helper_method :map_category, :map_status
 
 	# POST posts(.:format)
 	# Creates one post
@@ -10,29 +11,11 @@ class PostsController < ApplicationController
 	end
 
 	def create
-		@post = Post.new(post_params)
+		@post = ::Post.new(post_params)
 		@post.status = 1
-		@post.category += 1
 		@post.user_id = current_user.id
-
 		@post.save
 		redirect_to @post
-
-		# @user = current_user
-		# @post = ::Post.new(post_params.merge!(user: @user))
-		# respond_to do |format|
-		# 	format.json {
-		# 		if @post.save
-		# 			newPost = ActiveSupport::JSON.decode @post.to_json
-		# 			newPost['created_at'] = @post.created_at.to_f
-		# 			newPost['updated_at'] = @post.updated_at.to_f
-		# 			newPost['status'] = 1
-		# 			render :json => {:status => 1, :post => newPost}, :status => 201
-		# 		else
-		# 			render :json => {:status => -1, :errors => @post.errors.full_messages} #TODO, status
-		# 		end
-		# 	}
-		# end
 	end
 
 	# GET posts/:id(.:format)
@@ -53,7 +36,8 @@ class PostsController < ApplicationController
 	# GET posts(.:format)   
 	# Gets all posts
 	def index
-		@allPosts = ::Post.all.order(:created_at).reverse_order # gets all posts, apply filters
+		# Gets all posts
+		@allPosts = ::Post.all.order(:created_at).reverse_order 
 
 		# Location filtering
 		if params.has_key?(:radius) and params.has_key?(:center)
@@ -73,8 +57,8 @@ class PostsController < ApplicationController
 
 		# filter by category
 		if params.has_key?(:category)
-			categories = params[:category].split(',')
-			@allPosts = @allPosts.where(category: categories)
+			filter_categories = params[:category].split(',')
+			@allPosts = @allPosts.where(category: filter_categories)
 		end
 
 		@allPosts.each do |post|
@@ -158,32 +142,29 @@ class PostsController < ApplicationController
 		end
 	end
 
+	def edit
+	end
+
 	# PUT posts/:id
 	# Updates one post
 	def update
 		postId = params[:id]
 		currentUserId = current_user.id
-		thePost = ::Post.find(postId)
-		if thePost.user_id == currentUserId # Delete the post
-			if thePost.update_attributes(post_params)
-				render :json => {:status => 1}, :status => 200
-				return 
-			else
-				render :json => {:status => -1, :message => 'Updating post failed.' }, :status => 404
-				return
+		@post = ::Post.find(postId)
+		if @post.user_id == currentUserId # Delete the post
+			byebug
+			if @post.update_attributes(post_params)
+				# render :json => {:status => 1}, :status => 200
+				render :show
+			# else
+			# 	render :json => {:status => -1, :message => 'Updating post failed.' }, :status => 404
+			# 	return
 			end
-		else
-			render :json => {:status => -1, :message => 'User does not have permissions to update this post.' }, :status => 404
-			return
+		# else
+		# 	render :json => {:status => -1, :message => 'User does not have permissions to update this post.' }, :status => 404
+		# 	return
 		end
 	end
-
-	# DELETE users/:user_id/posts(.:format)
-	# def destroyAll
-	# 	byebug
-	# 	::Post.where("user_id = ?", params[:user_id]).delete_all
-	# 	render :json => {'status' => 1}
-	# end
 
 	# GET posts/categories
 	# Gets all post categories
@@ -192,6 +173,48 @@ class PostsController < ApplicationController
 			"4" => "Home Appliances", "5" => "Kids & Baby", "6" => "Movies, Music, Books & Games", "7" => "Motor Vehicles", 
 			"8" => "Office & Education", "9" => "Parties & Events", "10" => "Spaces & Venues", "11" => "Sports & Outdoors", "12" => "Tools & Gardening", "13" => "Other"}}, :status => 200
 		return
+	end
+
+	def map_category(category_number)
+		case category_number
+		when 1
+			"Apparel & Accessories"
+		when 2
+			"Arts and Crafts"
+		when 3
+			"Electronics"
+		when 4
+			"Home Appliances"
+		when 5
+			"Kids & Baby"
+		when 6
+			"Movies, Music, Books & Games"
+		when 7
+			"Electronics"
+		when 8
+			"Office & Education"
+		when 9
+			"Parties & Events"
+		when 10
+			"Spaces & Venues"
+		when 11
+			"Sports & Outdoors"
+		when 12
+			"Tools & Gardening "
+		when 13
+			"Other"
+		end
+	end
+
+	def map_status(status_number)
+		case status_number
+		when 1
+			"Available"
+		when 2
+			"Borrowed"
+		when 3
+			"Unavailable"
+		end
 	end
 
 	# GET posts/statuses

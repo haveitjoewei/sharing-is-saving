@@ -1,11 +1,16 @@
 <section class="listings">
 
 	<article class="listing">
-		<p class="title"><%= @post.title %></p>
-		<p class="posted_by"><%= @post.user_id %></p>
-		<p class="description"><%= @post.description %></p>
-		<p class="price"><%= @post.price %></p>
-		<p class="deposit"><%= @post.security_deposit %></p>
+		<p class="title">Title: <%= @post.title %></p>
+		<p class="posted_by">User ID: <%= @post.user_id %></p>
+		<p class="description">Description: <%= @post.description %></p>
+		<p class="price">Price: <%= @post.price %></p>
+		<p class="deposit">Security Deposit: <%= @post.security_deposit %></p>
+		<p class="category">Category: <%= map_category(@post.category) %></p>
+		<p class="status">Status: <%= map_status(@post.status) %></p>
 	</article>
-	
+
+	<% if current_user.id == @post.user_id %>
+		<%= link_to "Update Item", {:controller => "posts", :action => "edit"}, :method => :get %>
+	<% end %>	
 </section>
