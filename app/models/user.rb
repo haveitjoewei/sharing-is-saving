@@ -9,8 +9,9 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   
   # for posts
-  has_many :post
-  has_many :exchange
+  has_many :posts
+  has_many :exchanges
+  has_many :reviews
   
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable

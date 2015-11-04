@@ -4,7 +4,6 @@ class Api::V1::Exchanges::ExchangeController < ApplicationController
 	skip_before_filter :authenticate_user_from_token!, :only => [:statuses]
 
 	respond_to :json
-
 	# POST /api/v1/exchanges
 	# Post an exchange
 	def create

@@ -39,6 +39,10 @@ class Api::V1::Post::PostController < ApplicationController
 			allPosts = allPosts.where("user_id = ?", params[:user])
 		end
 
+		if params.has_key?(:status)
+			allPosts = allPosts.where("status = ?", params[:status])
+		end
+
 		postArray = Array.new
 		allPosts.each do |post|
 			newPost = ActiveSupport::JSON.decode post.to_json
