@@ -3,7 +3,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # skip_before_filter :authenticate_user!, :only => [:create]
   # skip_before_filter :authenticate_user_from_token!, :only => [:create]
   # respond_to :json
-  # before_filter :configure_sign_up_params, only: [:create]
+  before_filter :configure_sign_up_params, only: [:create]
   # before_filter :configure_account_update_params, only: [:update]  
 
   # GET /resource/sign_up
@@ -14,6 +14,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /users
   def create
+    # byebug
     super
     # response.headers['Access-Control-Allow-Origin'] = "*"# * means any. specify to 
     # response.headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
@@ -78,19 +79,19 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # protected
 
   # If you have extra params to permit, append them to the sanitizer.
-  # def configure_sign_up_params
-  #   devise_parameter_sanitizer.for(:sign_up) do |u|
-  #     u.permit(:email, :password, :password_confirmation, :first_name, :last_name, :date_of_birth, :latitude, :longitude)
-  #   end
-  # end
+  def configure_sign_up_params
+    devise_parameter_sanitizer.for(:sign_up) do |u|
+      u.permit(:email, :password, :password_confirmation, :first_name, :last_name, :date_of_birth, :latitude, :longitude)
+    end
+  end
 
   # If you have extra params to permit, append them to the sanitizer.
-  # def configure_account_update_params
-  #   devise_parameter_sanitizer.for(:account_update) do |u|
-  #     u.permit(:email, :password, :password_confirmation, :first_name, :last_name, :date_of_birth, :latitude, :longitude)
-  #   end
-  #   # devise_parameter_sanitizer.for(:account_update) << :attribute
-  # end
+  def configure_account_update_params
+    devise_parameter_sanitizer.for(:account_update) do |u|
+      u.permit(:email, :password, :password_confirmation, :first_name, :last_name, :date_of_birth, :latitude, :longitude)
+    end
+    # devise_parameter_sanitizer.for(:account_update) << :attribute
+  end
 
   # def user_params
   #   params.require(:user).permit(:email, :password, :password_confirmation, :first_name, :last_name, :date_of_birth, :latitude, :longitude)
