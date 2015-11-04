@@ -51,6 +51,14 @@ class PostsController < ApplicationController
 		@allExchanges = ::Exchange.all.order(:created_at).reverse_order
 		@pendingExchange = @allExchanges.where(status: 1, post_id: @post.id)
 
+		@acceptedExchange = @allExchanges.where(status: 2, post_id: @post.id)
+
+		@rejectedExchange = @allExchanges.where(status: 3, post_id: @post.id)
+
+		@completedExchange = @allExchanges.where(status: 4, post_id: @post.id)
+
+		@cancelledExchange = @allExchanges.where(status: 5, post_id: @post.id)
+
 		# render :json => {:status => 1, :post => newPost}
 	end		
 

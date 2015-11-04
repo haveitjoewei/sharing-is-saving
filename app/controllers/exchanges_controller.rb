@@ -132,34 +132,34 @@ class ExchangesController < ApplicationController
 		end
 
 		begin
-			post = ::Post.find(@exchange.post_id)
+			@post = ::Post.find(@exchange.post_id)
 		rescue ActiveRecord::RecordNotFound
 			return render_errors(["The post that this exchange is linked to is invalid. The post that you linked to is #{post.id}."])
 		end
 
 		case status
-			when 2 # Accepted
-				post.update_attributes(:status => 2) # Assuming post status = 2 means it's borrowed
-			when 3 # Rejected
-				post.update_attributes(:status => 1) # Assuming post status = 1 means it's available
-			when 4 # Completed
-				post.update_attributes(:status => 1)
-			when 5 # Completed
-				post.update_attributes(:status => 1)
+			when 2 # Exchange Accepted
+				@post.update_attributes(:status => 3) # Assuming post status = 3 means it's borrowed
+			when 3 # Exchange Rejected
+				@post.update_attributes(:status => 1) # Assuming post status = 1 means it's available
+			when 4 # Exchange Completed
+				@post.update_attributes(:status => 1) # Assuming post status = 1 means it's available
+			when 5 # Exchange Cancelled
+				@post.update_attributes(:status => 1) # Assuming post status = 1 means it's available
 		end
 
 		# To save in activity table for notifications
 		begin
-			@owner = User.find(post.id)
+			@owner = User.find(@post.user_id)
 		rescue ActiveRecord::RecordNotFound
-			return render_errors(["The post belongs to no one. The post that you linked to is #{post.id}."])
+			return render_errors(["The post belongs to no one. The post that you linked to is #{@post.user_id}."])
 		end
 
-		@exchange.create_activity(action: :update_status, owner: @owner, recipient: current_user, post_id: post.id, exchange_id: @exchange.id, parameters: {from_status: @exchange.status, to_status: status})
+		# @exchange.create_activity(action: :update_status, owner: @owner, recipient: current_user, post_id: post.id, exchange_id: @exchange.id, parameters: {from_status: @exchange.status, to_status: status})
 
 		@exchange.update_attributes(status: status)
 
-		render :json => {:status => 1, :exchange => @exchange}
+		# render :json => {:status => 1, :exchange => @exchange}
 
 	end
 
