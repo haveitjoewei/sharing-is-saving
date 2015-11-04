@@ -7,7 +7,6 @@ class PostsController < ApplicationController
 	# POST posts(.:format)
 	# Creates one post
 	def new
-		
 	end
 
 	def create
@@ -54,7 +53,6 @@ class PostsController < ApplicationController
 	# GET posts(.:format)   
 	# Gets all posts
 	def index
-		# byebug
 		@allPosts = ::Post.all.order(:created_at).reverse_order # gets all posts, apply filters
 
 		# Location filtering
@@ -62,16 +60,27 @@ class PostsController < ApplicationController
 			@allPosts = filter_by_radius_and_center(@allPosts); return if performed?
 		end
 
+		# get specific user's posts
 		if params.has_key?(:user)
-			@allPosts = allPostsPre.where("user_id = ?", params[:user])
+			@allPosts = @allPosts.where("user_id = ?", params[:user])
+		end
+
+		# filter by status
+		if params.has_key?(:status)
+			statuses = params[:status].split(',')
+			@allPosts = @allPosts.where(status: statuses)
+		end
+
+		# filter by category
+		if params.has_key?(:category)
+			categories = params[:category].split(',')
+			@allPosts = @allPosts.where(category: categories)
 		end
 
 		@allPosts.each do |post|
 			post.created_at = post.created_at.to_f
 			post.updated_at = post.updated_at.to_f
 		end
-
-		# render :json => {:status => 1, :post => postArray}
 	end
 
 	def filter_by_radius_and_center(allPosts)
