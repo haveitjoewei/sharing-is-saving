@@ -1,6 +1,9 @@
-var sis = (function() {
+var userview = (function() {
 	var apiUrl = 'https://sharingissaving.herokuapp.com/api/v1/';
 	// var apiUrl = 'localhost:3000/api/v1/'
+
+	var userinfo;
+	var userinfoTemplateHtml;
 
 	var listings;
 	var listingTemplateHtml;
@@ -40,14 +43,19 @@ var sis = (function() {
 		} else {
 			listings.append(newElem);
 		}
-		new google.maps.Marker({
-			position: {lat: listing.latitude, lng: listing.longitude},
-			map: map,
-			label: index.toString()
-		});
 	}
 
 	var displayListings = function(coords) {
+		var query = window.location.search;
+		if (uery.substring(0, 1) == '?') {
+			query = query.substring(1);
+		};
+		var data = query.split(',');
+		for (i = 0; (i < data.length); i++) {
+			data[i] = unescape(data[i]);
+		};
+		var user = data[0]
+
 		var onSuccess = function(data) {
 			for (var i = 0; i < data.post.length; i++) {
 				insertListing(data.post[i], false, i+1);
@@ -56,45 +64,18 @@ var sis = (function() {
 		var onFailure = function(data) {
 			console.error('displayListings failed');
 		};
-		makeGetRequest('posts?center=' + coords.latitude + ',' + coords.longitude + '&radius=10', onSuccess, onFailure);
+		makeGetRequest('posts?user=' + user, onSuccess, onFailure);
 	};
 
-	var getLocation = function() {
-	    if (navigator.geolocation) {
-	        navigator.geolocation.getCurrentPosition(showPosition);
-	    } else { 
-	        console.log("Geolocation is not supported by this browser.");
-	    }
-	}
-
-	var showPosition = function(position) {
-		var pos = {
-			lat: position.coords.latitude,
-			lng: position.coords.longitude
-		};
-
-		map = new google.maps.Map(document.getElementById('map'), {
-			center: pos,
-			minZoom: 11,
-			maxZoom: 15,
-			zoom: 13,
-			disableDefaultUI: true,
-			// disableDoubleClickZoom: true,
-			scrollwheel: false
-		});
-
-		displayListings(position.coords)
-	}
-
 	var start = function() {
-		var map;
+		listings = $(".user_listings");
+		userinfo = $(".user_info");
 
-		getLocation();
+		listingTemplateHtml = $(".user_listings .listing")[0].outerHTML;
+		userinfoTemplateHtml = $(".user_info")[0].outerHTML;
 
-		listings = $(".listings");
-
-		listingTemplateHtml = $(".listings .listing")[0].outerHTML;
 		listings.html('');
+		userinfo.html('');
 	}
 
 	return {
