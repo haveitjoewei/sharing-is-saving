@@ -1,12 +1,13 @@
 <section class="listings">
 
 	<article class="listing">
-		<p class="title"><%= @post.title %></p>
-		<p class="posted_by"><%= @post.user_id %></p>
-		<p class="description"><%= @post.description %></p>
-		<p class="price"><%= @post.price %></p>
-		<p class="deposit"><%= @post.security_deposit %></p>
-		<p class="status">Status: <%= @post.status %></p>
+		<p class="title">Title: <%= @post.title %></p>
+		<p class="posted_by">User ID: <%= @post.user_id %></p>
+		<p class="description">Description: <%= @post.description %></p>
+		<p class="price">Price: <%= @post.price %></p>
+		<p class="deposit">Security Deposit: <%= @post.security_deposit %></p>
+		<p class="category">Category: <%= map_category(@post.category) %></p>
+		<p class="status">Status: <%= map_status(@post.status) %></p>
 		<% if @post.user_id != current_user.id%>
 			<% if @post.status == 1%>
 				<%= link_to 'Borrow Item', exchanges_path(post_id: @post.id), :method => :post %>  
@@ -25,7 +26,7 @@
 				<% end %>
 			<% end %>
 		<% else %>
-			<%= link_to "Edit", edit_post_path %>
+			<%= link_to "Update Item", {:controller => "posts", :action => "edit"}, :method => :get %>
 			<% if @post.status == 2 %>
 				<%= link_to 'Accept', update_status_exchange_path(id: @pendingExchange.first.id, status: 2), :method => :put %>
 				<%= link_to 'Reject', update_status_exchange_path(id: @pendingExchange.first.id, status: 3), :method => :put %>
@@ -34,5 +35,4 @@
 			<% end %>
 		<% end %>
 	</article>
-	
 </section>
