@@ -2,6 +2,7 @@ class PostsController < ApplicationController
 	skip_before_action :verify_authenticity_token 
 	skip_before_filter :authenticate_user!, :only => [:index, :show, :categories, :statuses]
 	skip_before_filter :authenticate_user_from_token!, :only => [:index, :show, :categories, :statuses]
+	before_action :set_s3_direct_post, only: [:new, :edit, :create, :update]
 	respond_to :json
 
 	# POST posts(.:format)
@@ -195,11 +196,15 @@ class PostsController < ApplicationController
 
 	private
 		def post_params
-			params.require(:post).permit(:title, :latitude, :longitude, :description, :price, :security_deposit, :user, :status, :category)
+			params.require(:post).permit(:title, :latitude, :longitude, :description, :price, :security_deposit, :user, :status, :category, :image_url)
 		end
 
 		def to_rad(degrees)
 			return degrees/180 * Math::PI
 		end
+
+	    def set_s3_direct_post
+			@s3_direct_post = S3_BUCKET.presigned_post(key: "uploads/#{SecureRandom.uuid}/${filename}", success_action_status: '201', acl: 'public-read')
+	    end
 
 end
