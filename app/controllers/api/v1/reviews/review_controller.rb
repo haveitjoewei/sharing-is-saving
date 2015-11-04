@@ -6,17 +6,20 @@ class Api::V1::Reviews::ReviewController < ApplicationController
 	#POST /api/v1/reviews(.:format) 
 	#Creates review
 	def create
+		#byebug
 		@user = current_user
+		byebug
 		@review = ::Review.new(review_params.merge!(reviewer_id: @user.id))
-		#get lender_id from exchange
+		#remove lender
 		#check if exchange exists
 		#handle case if review already exists
 		#shouldn't be able to write review if exchange.lender = user
-		if @review.save
+
+		if @review.save #bug: doesnt save to db when exchange_id > 10
 			newReview = update_created_and_updated_at(@review)
-			render :json => {:status => 1, :exchange => newReview}
+			render :json => {:status => '1', :exchange => newReview}
 		else
-			render :json => {:status => '-1', :errors => @review.errors.full_messages}, :status => 404
+			render :json => {:status => '-1', :errors => @review.errors.full_messages}, :status => 404 #confused
 		end
 	end
 
