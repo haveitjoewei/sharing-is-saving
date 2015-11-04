@@ -54,6 +54,7 @@ class PostsController < ApplicationController
 	# GET posts(.:format)   
 	# Gets all posts
 	def index
+		# byebug
 		@allPosts = ::Post.all.order(:created_at).reverse_order # gets all posts, apply filters
 
 		# Location filtering
