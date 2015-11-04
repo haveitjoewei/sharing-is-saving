@@ -6,17 +6,29 @@ class ReviewsController < ApplicationController
 	#POST /api/v1/reviews(.:format) 
 	#Creates review
 	def create
+		#byebug
 		@user = current_user
+		byebug
 		@review = ::Review.new(review_params.merge!(reviewer_id: @user.id))
-		#get lender_id from exchange
-		#check if exchange exists
-		#handle case if review already exists
+		#remove lender
+
 		#shouldn't be able to write review if exchange.lender = user
-		if @review.save
+		if @user = ::Exchange.find(params[:review][:exchange_id]).lender_id
+			return render_errors(["Can not review transaction if user is the lender"])
+		end
+
+		#handle case if review already exists
+		existingReview = ::Review.where(:exchange_id => params[:review][:exchange_id])
+		if existingReview.count > 0
+			ids = existingReview.collect(&:id).to_sentence
+			return render_errors(["Review already exist for this specific exchange. The exchange id is: #{ids}."])
+		end
+
+		if @review.save 
 			newReview = update_created_and_updated_at(@review)
-			render :json => {:status => 1, :exchange => newReview}
+			render :json => {:status => '1', :exchange => newReview}
 		else
-			render :json => {:status => '-1', :errors => @review.errors.full_messages}, :status => 404
+			render :json => {:status => '-1', :errors => @review.errors.full_messages}, :status => 404 #confused
 		end
 	end
 

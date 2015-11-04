@@ -1,47 +1,15 @@
 class Users::RegistrationsController < Devise::RegistrationsController
-  # skip_before_action :verify_authenticity_token 
-  # skip_before_filter :authenticate_user!, :only => [:create]
-  # skip_before_filter :authenticate_user_from_token!, :only => [:create]
-  # respond_to :json
   before_filter :configure_sign_up_params, only: [:create]
-  # before_filter :configure_account_update_params, only: [:update]  
+  before_filter :configure_account_update_params, only: [:update]  
 
   # GET /resource/sign_up
   def new
-    # byebug
     super
   end
 
   # POST /users
   def create
-    # byebug
     super
-    # response.headers['Access-Control-Allow-Origin'] = "*"# * means any. specify to 
-    # response.headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
-    # response.headers['Access-Control-Request-Method'] = '*'
-    # response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-
-    # @user = User.where(email: params[:user][:email])
-    # if !@user.empty?
-    #   # render :json => {:status => -1, :message => 'Couldn\'t create account because email already exists.'}, :status => 404
-    #   # return
-    # end
-
-    # build_resource(sign_up_params)
-    # resource.save
-    
-    # yield resource if block_given?
-    # if resource.persisted?
-    #   # resource_without_token['created_at'] = resource_without_token['created_at'].to_f # TODO(SID): to fix
-    #   # resource_without_token['updated_at'] = resource_without_token['updated_at'].to_f # TODO(SID): to fix
-    #   # render :json => {:status => 1, :user => resource}, except: [:authentication_token]
-    #   # return
-    # else
-    #   clean_up_passwords resource
-    #   set_minimum_password_length
-    #   # render :json => {:status => -1, :errors => resource.errors.full_messages}
-    #   # return
-    # end
   end
 
   # GET /resource/edit
@@ -49,18 +17,25 @@ class Users::RegistrationsController < Devise::RegistrationsController
     super
   end
 
-  # PUT /users
-  # Custom name, because the original does not work well with simple_token_authentication
-  # def update_user
-  #   currentUserId = current_user.id
-  #   if current_user.update_attributes(user_params)
-  #     render :json => {:status => 1}, :status => 200
-  #     return 
-  #   else
-  #     render :json => {:status => -1, :message => 'Updating user failed.' }, :status => 404
-  #     return
-  #   end
-  # end
+  def view
+
+    @allExchanges = ::Exchange.all.order(:created_at).reverse_order
+    @allExchanges = @allExchanges.where("lender_id = ? or borrower_id = ?", current_user.id, current_user.id)
+
+    @allExchangesAsLender = @allExchanges.where(lender_id: current_user.id)
+    @allPostsAsLender = @allExchangesAsLender.map { |exchange| ::Post.find(exchange.id)}
+    @allUsersAsLender = @allPostsAsLender.map { |post| ::User.find(post.id)}
+
+    @allExchangesAsBorrower = @allExchanges.where(borrower_id: current_user.id)
+    @allPostsAsBorrower = @allExchangesAsBorrower.map { |exchange| ::Post.find(exchange.id)}
+    @allUsersAsBorrower = @allPostsAsBorrower.map { |post| ::User.find(post.id)}
+
+
+    @allPosts = ::Post.all.order(:created_at).reverse_order.where("user_id = ?", current_user.id)
+
+    @allStatuses = @allPosts.map { |post| get_status(post.status)}
+
+  end
 
   # DELETE /resource
   # def destroy
@@ -78,17 +53,28 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # protected
 
+  def get_status(status)
+    case status
+    when 1    #compare to 1
+      return "Available"
+    when 2    #compare to 2
+      return "Borrowed"
+    else
+      return "Unavailable"
+    end
+  end
+
   # If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
     devise_parameter_sanitizer.for(:sign_up) do |u|
-      u.permit(:email, :password, :password_confirmation, :first_name, :last_name, :date_of_birth, :latitude, :longitude)
+      u.permit(:email, :current_password, :password, :password_confirmation, :first_name, :last_name, :date_of_birth, :latitude, :longitude)
     end
   end
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_account_update_params
     devise_parameter_sanitizer.for(:account_update) do |u|
-      u.permit(:email, :password, :password_confirmation, :first_name, :last_name, :date_of_birth, :latitude, :longitude)
+      u.permit(:email, :current_password, :password, :password_confirmation, :first_name, :last_name, :date_of_birth, :latitude, :longitude)
     end
     # devise_parameter_sanitizer.for(:account_update) << :attribute
   end
