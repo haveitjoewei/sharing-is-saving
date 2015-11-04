@@ -1,0 +1,108 @@
+<script type="text/javascript">
+$( document ).ready(function() {
+  activaTab('notifications');
+
+  function activaTab(tab){
+      $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+  };
+});
+</script>
+
+<% if user_signed_in? %>
+
+<div>
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist" id="tabber">
+    <li role="presentation" class="active"><a href="#notifications" aria-controls="notifications" role="tab" data-toggle="tab">Notifications</a></li>
+    <li role="presentation"><a href="#items" aria-controls="items" role="tab" data-toggle="tab">Items</a></li>
+    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="notifications">
+      <h2>Items You Borrowed</h2>
+      <ul class="list-group">
+        <% @allExchangesAsBorrower.each_with_index do |exchange, index| %>
+        <li class="list-group-item">You borrowed <%= @allPostsAsBorrower[index].description.to_s %> from <%= @allUsersAsBorrower[index].first_name.to_s + " " + @allUsersAsBorrower[index].last_name.to_s %> at <%= exchange.created_at.to_s %> </li>
+        <% end %>
+      </ul>
+        
+      <h2>Items You Lent</h2>
+      <ul class="list-group">
+        <% @allExchangesAsLender.each_with_index do |exchange, index| %>
+        <li class="list-group-item">You borrowed <%= @allPostsAsLender[index].description.to_s %> from <%= @allUsersAsLender[index].first_name.to_s + " " + @allUsersAsLender[index].last_name.to_s %> at <%= exchange.created_at.to_s %> </li>
+        <% end %>
+      </ul>
+    </div>
+    <div role="tabpanel" class="tab-pane fade" id="items">
+      <h2>My Items</h2>
+      <div class="list-group">
+
+        <% @allPosts.each_with_index do |post, index| %>
+          <%= link_to "/posts/#{post.id}", id: :itemlink do %>
+            <div class="list-group-item">
+              <span class="badge"><%= @allStatuses[index] %></span>
+              <h4 class="list-group-item-heading"><%= post.title =%> - $<%= post.price =%></h4>
+              <p class="list-group-item-text"><%= post.description =%></p>
+            </div>
+          <% end %>
+        <% end %>
+
+      </div>
+    </div>
+    <div role="tabpanel" class="tab-pane fade" id="profile">
+    	<h2>Edit Profile</h2>
+  		<%= form_for(current_user, as: :user, url: {action: :update}, html: { method: :put }) do |f| %>
+
+  		  <div class="field">
+  		    <%= f.label :email %><br />
+  		    <%= f.email_field :email, autofocus: true %>
+  		  </div>
+
+  		  <div class="field">
+  		    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+  		    <%= f.password_field :password, autocomplete: "off" %>
+  		  </div>
+
+  		  <div class="field">
+  		    <%= f.label :password_confirmation %><br />
+  		    <%= f.password_field :password_confirmation, autocomplete: "off" %>
+  		  </div>
+
+        <div class="field">
+          <%= f.label :first_name %><br />
+          <%= f.text_field :first_name, autocomplete: "off" %>
+        </div>
+
+        <div class="field">
+          <%= f.label :last_name %><br />
+          <%= f.text_field :last_name, autocomplete: "off" %>
+        </div>
+
+  		  <div class="field">
+  		    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+  		    <%= f.password_field :current_password, autocomplete: "off" %>
+  		  </div>
+
+  		  <div class="actions">
+  		    <%= f.submit "Update" %>
+  		  </div>
+  		<% end %>
+
+  		<h3>Cancel my account</h3>
+
+  		<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
+
+  		<%= link_to "Back", :back %>
+
+    </div>
+    <div role="tabpanel" class="tab-pane fade" id="settings">Joseph is Vietnamese</div>
+  </div>
+
+</div>
+<% else %>
+You are not logged in.
+<% end %>
