@@ -46,6 +46,8 @@ Rails.application.routes.draw do
 
     get '/activity', to: 'api/v1/activity/activities#index'
     
+    resources :reviews, :controller => 'api/v1/reviews/review'  do
+    end
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
