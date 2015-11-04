@@ -8,7 +8,7 @@ class ExchangesController < ApplicationController
 	# Post an exchange
 	def create
 		@borrower = current_user
-
+		# byebug
 		begin
 			@post = ::Post.find(exchange_params[:post_id])
 		rescue ActiveRecord::RecordNotFound  
@@ -35,9 +35,11 @@ class ExchangesController < ApplicationController
 
 		if @exchange.save
 			newExchange = update_created_and_updated_at(@exchange)
-			return render :json => {:status => 1, :exchange => newExchange}
-		else
-			return render :json => {:status => '-1', :errors => @exchange.errors.full_messages}, :status => 404
+			#Changing status to "On Hold"
+			@post.update_attributes(:status => '2')
+			# return render :json => {:status => 1, :exchange => newExchange}
+		# else
+			# return render :json => {:status => '-1', :errors => @exchange.errors.full_messages}, :status => 404
 		end
 	end
 
@@ -170,7 +172,7 @@ class ExchangesController < ApplicationController
 
 	private
 		def exchange_params
-			params.require(:exchange).permit(:post_id)
+			params.permit(:post_id)
 		end
 
 		def update_created_and_updated_at(exchange)

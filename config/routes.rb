@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   resources :exchanges, :controller => 'exchanges' do
     collection do
       get :statuses
+      post :create
     end
     member do
       put :update_status
@@ -42,6 +43,8 @@ Rails.application.routes.draw do
   end
 
   get '/activity', to: 'activity/activities#index'
+
+  # get '/exchanges', as: 'exchange_item'
   
   resources :reviews, :controller => 'reviews/review'  do
   end
