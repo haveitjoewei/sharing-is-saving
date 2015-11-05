@@ -24,12 +24,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
     @allExchanges = @allExchanges.where("lender_id = ? or borrower_id = ?", current_user.id, current_user.id)
 
     @allExchangesAsLender = @allExchanges.where(lender_id: current_user.id)
-    @allPostsAsLender = @allExchangesAsLender.map { |exchange| ::Post.find(exchange.id)}
-    @allUsersAsLender = @allPostsAsLender.map { |post| ::User.find(post.id)}
+    @allPostsAsLender = @allExchangesAsLender.map { |exchange| ::Post.find(exchange.post_id)}
+    @allBorrowersAsLender = @allExchangesAsLender.map { |exchange| ::User.find(exchange.borrower_id)}
 
     @allExchangesAsBorrower = @allExchanges.where(borrower_id: current_user.id)
-    @allPostsAsBorrower = @allExchangesAsBorrower.map { |exchange| ::Post.find(exchange.id)}
-    @allUsersAsBorrower = @allPostsAsBorrower.map { |post| ::User.find(post.id)}
+    @allPostsAsBorrower = @allExchangesAsBorrower.map { |exchange| ::Post.find(exchange.post_id)}
+    @allLendersAsBorrower = @allPostsAsBorrower.map { |post| ::User.find(post.user_id)}
 
 
     @allPosts = ::Post.all.order(:created_at).reverse_order.where("user_id = ?", current_user.id)
