@@ -239,7 +239,7 @@ class PostsController < ApplicationController
 
 	private
 		def post_params
-			params.require(:post).permit(:title, :latitude, :longitude, :description, :price, :security_deposit, :user, :status, :category, :image_url)
+			params.require(:post).permit(:title, :street, :city, :state, :country, :description, :price, :security_deposit, :user, :status, :category, :image_url)
 		end
 
 		def to_rad(degrees)
