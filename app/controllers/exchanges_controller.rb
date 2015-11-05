@@ -107,6 +107,8 @@ class ExchangesController < ApplicationController
 			return render_errors(['Exchange does not exist.'])
 		end
 
+		@borrower = ::User.find(@exchange.borrower_id)
+
 		whats_available = "To query available statuses, call /api/v1/exchanges/statuses."
 
 		begin
@@ -154,10 +156,10 @@ class ExchangesController < ApplicationController
 		end
 
 		if status < 4
-			@exchange.create_activity(action: :update_status, owner: @owner, recipient: current_user, post_id: @post.id, exchange_id: @exchange.id, parameters: {from_status: @exchange.status, to_status: status})
+			@exchange.create_activity(action: :update_status, owner: @owner, recipient: @borrower, post_id: @post.id, exchange_id: @exchange.id, parameters: {from_status: @exchange.status, to_status: status})
 		else
 			# Transaction completed
-			@exchange.create_activity(action: :exchange_completed, owner: @owner, recipient: current_user, post_id: @post.id, exchange_id: @exchange.id)
+			@exchange.create_activity(action: :exchange_completed, owner: @owner, recipient: @borrower, post_id: @post.id, exchange_id: @exchange.id)
 		end
 
 		@exchange.update_attributes(status: status)

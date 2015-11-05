@@ -307,8 +307,9 @@ input[type="submit"] {
 	overflow: visible;
 	position: absolute;
 	top: 90px;
-	margin-left: -140px;
-	width: 400px;
+	right: 50px;
+	/*margin-left: -140px;*/
+	width: 300px;
 	z-index: 1;
 }
 
@@ -322,7 +323,7 @@ input[type="submit"] {
 	border: 10px solid black;
 	border-color: transparent transparent white;
 	margin-top: -20px;
-	margin-left: 188px;
+	margin-left: 150px;
 }
 
 #notificationTitle
@@ -332,8 +333,9 @@ input[type="submit"] {
 	font-size: 13px;
 	background-color: #ffffff;
 	position: fixed;
+	text-align: center;
 	z-index: 1000;
-	width: 384px;
+	width: 284px;
 	border-bottom: 1px solid #dddddd;
 }
 

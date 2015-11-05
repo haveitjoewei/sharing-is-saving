@@ -4,23 +4,28 @@ class ApplicationController < ActionController::Base
   # protect_from_forgery with: :exception
   # acts_as_token_authentication_handler_for User
   
-  # skip_before_action :verify_authenticity_token, if: :json_request?
-  # before_filter :authenticate_user_from_token!
-  # before_filter :authenticate_user!
   before_filter :cors_set_access_control_headers
-  before_filter :get_current_car
-
-
-
-  # Only skip authentication when trying to load the homepage
-  # skip_before_filter :authenticate_user!, :only => [:render_home]
-  # skip_before_filter :authenticate_user_from_token!, :only => [:render_home]
+  before_filter :get_notifications
 
   def home
   end
 
   def options_for_mopd
     render :nothing => true, :status => 200
+  end
+
+
+  def get_notifications
+    @allActivities = PublicActivity::Activity.all
+    @allActivities = @allActivities.where("owner_id = ? or recipient_id = ?", current_user.id, current_user.id).order(:created_at).reverse_order
+
+    if @allActivities.count > 0 and current_user
+      @allOwnersN = @allActivities.map { |activity| ::User.find(activity.owner_id)}
+      @allRecipientsN = @allActivities.map { |activity| ::User.find(activity.recipient_id)}
+      @allExchangesN = @allActivities.map { |activity| ::Exchange.find(activity.exchange_id)}
+      @allPostsN = @allActivities.map { |activity| ::Post.find(activity.post_id)}
+    end
+
   end
   
   protected
@@ -38,10 +43,6 @@ class ApplicationController < ActionController::Base
     headers['Access-Control-Allow-Methods'] = 'POST, GET, PUT, DELETE, OPTIONS'
     headers['Access-Control-Allow-Headers'] = '*, X-Requested-With, X-Prototype-Version, X-CSRF-Token, Content-Type'
     headers['Access-Control-Max-Age'] = "1728000"
-  end
-
-  def get_current_car
-    @activities = PublicActivity::Activity.all
   end
 
   def render_errors(errorsArr)
