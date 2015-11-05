@@ -10,7 +10,8 @@ class ReviewsController < ApplicationController
 	#POST /api/v1/reviews(.:format) 
 	#Creates review
 	def create
-		#byebug
+		# byebug
+		@user = current_user
 		lender_id = ::Exchange.find(params["reviews"]["exchange_id"]).lender_id
 		@review = ::Review.new(:reviewer_id => @user.id, :lender_id => lender_id, :exchange_id => params["reviews"]["exchange_id"], :rating => params["reviews"]["rating"], :content => params["reviews"]["content"])
 
@@ -20,7 +21,7 @@ class ReviewsController < ApplicationController
 		end
 
 		#handle case if review already exists
-		existingReview = ::Review.where(:exchange_id => params["reviews"]["exchange_id"]
+		existingReview = ::Review.where(:exchange_id => params["reviews"]["exchange_id"])
 		if existingReview.count > 0
 			ids = existingReview.collect(&:id).to_sentence
 			return render_errors(["Review already exist for this specific exchange. The exchange id is: #{ids}."])
