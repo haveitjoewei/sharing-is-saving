@@ -163,14 +163,14 @@ class PostsController < ApplicationController
 	def update
 		postId = params[:id]
 		currentUserId = current_user.id
-		thePost = ::Post.find(postId)
-		if thePost.user_id == currentUserId # Delete the post
-			if thePost.update_attributes(post_params)
-				render :json => {:status => 1}, :status => 200
-				return 
-			else
-				render :json => {:status => -1, :message => 'Updating post failed.' }, :status => 404
-				return
+		@post = ::Post.find(postId)
+		if @post.user_id == currentUserId # Delete the post
+			if @post.update_attributes(post_params)
+				# render :json => {:status => 1}, :status => 200
+				render :show
+			# else
+			# 	render :json => {:status => -1, :message => 'Updating post failed.' }, :status => 404
+			# 	return
 			end
 		else
 			render :json => {:status => -1, :message => 'User does not have permissions to update this post.' }, :status => 404
@@ -204,7 +204,7 @@ class PostsController < ApplicationController
 
 	private
 		def post_params
-			params.require(:post).permit(:title, :latitude, :longitude, :description, :price, :security_deposit, :user, :status, :category, :image_url)
+			params.require(:post).permit(:title, :street, :city, :state, :country, :description, :price, :security_deposit, :user, :status, :category, :image_url)
 		end
 
 		def to_rad(degrees)
