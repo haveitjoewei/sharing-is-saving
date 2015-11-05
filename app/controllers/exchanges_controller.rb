@@ -155,7 +155,7 @@ class ExchangesController < ApplicationController
 			return render_errors(["The post belongs to no one. The post that you linked to is #{@post.user_id}."])
 		end
 
-		# @exchange.create_activity(action: :update_status, owner: @owner, recipient: current_user, post_id: post.id, exchange_id: @exchange.id, parameters: {from_status: @exchange.status, to_status: status})
+		@exchange.create_activity(action: :update_status, owner: @owner, recipient: current_user, post_id: @post.id, exchange_id: @exchange.id, parameters: {from_status: @exchange.status, to_status: status})
 
 		@exchange.update_attributes(status: status)
 

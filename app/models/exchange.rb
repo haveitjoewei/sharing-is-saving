@@ -1,5 +1,5 @@
 class Exchange < ActiveRecord::Base
-  # include PublicActivity::Model # For tracking updates
+  include PublicActivity::Model # For tracking updates
  
   attr_accessor :post_description
 
