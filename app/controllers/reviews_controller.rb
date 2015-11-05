@@ -3,6 +3,9 @@ class ReviewsController < ApplicationController
 	skip_before_filter :authenticate_user_from_token!, :only => [:show, :index, :destroy]
 	respond_to :json
 
+	def new
+	end
+
 	#POST /api/v1/reviews(.:format) 
 	#Creates review
 	def create
@@ -13,12 +16,12 @@ class ReviewsController < ApplicationController
 		#remove lender
 
 		#shouldn't be able to write review if exchange.lender = user
-		if @user = ::Exchange.find(params[:review][:exchange_id]).lender_id
+		if @user = ::Exchange.find(params[:exchange_id]).lender_id
 			return render_errors(["Can not review transaction if user is the lender"])
 		end
 
 		#handle case if review already exists
-		existingReview = ::Review.where(:exchange_id => params[:review][:exchange_id])
+		existingReview = ::Review.where(:exchange_id => params[:exchange_id])
 		if existingReview.count > 0
 			ids = existingReview.collect(&:id).to_sentence
 			return render_errors(["Review already exist for this specific exchange. The exchange id is: #{ids}."])
@@ -104,11 +107,11 @@ class ReviewsController < ApplicationController
 
 	private
 	def review_params
-		params.require(:review).permit(:lender_id, :exchange_id, :rating, :review)	
+		params.permit(:lender_id, :exchange_id, :rating, :content)	
 	end
 
 	def review_patch_params
-		params.require(:review).permit(:rating, :review)	
+		params.permit(:rating, :content)	
 	end
 
 	def update_created_and_updated_at(review)
