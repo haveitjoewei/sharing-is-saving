@@ -50,4 +50,7 @@ $(document).ready(function(){
       return false;
     });
 
+  $("#notificationContainer").hide();
+  $("#notification_count").hide();
+  
 });

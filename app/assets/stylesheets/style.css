@@ -284,6 +284,7 @@ input[type="submit"] {
 .create select {
 	width: 100%;
 	padding: 10px;
+}
 
 .listing img {
 	height: 200px;
