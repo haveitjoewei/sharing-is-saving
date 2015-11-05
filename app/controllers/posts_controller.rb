@@ -34,14 +34,21 @@ class PostsController < ApplicationController
 		# byebug
 		@allExchanges = ::Exchange.all.order(:created_at).reverse_order
 		@pendingExchange = @allExchanges.where(status: 1, post_id: @post.id)
-
 		@acceptedExchange = @allExchanges.where(status: 2, post_id: @post.id)
-
 		@rejectedExchange = @allExchanges.where(status: 3, post_id: @post.id)
-
 		@completedExchange = @allExchanges.where(status: 4, post_id: @post.id)
-
 		@cancelledExchange = @allExchanges.where(status: 5, post_id: @post.id)
+
+		@allReviews = ::Review.all.order(:created_at).reverse_order
+
+		allExchanges = Array.new 
+
+		@completedExchange.each do |exchange|
+			# byebug
+			allExchanges.push(exchange.id)
+		end
+
+		@allReviews = @allReviews.where(exchange_id: allExchanges)
 
 		# render :json => {:status => 1, :post => newPost}
 	end		

@@ -32,7 +32,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     @allPostsAsBorrower = @allExchangesAsBorrower.map { |exchange| ::Post.find(exchange.post_id)}
     @allLendersAsBorrower = @allPostsAsBorrower.map { |post| ::User.find(post.user_id)}
 
-
     @allPosts = ::Post.all.order(:created_at).reverse_order.where("user_id = ?", current_user.id)
 
     @allStatuses = @allPosts.map { |post| get_status(post.status)}

@@ -12,6 +12,7 @@ class ReviewsController < ApplicationController
 	def create
 		# byebug
 		@user = current_user
+		# byebug
 		lender_id = ::Exchange.find(params["reviews"]["exchange_id"]).lender_id
 		@review = ::Review.new(:reviewer_id => @user.id, :lender_id => lender_id, :exchange_id => params["reviews"]["exchange_id"], :rating => params["reviews"]["rating"], :content => params["reviews"]["content"])
 
@@ -21,11 +22,11 @@ class ReviewsController < ApplicationController
 		end
 
 		#handle case if review already exists
-		existingReview = ::Review.where(:exchange_id => params["reviews"]["exchange_id"])
-		if existingReview.count > 0
-			ids = existingReview.collect(&:id).to_sentence
-			return render_errors(["Review already exist for this specific exchange. The exchange id is: #{ids}."])
-		end
+		# @existingReview = ::Review.where(:exchange_id => params["reviews"]["exchange_id"])
+		# if @existingReview.count > 0
+		# 	ids = @existingReview.collect(&:id).to_sentence
+		# 	return render_errors(["Review already exist for this specific exchange. The exchange id is: #{ids}."])
+		# end
 
 		if @review.save 
 			redirect_to @review
@@ -59,6 +60,7 @@ class ReviewsController < ApplicationController
 	def show
 		begin
 			@oneReview = ::Review.find(params[:id])
+			# @post = ::Post.find(params[:post_id])
 		rescue
 			ActiveRecord::RecordNotFound
 			return render_errors(["Couldn't find review because review does not exist."])

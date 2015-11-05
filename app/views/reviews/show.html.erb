@@ -1,1 +1,7 @@
-<h1> happy </h1>
+<div class="review">
+	<p class="reviewed_by">Review by <%= User.find(@oneReview.reviewer_id).first_name %></p>
+
+	<p class="rating">Rating: <%= @oneReview.rating %></p>
+	<p class="review_content">Review: <%= @oneReview.content %></p>
+
+</div>

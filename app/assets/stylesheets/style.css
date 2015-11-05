@@ -127,6 +127,64 @@ input[type="submit"] {
 	height: 400px;
 }
 
+.review {
+	font-family: Arial;
+	text-align: left;
+	width: calc(100%-15px);
+	background-color: white;
+	border-radius: 3px;
+	margin: 0 5px 5px 5px;
+	box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.25);
+	overflow: auto;
+}
+
+.review .reviewed_by {
+	font-size: 1em;
+	text-align: center;
+	width: calc(100%);
+	display: block;
+	background-color: #0094FF;
+	border-radius: 3px 3px 0 0;
+	color: white;
+	padding: 5px;
+	transition: background 0.25s ease-in-out;
+}
+
+.review .rating {
+	padding: 0 20px;
+	display: block;
+	overflow: auto;
+}
+
+.review .review_content {
+	padding: 0 20px;
+	display: block;
+	overflow: auto;
+}
+
+.list-group-item{
+	padding-top: 20px;
+	padding-bottom: 30px;
+}
+
+.list-group-item .review_status {
+	background-color: #0094FF;
+	text-align: center;
+	vertical-align: middle;
+	position: absolute;
+	right: 10px;
+	width: 20%;
+	padding: 5px;
+	color: white;
+	font-size: 1em;
+	border-radius: 3px;
+	transition: background 0.25s ease-in-out;
+}
+
+.list-group-item .review_status:hover {
+	background-color: #0082E0;
+}
+
 .listing {
 	font-family: Arial;
 	text-align: left;
