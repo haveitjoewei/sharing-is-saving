@@ -17,9 +17,10 @@ class ApplicationController < ActionController::Base
 
   def get_notifications
     @allActivities = PublicActivity::Activity.all
-    @allActivities = @allActivities.where("owner_id = ? or recipient_id = ?", current_user.id, current_user.id).order(:created_at).reverse_order
 
     if @allActivities.count > 0 and current_user
+      @allActivities = @allActivities.where("owner_id = ? or recipient_id = ?", current_user.id, current_user.id).order(:created_at).reverse_order
+
       @allOwnersN = @allActivities.map { |activity| ::User.find(activity.owner_id)}
       @allRecipientsN = @allActivities.map { |activity| ::User.find(activity.recipient_id)}
       @allExchangesN = @allActivities.map { |activity| ::Exchange.find(activity.exchange_id)}
