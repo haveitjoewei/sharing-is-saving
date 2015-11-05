@@ -2,12 +2,14 @@
 	<section class="listings">
 		<article class="listing">
 			<p class="title">Title: <%= @post.title %></p>
+			<%= image_tag @post.image_url %>
 			<p class="posted_by">User ID: <%= @post.user_id %></p>
 			<p class="description">Description: <%= @post.description %></p>
 			<p class="price">Price: <%= @post.price %></p>
 			<p class="deposit">Security Deposit: <%= @post.security_deposit %></p>
 			<p class="category">Category: <%= map_category(@post.category) %></p>
 			<p class="status">Status: <%= map_status(@post.status) %></p>
+			<img src="https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=400x400&markers=<%= @post.latitude%>,<%= @post.longitude%>&key=AIzaSyBOdAeTafFu5ZgatsNFiZ51N9gVpOUjQDk"></img>
 			<% if @post.user_id != current_user.id%>
 				<% if @post.status == 1%>
 					<%= link_to 'Borrow Item', exchanges_path(post_id: @post.id), :method => :post %>  
