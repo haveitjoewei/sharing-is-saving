@@ -64,7 +64,7 @@ class ReviewsController < ApplicationController
 			return render_errors(["Couldn't find review because review does not exist."])
 		else
 			newReview = update_created_and_updated_at(@oneReview)
-			render :json => {:status => 1, :review => newReview}
+			#render :json => {:status => 1, :review => newReview}
 		end
 	end
 
