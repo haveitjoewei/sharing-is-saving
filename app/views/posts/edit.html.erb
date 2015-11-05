@@ -1,45 +1,85 @@
+<script>
+$(function() {
+  $('.directUpload').find("input:file").each(function(i, elem) {
+    var fileInput    = $(elem);
+    console.log(fileInput);
+    var form         = $(fileInput.parents('form:first'));
+    var submitButton = form.find('input[type="submit"]');
+    var progressBar  = $("<div class='bar'></div>");
+    var barContainer = $("<div class='progress'></div>").append(progressBar);
+    fileInput.after(barContainer);
+    fileInput.fileupload({
+      fileInput:       fileInput,
+      url:             form.data('url'),
+      type:            'POST',
+      autoUpload:       true,
+      formData:         form.data('form-data'),
+      paramName:        'file', // S3 does not like nested name fields i.e. name="user[avatar_url]"
+      dataType:         'XML',  // S3 returns XML if success_action_status is set to 201
+      replaceFileInput: false,
+      progressall: function (e, data) {
+        var progress = parseInt(data.loaded / data.total * 100, 10);
+        progressBar.css('width', progress + '%')
+      },
+      start: function (e) {
+        submitButton.prop('disabled', true);
+
+        progressBar.
+          css('background', 'green').
+          css('display', 'block').
+          css('width', '0%').
+          // text("Loading...");
+          text(".");
+      },
+      done: function(e, data) {
+        submitButton.prop('disabled', false);
+        // progressBar.text("Uploading done");
+        progressBar.text(".");
+
+        // extract key and generate URL from response
+        var key   = $(data.jqXHR.responseXML).find("Key").text();
+        var url   = '//' + form.data('host') + '/' + key;
+
+        // create hidden field
+        var input = $("<input />", { type:'hidden', name: fileInput.attr('name'), value: url })
+        form.append(input);
+      },
+      fail: function(e, data) {
+        submitButton.prop('disabled', false);
+
+        progressBar.
+          css("background", "red").
+          // text("Failed");
+          text(".");
+      }
+    });
+  });
+});
+</script>
+
 <div id="mainbody">
   <div class = "update">
-  <%= form_for :post, url: {action: "update"}, :html=>{:method=>:put} do |f| %>
+  <h3>Update your item</h3>
+  <%= form_for(:post, url: {action: "update"}, html: {:method => :put, class: "directUpload", data: {'form-data' => (@s3_direct_post.fields), 'url' => @s3_direct_post.url, 'host' => URI.parse(@s3_direct_post.url).host}}) do |f| %>
 
     <div class="field">
-      <%= f.label :title %><br />
-      <%= f.text_field :title, autofocus: true %>
+      <%= f.text_field :title, class: 'title', placeholder: 'What are you listing?', autofocus: true %>
+      <%= f.select :category, [["Apparel & Accessories", "1"], ["Arts and Crafts", "2"], ["Electronics", "3"], ["Home Appliances", "4"], ["Kids & Baby", "5"], ["Movies, Music, Books & Games", "6"],[ "Motor Vehicles", "7"], ["Office & Education", "8"], ["Parties & Events", "9"], ["Spaces & Venues", "10"], ["Sports & Outdoors", "11"], ["Tools & Gardening", "12"], ["Other", "13"]], prompt: "Choose a category" %>
+      <%= f.text_area :description, placeholder: 'Description' %>
+    <%= f.file_field :image_url %>
     </div>
 
     <div class="field">
-      <%= f.label :street %><br />
-      <%= f.text_field :street, autofocus: true %>
+      <h4>Address</h4>
+      <%= f.text_field :street, placeholder: 'Street' %>
+      <%= f.text_field :city, class: 'city', placeholder: 'City' %>
+      <%= f.text_field :state, class: 'state', placeholder: 'State' %>
     </div>
 
     <div class="field">
-      <%= f.label :city %><br />
-      <%= f.text_field :city, autofocus: true %>
-    </div>
-
-    <div class="field">
-      <%= f.label :state %><br />
-      <%= f.text_field :state, autofocus: true %>
-    </div>
-
-    <div class="field">
-      <%= f.label :description %><br />
-      <%= f.text_field :description, autofocus: true %>
-    </div>
-
-    <div class="field">
-      <%= f.label :price %><br />
-      <%= f.text_field :price, autofocus: true %>
-    </div>
-
-    <div class="field">
-      <%= f.label :security_deposit %><br />
-      <%= f.text_field :security_deposit, autofocus: true %>
-    </div>
-
-    <div class="field">
-      <%= f.label :category %><br />
-      <%= f.select :category, [["Apparel & Accessories", "1"], ["Arts and Crafts", "2"], ["Electronics", "3"], ["Home Appliances", "4"], ["Kids & Baby", "5"], ["Movies, Music, Books & Games", "6"],[ "Motor Vehicles", "7"], ["Office & Education", "8"], ["Parties & Events", "9"], ["Spaces & Venues", "10"], ["Sports & Outdoors", "11"], ["Tools & Gardening", "12"], ["Other", "13"]]%>
+      <h4>Pricing</h4>
+      <%= f.text_field :price, class: 'price', placeholder: 'Rate' %>
+      <%= f.text_field :security_deposit, class: 'deposit', placeholder: 'Deposit' %>
     </div>
 
     <div class="actions">

@@ -49,7 +49,9 @@
 		<% @allPosts.each do |post| %>
 			<article class="listing">
 				<%= link_to i.to_s + '. ' + post.title, post, :class => 'title' %>
-				<%= image_tag post.image_url %>
+				<div class="images">
+					<%= image_tag post.image_url %>
+				</div>
 				<div class="content">
 					<p class="posted_by">Posted by <%= User.find(post.user_id).first_name %> in <%= map_category(post.category) %></p>
 					<p class="description"><%= post.description %></p>
@@ -59,10 +61,35 @@
 					<p class="deposit"><%= '$%.2f deposit' % post.security_deposit %></p>
 					<!-- <p class="category">Category: <%= map_category(post.category) %></p> -->
 					<!-- <p class="status">Status: <%= map_status(post.status) %></p> -->
-					<%= link_to 'Rent it!', root_url, :class => 'rent' %>
+					<% if post.user_id != current_user.id %>
+						<% if post.status == 1 %>
+							<%= link_to 'Borrow Item', exchanges_path(post_id: post.id), :method => :post, :class => 'rent' %>
+						<% elsif post.status == 2 %>
+							<% if @allExchanges.where(status: 1, post_id: post.id).first.borrower_id == current_user.id %>
+								<%= link_to 'Cancel Request', update_status_exchange_path(id: @allExchanges.where(status: 1, post_id: post.id).first.id, status: 5), :method => :put, :class => 'rent' %>
+							<% else %>
+								<p class="rent">On Hold</p>
+							<% end %>
+						<% elsif post.status == 3 %>
+							<% if @allExchanges.where(status: 2, post_id: post.id).first.borrower_id == current_user.id %>
+								<p class="rent">Please Return</p>
+							<% else %>
+								<p class="rent">Borrowed</p>
+							<% end %>
+						<% end %>
+					<% else %>
+						<%= link_to 'Update Item', {:controller => "posts", :id => post.id, :action => "edit"}, :method => :get, :class => 'rent' %>
+						<% if post.status == 2 %>
+							<%= link_to 'Accept', update_status_exchange_path(id: @allExchanges.where(status: 1, post_id: post.id).first.id, status: 2), :method => :put, :class => 'rent' %>
+							<%= link_to 'Reject', update_status_exchange_path(id: @allExchanges.where(status: 1, post_id: post.id).first.id, status: 3), :method => :put, :class => 'rent' %>
+						<% elsif post.status == 3 %>
+							<%= link_to 'Returned', update_status_exchange_path(id: @allExchanges.where(status: 2, post_id: post.id).first.id, status: 4), :method => :put, :class => 'rent' %>
+						<% end %>
+					<% end %>
+					<!-- <%= link_to 'Rent it!', root_url, :class => 'rent' %> -->
 				</div>
 			</article>
 			<% i = i + 1 %>
 		<% end %>
 	</section>
-</div>
+</div>s

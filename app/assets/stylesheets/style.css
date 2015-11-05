@@ -153,15 +153,20 @@ input[type="submit"] {
 	background-color: #0082E0;
 }
 
-.listing img {
+.listing .images {
 	margin: 20px;
 	width: 250px;
+}
+
+.listing img {
+	width: 250px;
+	margin-bottom: 20px;
 	display: block;
 	float: left;
 }
 
 .listing .content {
-	padding: 20px;
+	padding: 0 20px;
 	display: block;
 	overflow: auto;
 }
@@ -256,36 +261,42 @@ input[type="submit"] {
 	display: none;
 }
 
-.create {
+.create,
+.update {
 	text-align: left;
 }
 
-.create .city {
+.create .city,
+.update .city {
 	width: calc(100% - 154px);
 }
 
-.create .state {
+.create .state,
+.update .state {
 	width: 150px;
 }
 
-.create .price {
+.create .price,
+.update .price {
 	width: calc(50% - 2px);
 }
 
-.create .deposit {
+.create .deposit,
+.update .deposit {
 	width: calc(50% - 2px);
 }
 
-.create textarea {
+.create textarea,
+.update textarea {
 	height: 150px;
 	resize: none;
 }
 
-.create select {
+.create select,
+.update select {
 	width: 100%;
 	padding: 10px;
 }
-
 .listing img {
 	height: 200px;
 	padding: 0 20px;

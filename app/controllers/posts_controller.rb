@@ -49,6 +49,7 @@ class PostsController < ApplicationController
 	# GET posts(.:format)   
 	# Gets all posts
 	def index
+		@allExchanges = ::Exchange.all.order(:created_at).reverse_order
 		# Gets all posts
 		@allPosts = ::Post.all.order(:created_at).reverse_order 
 
@@ -156,6 +157,7 @@ class PostsController < ApplicationController
 	end
 
 	def edit
+		@post = ::Post.find(params[:id])
 	end
 
 	# PUT posts/:id
