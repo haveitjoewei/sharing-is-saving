@@ -33,7 +33,7 @@ $( document ).ready(function() {
         <% elsif exchange.status == 3 %>
         <li class="list-group-item"><%= @allLendersAsBorrower[index].first_name.to_s + " " + @allLendersAsBorrower[index].last_name.to_s %> rejected your request to borrow <%= @allPostsAsBorrower[index].title.to_s %> at <%= exchange.created_at.to_s %> </li>
         <% elsif exchange.status == 4 %>
-          <li class="list-group-item">You returned <%= @allPostsAsBorrower[index].title.to_s %> to <%= @allLendersAsBorrower[index].first_name.to_s + " " + @allLendersAsBorrower[index].last_name.to_s %> at <%= exchange.created_at.to_s %> <%= button_to "Review", new_review_path(exchange_id: exchange.id), :method => :get %></li>
+          <li class="list-group-item">You returned <%= @allPostsAsBorrower[index].title.to_s %> to <%= @allLendersAsBorrower[index].first_name.to_s + " " + @allLendersAsBorrower[index].last_name.to_s %> at <%= exchange.created_at.to_s %> <%= link_to "Review", new_review_path(:exchange_id =>exchange.id) %></li>
         <% elsif exchange.status == 5 %>
           <li class="list-group-item">You cancelled your request to borrow <%= @allPostsAsBorrower[index].title.to_s %> from <%= @allLendersAsBorrower[index].first_name.to_s + " " + @allLendersAsBorrower[index].last_name.to_s %> at <%= exchange.created_at.to_s %> </li>
         <% end %>

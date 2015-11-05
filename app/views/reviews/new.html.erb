@@ -4,6 +4,8 @@
 	<%= form_for(:reviews, url: {action: "create"})do |f| %>
 
 	  <!-- item transaction info -->
+	  <%= f.hidden_field :exchange_id, :value => @exchange_id %>
+	  
 	  <div class="exchange">
 	  </div>
 
