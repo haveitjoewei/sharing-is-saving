@@ -3,10 +3,9 @@
 	<div class = "create">
 	<%= form_for(:reviews, url: {action: "create"})do |f| %>
 
-	  <!-- item transaction info -->
-	  <div class="exchange">
-	  </div>
 
+		<%= f.hidden_field :exchange_id, :value => @exchange_id %>
+		
 	  <div class="field">
 	    <%= f.label :rating %><br />
 	    <%= f.select :rating, [["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"]]%>
