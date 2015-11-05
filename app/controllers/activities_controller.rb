@@ -32,7 +32,7 @@ class Activity::ActivitiesController < ApplicationController
       activityArray.push newActivity
     end
 
-    return render :json => {:status => 1, :activities => @activities}
+    # return render :json => {:status => 1, :activities => @activities}
 
   end
 

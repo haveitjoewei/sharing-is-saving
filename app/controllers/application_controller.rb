@@ -8,6 +8,9 @@ class ApplicationController < ActionController::Base
   # before_filter :authenticate_user_from_token!
   # before_filter :authenticate_user!
   before_filter :cors_set_access_control_headers
+  before_filter :get_current_car
+
+
 
   # Only skip authentication when trying to load the homepage
   # skip_before_filter :authenticate_user!, :only => [:render_home]
@@ -35,6 +38,10 @@ class ApplicationController < ActionController::Base
     headers['Access-Control-Allow-Methods'] = 'POST, GET, PUT, DELETE, OPTIONS'
     headers['Access-Control-Allow-Headers'] = '*, X-Requested-With, X-Prototype-Version, X-CSRF-Token, Content-Type'
     headers['Access-Control-Max-Age'] = "1728000"
+  end
+
+  def get_current_car
+    @activities = PublicActivity::Activity.all
   end
 
   def render_errors(errorsArr)
