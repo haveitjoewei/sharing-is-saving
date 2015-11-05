@@ -1,0 +1,26 @@
+
+<div id="mainbody">
+	<div class = "create">
+	<%= form_for(:reviews, url: {action: "create"})do |f| %>
+
+	  <!-- item transaction info -->
+	  <div class="exchange">
+	  </div>
+
+	  <div class="field">
+	    <%= f.label :rating %><br />
+	    <%= f.select :rating, [["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"]]%>
+	  </div>
+
+	  <div class="field">
+	    <%= f.label :content %><br />
+	    <%= f.text_field :content, autofocus: true %>
+	  </div>
+
+	  <div class="actions">
+	    <%= f.submit "Post Review" %>
+	  </div>
+	<% end %>
+
+	</div>
+</div>

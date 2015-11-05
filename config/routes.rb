@@ -30,7 +30,7 @@ Rails.application.routes.draw do
 
   # get '/exchanges', as: 'exchange_item'
   
-  resources :reviews, :controller => 'reviews/review'  do
+  resources :reviews, :controller => 'reviews'  do
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
