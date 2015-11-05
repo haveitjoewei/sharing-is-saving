@@ -8,7 +8,7 @@ class ExchangesController < ApplicationController
 	# Post an exchange
 	def create
 		@borrower = current_user
-		# byebug
+		
 		begin
 			@post = ::Post.find(exchange_params[:post_id])
 		rescue ActiveRecord::RecordNotFound  
@@ -35,11 +35,9 @@ class ExchangesController < ApplicationController
 
 		if @exchange.save
 			newExchange = update_created_and_updated_at(@exchange)
-			#Changing status to "On Hold"
+			# Changing status to "On Hold"
+			@exchange.create_activity(action: :create_exchange, owner: @lender, recipient: @borrower, post_id: @post.id, exchange_id: @exchange.id)
 			@post.update_attributes(:status => '2')
-			# return render :json => {:status => 1, :exchange => newExchange}
-		# else
-			# return render :json => {:status => '-1', :errors => @exchange.errors.full_messages}, :status => 404
 		end
 	end
 
@@ -155,7 +153,12 @@ class ExchangesController < ApplicationController
 			return render_errors(["The post belongs to no one. The post that you linked to is #{@post.user_id}."])
 		end
 
-		@exchange.create_activity(action: :update_status, owner: @owner, recipient: current_user, post_id: @post.id, exchange_id: @exchange.id, parameters: {from_status: @exchange.status, to_status: status})
+		if status < 4
+			@exchange.create_activity(action: :update_status, owner: @owner, recipient: current_user, post_id: @post.id, exchange_id: @exchange.id, parameters: {from_status: @exchange.status, to_status: status})
+		else
+			# Transaction completed
+			@exchange.create_activity(action: :exchange_completed, owner: @owner, recipient: current_user, post_id: @post.id, exchange_id: @exchange.id)
+		end
 
 		@exchange.update_attributes(status: status)
 

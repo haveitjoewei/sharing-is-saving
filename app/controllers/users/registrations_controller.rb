@@ -19,15 +19,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def view
+    @allNotificationsForCompletedTransactions = PublicActivity::Activity.all.where(:key => 'exchange.exchange_completed')
+    @allExchanges = @allNotificationsForCompletedTransactions.map { |notification| ::Exchange.find(notification.exchange_id)}
 
-    @allExchanges = ::Exchange.all.order(:created_at).reverse_order
-    @allExchanges = @allExchanges.where("lender_id = ? or borrower_id = ?", current_user.id, current_user.id)
+    @allExchanges = @allExchanges.select { |exchange| exchange.lender_id == current_user.id or exchange.borrower_id == current_user.id }
 
-    @allExchangesAsLender = @allExchanges.where(lender_id: current_user.id)
+    @allExchangesAsLender = @allExchanges.select { |exchange| exchange.lender_id == current_user.id }
     @allPostsAsLender = @allExchangesAsLender.map { |exchange| ::Post.find(exchange.post_id)}
     @allBorrowersAsLender = @allExchangesAsLender.map { |exchange| ::User.find(exchange.borrower_id)}
 
-    @allExchangesAsBorrower = @allExchanges.where(borrower_id: current_user.id)
+    @allExchangesAsBorrower = @allExchanges.select { |exchange| exchange.borrower_id == current_user.id }
     @allPostsAsBorrower = @allExchangesAsBorrower.map { |exchange| ::Post.find(exchange.post_id)}
     @allLendersAsBorrower = @allPostsAsBorrower.map { |post| ::User.find(post.user_id)}
 
