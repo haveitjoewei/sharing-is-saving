@@ -11,6 +11,10 @@ a {
 	font-family: Arial;
 }
 
+a:hover {
+	text-decoration: none;
+}
+
 header {
 	background-color: #0094FF;
 	padding: 30px;
@@ -24,6 +28,7 @@ header a {
 }
 
 header a:hover {
+	color: white;
 	background-color: #0082E0;
 	border-radius: 3px;
 }
@@ -99,8 +104,9 @@ nav {
 }
 
 input[type="text"],
-input[type="password"] {
-	width: calc(100% - 25px);
+input[type="password"],
+textarea {
+	width: calc(100%);
 	margin: 10px 0;
 	padding: 10px;
 }
@@ -127,10 +133,9 @@ input[type="submit"] {
 	width: calc(100% - 20px);
 	background-color: white;
 	border-radius: 3px;
-	/*padding: 25px;*/
 	margin: 0 10px 40px 10px;
 	box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.25);
-	padding-bottom: 20px;
+	overflow: auto;
 }
 
 .listing .title {
@@ -148,15 +153,61 @@ input[type="submit"] {
 	background-color: #0082E0;
 }
 
-.listing .posted_by,
-.listing .description,
+.listing img {
+	margin: 20px;
+	width: 250px;
+	display: block;
+	float: left;
+}
+
+.listing .content {
+	padding: 20px;
+	display: block;
+	overflow: auto;
+}
+
+.content .posted_by {
+	color: #888;
+}
+
+.listing .actionbar {
+	width: 100%;
+	display: block;
+	clear: all;
+	float: left;
+	padding-bottom: 15px;
+}
+
 .listing .price,
 .listing .deposit,
-.listing .rent,
-.listing .category,
-.listing .status {
-	padding: 5px 20px;
+.listing .rent {
+	height: 100%;
+	border-top: 3px solid #EEE;
+	text-align: center;
+	/*background: #EEE;*/
+	font-size: 1.5em;
+	margin-left: 25px;
+	padding: 20px;
+	width: calc((100% - 108px) / 3);
+	display: inline-block;
 }
+
+.listing .rent {
+	color: #0094FF;
+	border-top: 3px solid #0082E0;
+}
+
+.listing .price:hover,
+.listing .deposit:hover {
+	background-color: #F6F6F6;
+}
+
+.listing .rent:hover {
+	background-color: #0094FF;
+	color: white;
+	border-radius: 3px;
+}
+
 
 .listing:hover {
 	background-color: #FCFCFC;
@@ -193,18 +244,44 @@ input[type="submit"] {
 }
 
 .progress {
- 	max-width: 600px;
- 	margin:    0.2em 0 0.2em 0;
+	box-shadow: none;
+	background: none;
+	border-radius: 0;
+	width: calc(100%);
+	padding: 10px;
 }
 
 .progress .bar {
-	height:  1.2em;
-	padding-left: 0.2em;
 	color:   white;
 	display: none;
 }
 
-.listing img {
-	height: 200px;
-	padding: 0 20px;
+.create {
+	text-align: left;
+}
+
+.create .city {
+	width: calc(100% - 154px);
+}
+
+.create .state {
+	width: 150px;
+}
+
+.create .price {
+	width: calc(50% - 2px);
+}
+
+.create .deposit {
+	width: calc(50% - 2px);
+}
+
+.create textarea {
+	height: 150px;
+	resize: none;
+}
+
+.create select {
+	width: 100%;
+	padding: 10px;
 }

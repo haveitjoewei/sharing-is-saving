@@ -49,14 +49,18 @@
 		<% @allPosts.each do |post| %>
 			<article class="listing">
 				<%= link_to i.to_s + '. ' + post.title, post, :class => 'title' %>
-				<p class="posted_by">Posted by <%= User.find(post.user_id).first_name %></p>
 				<%= image_tag post.image_url %>
-				<p class="description"><%= post.description %></p>
-				<p class="price"><%= '$%.2f per day' % post.price %></p>
-				<p class="deposit"><%= '$%.2f security deposit' % post.security_deposit %></p>
-				<p class="category">Category: <%= map_category(post.category) %></p>
-				<p class="status">Status: <%= map_status(post.status) %></p>
-				<%= link_to 'Rent it!', root_url, :class => 'rent' %>
+				<div class="content">
+					<p class="posted_by">Posted by <%= User.find(post.user_id).first_name %> in <%= map_category(post.category) %></p>
+					<p class="description"><%= post.description %></p>
+				</div>
+				<div class="actionbar">
+					<p class="price"><%= '$%.2f per day' % post.price %></p>
+					<p class="deposit"><%= '$%.2f deposit' % post.security_deposit %></p>
+					<!-- <p class="category">Category: <%= map_category(post.category) %></p> -->
+					<!-- <p class="status">Status: <%= map_status(post.status) %></p> -->
+					<%= link_to 'Rent it!', root_url, :class => 'rent' %>
+				</div>
 			</article>
 			<% i = i + 1 %>
 		<% end %>
