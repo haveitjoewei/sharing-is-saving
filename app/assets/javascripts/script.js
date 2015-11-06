@@ -4,6 +4,7 @@ $(document).ready(function(){
   $("#darken").hide();
   $("#logout").hide();
   $("#user").hide();
+  $("#notificationContainer").hide();
 
   $("#signup").click(function(){
     $("#signup_dialog").fadeIn(100);
@@ -33,7 +34,7 @@ $(document).ready(function(){
 
   $("#notificationLink").click(function()
     {
-      $("#notificationContainer").fadeToggle(300);
+      $("#notificationContainer").fadeToggle(100);
       $("#notification_count").fadeOut("slow");
       return false;
     });
@@ -50,7 +51,5 @@ $(document).ready(function(){
       return false;
     });
 
-  $("#notificationContainer").hide();
-  $("#notification_count").hide();
   
 });
