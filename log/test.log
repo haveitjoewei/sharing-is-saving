@@ -680,3 +680,1145 @@ Processing by Api::V1::Users::RegistrationsController#create as HTML
   [1m[36m (0.2ms)[0m  [1mROLLBACK TO SAVEPOINT active_record_1[0m
 Completed 200 OK in 15ms (Views: 0.3ms | ActiveRecord: 0.7ms)
   [1m[35m (0.1ms)[0m  ROLLBACK
+  [1m[36mActiveRecord::SchemaMigration Load (3.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36m (432.9ms)[0m  [1mDROP DATABASE IF EXISTS "sis_test"[0m
+  [1m[35m (406.0ms)[0m  CREATE DATABASE "sis_test" ENCODING = 'utf8'
+  [1m[36mSQL (1.7ms)[0m  [1mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  [1m[35m (25.6ms)[0m  CREATE TABLE "activities" ("id" serial primary key, "trackable_id" integer, "trackable_type" character varying, "owner_id" integer, "owner_type" character varying, "key" character varying, "parameters" text, "recipient_id" integer, "recipient_type" character varying, "post_id" integer, "exchange_id" integer, "created_at" timestamp, "updated_at" timestamp) 
+  [1m[36m (1.9ms)[0m  [1mCREATE  INDEX  "index_activities_on_exchange_id" ON "activities" USING btree ("exchange_id")[0m
+  [1m[35m (2.1ms)[0m  CREATE  INDEX  "index_activities_on_owner_id_and_owner_type" ON "activities" USING btree ("owner_id", "owner_type")
+  [1m[36m (1.4ms)[0m  [1mCREATE  INDEX  "index_activities_on_post_id" ON "activities" USING btree ("post_id")[0m
+  [1m[35m (1.7ms)[0m  CREATE  INDEX  "index_activities_on_recipient_id_and_recipient_type" ON "activities" USING btree ("recipient_id", "recipient_type")
+  [1m[36m (1.6ms)[0m  [1mCREATE  INDEX  "index_activities_on_trackable_id_and_trackable_type" ON "activities" USING btree ("trackable_id", "trackable_type")[0m
+  [1m[35m (3.6ms)[0m  CREATE TABLE "exchanges" ("id" serial primary key, "lender_id" integer, "borrower_id" integer, "post_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL, "status" integer) 
+  [1m[36m (6.5ms)[0m  [1mCREATE TABLE "listings" ("id" serial primary key, "title" character varying, "latitude" float, "longitude" float, "picture" character varying, "description" character varying, "price" float, "deposit" float, "posted_by" integer, "status" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (7.6ms)[0m  CREATE TABLE "posts" ("id" serial primary key, "title" character varying, "latitude" float, "longitude" float, "description" text, "price" float, "security_deposit" float, "status" integer, "user_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL, "category" integer, "image_url" character varying, "street" character varying, "city" character varying, "state" character varying) 
+  [1m[36m (2.1ms)[0m  [1mCREATE  INDEX  "index_posts_on_user_id" ON "posts" USING btree ("user_id")[0m
+  [1m[35m (8.5ms)[0m  CREATE TABLE "reviews" ("id" serial primary key, "reviewer_id" integer, "lender_id" integer, "exchange_id" integer, "rating" float, "content" text, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (10.0ms)[0m  [1mCREATE TABLE "users" ("id" serial primary key, "email" character varying DEFAULT '' NOT NULL, "encrypted_password" character varying DEFAULT '' NOT NULL, "first_name" character varying(128) DEFAULT '' NOT NULL, "last_name" character varying(128) DEFAULT '' NOT NULL, "date_of_birth" timestamp NOT NULL, "latitude" decimal DEFAULT 0.0 NOT NULL, "longitude" decimal DEFAULT 0.0 NOT NULL, "reset_password_token" character varying, "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" inet, "last_sign_in_ip" inet, "confirmation_token" character varying, "confirmed_at" timestamp, "confirmation_sent_at" timestamp, "unconfirmed_email" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL, "authentication_token" character varying) [0m
+  [1m[35m (1.8ms)[0m  CREATE  INDEX  "index_users_on_authentication_token" ON "users" USING btree ("authentication_token")
+  [1m[36m (1.9ms)[0m  [1mCREATE UNIQUE INDEX  "index_users_on_confirmation_token" ON "users" USING btree ("confirmation_token")[0m
+  [1m[35m (1.4ms)[0m  CREATE UNIQUE INDEX  "index_users_on_email" ON "users" USING btree ("email")
+  [1m[36m (1.7ms)[0m  [1mCREATE UNIQUE INDEX  "index_users_on_reset_password_token" ON "users" USING btree ("reset_password_token")[0m
+  [1m[35m (5.2ms)[0m  CREATE TABLE "widgets" ("id" serial primary key, "name" character varying, "description" text, "stock" integer, "created_at" timestamp, "updated_at" timestamp) 
+  [1m[36m (8.2ms)[0m  [1mALTER TABLE "posts" ADD CONSTRAINT "fk_rails_5b5ddfd518"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+[0m
+  [1m[35m (2.7ms)[0m  CREATE TABLE "schema_migrations" ("version" character varying NOT NULL) 
+  [1m[36m (1.8ms)[0m  [1mCREATE UNIQUE INDEX  "unique_schema_migrations" ON "schema_migrations"  ("version")[0m
+  [1m[35m (0.7ms)[0m  SELECT version FROM "schema_migrations"
+  [1m[36m (2.5ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20151105043406')[0m
+  [1m[35m (1.2ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20151013204548')
+  [1m[36m (0.5ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20151016040933')[0m
+  [1m[35m (0.5ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20151016050515')
+  [1m[36m (0.5ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20151031012942')[0m
+  [1m[35m (0.4ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20151031055041')
+  [1m[36m (0.5ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20151102024924')[0m
+  [1m[35m (0.6ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20151102054321')
+  [1m[36m (0.5ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20151102201423')[0m
+  [1m[35m (0.4ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20151104075919')
+  [1m[36m (0.4ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20151104105952')[0m
+  [1m[35m (0.5ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20151105033506')
+  [1m[35mActiveRecord::SchemaMigration Load (1.0ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36m (0.8ms)[0m  [1mROLLBACK TO SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (2.2ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (1.4ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$cOhvmO8vQiQ3FXROw4arn.7MfJR8edszYVlS5a2FKkaS9SlOh6CHK"], ["date_of_birth", "2015-11-06 01:15:32.346609"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (0.7ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mUser Exists (0.5ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  ROLLBACK
+  [1m[36mActiveRecord::SchemaMigration Load (0.9ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35m (0.4ms)[0m  ROLLBACK TO SAVEPOINT active_record_1
+  [1m[36m (0.6ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.6ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK TO SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.8ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (2.0ms)[0m  INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-06 01:20:07.197840"], ["updated_at", "2015-11-06 01:20:07.197840"]]
+  [1m[36m (0.9ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.4ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.8ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.4ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.9ms)[0m  INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-06 01:20:19.315440"], ["updated_at", "2015-11-06 01:20:19.315440"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.8ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.5ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.5ms)[0m  ROLLBACK
+  [1m[36mActiveRecord::SchemaMigration Load (0.9ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.8ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (1.2ms)[0m  INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-06 01:21:16.667460"], ["updated_at", "2015-11-06 01:21:16.667460"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.7ms)[0m  ROLLBACK
+  [1m[36m (2.7ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.9ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36mActiveRecord::SchemaMigration Load (0.9ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.4ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.9ms)[0m  INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-06 01:21:34.496808"], ["updated_at", "2015-11-06 01:21:34.496808"]]
+  [1m[36m (1.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.6ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.6ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.5ms)[0m  ROLLBACK
+  [1m[36m (13.8ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (1.6ms)[0m  INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-06 01:22:07.100220"], ["updated_at", "2015-11-06 01:22:07.100220"]]
+  [1m[36m (0.3ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.5ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.5ms)[0m  ROLLBACK
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.4ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.4ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (1.4ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$sEWY7d7PcAZbXt94E3bhaOhhMXzPOaI6dafDNjd2XtDr/Yqxb6R.a"], ["date_of_birth", "2015-11-06 01:22:07.716560"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.6ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (0.6ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mUser Exists (0.6ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  ROLLBACK
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36m (151.9ms)[0m  [1mDROP DATABASE IF EXISTS "sis_test"[0m
+  [1m[35m (439.0ms)[0m  CREATE DATABASE "sis_test" ENCODING = 'utf8'
+  [1m[36mSQL (0.7ms)[0m  [1mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  [1m[35m (15.1ms)[0m  CREATE TABLE "activities" ("id" serial primary key, "trackable_id" integer, "trackable_type" character varying, "owner_id" integer, "owner_type" character varying, "key" character varying, "parameters" text, "recipient_id" integer, "recipient_type" character varying, "post_id" integer, "exchange_id" integer, "created_at" timestamp, "updated_at" timestamp) 
+  [1m[36m (2.0ms)[0m  [1mCREATE  INDEX  "index_activities_on_exchange_id" ON "activities" USING btree ("exchange_id")[0m
+  [1m[35m (3.6ms)[0m  CREATE  INDEX  "index_activities_on_owner_id_and_owner_type" ON "activities" USING btree ("owner_id", "owner_type")
+  [1m[36m (2.6ms)[0m  [1mCREATE  INDEX  "index_activities_on_post_id" ON "activities" USING btree ("post_id")[0m
+  [1m[35m (3.5ms)[0m  CREATE  INDEX  "index_activities_on_recipient_id_and_recipient_type" ON "activities" USING btree ("recipient_id", "recipient_type")
+  [1m[36m (2.8ms)[0m  [1mCREATE  INDEX  "index_activities_on_trackable_id_and_trackable_type" ON "activities" USING btree ("trackable_id", "trackable_type")[0m
+  [1m[35m (12.9ms)[0m  CREATE TABLE "exchanges" ("id" serial primary key, "lender_id" integer NOT NULL, "borrower_id" integer NOT NULL, "post_id" integer NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL, "status" integer NOT NULL) 
+  [1m[36m (18.0ms)[0m  [1mCREATE TABLE "posts" ("id" serial primary key, "title" character varying NOT NULL, "latitude" float NOT NULL, "longitude" float NOT NULL, "description" text NOT NULL, "price" float NOT NULL, "security_deposit" float NOT NULL, "status" integer NOT NULL, "user_id" integer NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL, "category" integer NOT NULL, "image_url" character varying, "street" character varying NOT NULL, "city" character varying NOT NULL, "state" character varying NOT NULL) [0m
+  [1m[35m (4.8ms)[0m  CREATE  INDEX  "index_posts_on_user_id" ON "posts" USING btree ("user_id")
+  [1m[36m (22.1ms)[0m  [1mCREATE TABLE "reviews" ("id" serial primary key, "reviewer_id" integer NOT NULL, "lender_id" integer NOT NULL, "exchange_id" integer NOT NULL, "rating" float NOT NULL, "content" text NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (19.7ms)[0m  CREATE TABLE "users" ("id" serial primary key, "email" character varying DEFAULT '' NOT NULL, "encrypted_password" character varying DEFAULT '' NOT NULL, "first_name" character varying(128) DEFAULT '' NOT NULL, "last_name" character varying(128) DEFAULT '' NOT NULL, "date_of_birth" timestamp NOT NULL, "latitude" decimal DEFAULT 0.0 NOT NULL, "longitude" decimal DEFAULT 0.0 NOT NULL, "reset_password_token" character varying, "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" inet, "last_sign_in_ip" inet, "confirmation_token" character varying, "confirmed_at" timestamp, "confirmation_sent_at" timestamp, "unconfirmed_email" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL, "authentication_token" character varying) 
+  [1m[36m (4.9ms)[0m  [1mCREATE  INDEX  "index_users_on_authentication_token" ON "users" USING btree ("authentication_token")[0m
+  [1m[35m (5.0ms)[0m  CREATE UNIQUE INDEX  "index_users_on_confirmation_token" ON "users" USING btree ("confirmation_token")
+  [1m[36m (2.3ms)[0m  [1mCREATE UNIQUE INDEX  "index_users_on_email" ON "users" USING btree ("email")[0m
+  [1m[35m (2.2ms)[0m  CREATE UNIQUE INDEX  "index_users_on_reset_password_token" ON "users" USING btree ("reset_password_token")
+  [1m[36m (5.6ms)[0m  [1mALTER TABLE "posts" ADD CONSTRAINT "fk_rails_5b5ddfd518"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+[0m
+  [1m[35m (4.7ms)[0m  CREATE TABLE "schema_migrations" ("version" character varying NOT NULL) 
+  [1m[36m (3.1ms)[0m  [1mCREATE UNIQUE INDEX  "unique_schema_migrations" ON "schema_migrations"  ("version")[0m
+  [1m[35m (1.6ms)[0m  SELECT version FROM "schema_migrations"
+  [1m[36m (1.4ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20151106013005')[0m
+  [1m[35m (1.0ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20151013204548')
+  [1m[36m (0.9ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20151016040933')[0m
+  [1m[35m (0.8ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20151016050515')
+  [1m[36m (0.9ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20151031012942')[0m
+  [1m[35m (0.8ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20151031055041')
+  [1m[36m (0.6ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20151102024924')[0m
+  [1m[35m (1.0ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20151102054321')
+  [1m[36m (0.9ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20151102201423')[0m
+  [1m[35m (1.0ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20151104075919')
+  [1m[36m (0.7ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20151104105952')[0m
+  [1m[35m (0.5ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20151105033506')
+  [1m[36m (0.5ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20151105043406')[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.8ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.3ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Load (1.4ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 2]]
+  [1m[35mUser Load (0.5ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36mPost Load (2.1ms)[0m  [1mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35m (0.5ms)[0m  ROLLBACK TO SAVEPOINT active_record_1
+  [1m[36m (0.5ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mUser Load (0.6ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 2]]
+  [1m[35mPost Load (0.6ms)[0m  SELECT  "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mUser Load (0.6ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35mPost Load (0.4ms)[0m  SELECT  "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mUser Load (0.7ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 2]]
+  [1m[35mUser Load (0.7ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 2]]
+  [1m[35mUser Load (0.4ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36mPost Load (0.8ms)[0m  [1mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35m (3.6ms)[0m  ROLLBACK
+  [1m[36mActiveRecord::SchemaMigration Load (1.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Load (2.5ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 2]]
+  [1m[36mUser Load (0.7ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35mPost Load (1.7ms)[0m  SELECT  "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36m (0.4ms)[0m  [1mROLLBACK TO SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Load (0.7ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 2]]
+  [1m[36mPost Load (0.4ms)[0m  [1mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Load (0.9ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36mPost Load (0.7ms)[0m  [1mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Load (0.7ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 2]]
+  [1m[36mUser Load (0.9ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 2]]
+  [1m[36mUser Load (0.6ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35mPost Load (0.5ms)[0m  SELECT  "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36m (0.7ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (7.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.8ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.1ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.1ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (2.7ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.8ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.8ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Load (1.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 2]]
+  [1m[36mUser Load (0.5ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35mPost Load (0.7ms)[0m  SELECT  "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36m (0.3ms)[0m  [1mROLLBACK TO SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Load (0.5ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 2]]
+  [1m[36mPost Load (0.6ms)[0m  [1mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Load (0.8ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36mPost Load (0.8ms)[0m  [1mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35m (1.4ms)[0m  ROLLBACK
+  [1m[36m (0.8ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Load (1.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 2]]
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35m (0.7ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Load (0.5ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 2]]
+  [1m[36mUser Load (0.8ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 1]]
+  [1m[35mPost Load (0.6ms)[0m  SELECT  "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.8ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (1.1ms)[0m  [1mROLLBACK[0m
+  [1m[35m (1.2ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.5ms)[0m  BEGIN
+  [1m[36m (0.5ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (1.3ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1
+  [1m[36mSQL (1.3ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$9T0OfDtHOkw8v5HIMcaTduLKtA7DKWaWHHRt/WA.h9.zdUBrtvbai"], ["date_of_birth", "2015-11-06 01:45:37.461410"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.4ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.7ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1
+  [1m[36mSQL (3.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$mih.lwYQdrGz1NiJ1XJnHu8WRZYvwEUuVcGK83xUMxXnBoM0sFTCa"], ["date_of_birth", "2015-11-06 01:45:37.483236"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.6ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$D9L6iIkuAbncYXxtLg//G.l2mucbcY8UNcvTliwCY24Ay8cWmqQ92"], ["date_of_birth", "2015-11-06 01:45:37.498977"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.4ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (2.9ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$YPl7MyYkj1MCfCxoqQbWHe3kQJV08QcDrh04Rxf6G22ILIxbUuyIC"], ["date_of_birth", "2015-11-06 01:45:37.522249"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.3ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.8ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1
+  [1m[36mSQL (0.8ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$RAb.eU881wmNOSPOogcKd.7qL0AiornB/ZyguqtFZOBqytO5Qe6ey"], ["date_of_birth", "2015-11-06 01:45:37.541108"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.3ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.4ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.7ms)[0m  BEGIN
+  [1m[36m (0.5ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.5ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (2.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.4ms)[0m  BEGIN
+  [1m[36m (0.8ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (5.7ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1
+  [1m[36mSQL (2.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$BnrUCSBSAMoj2EFktT86vO2Alll4fX.HtYjgqfuzQvGqGpxjC7eAS"], ["date_of_birth", "2015-11-06 01:47:42.263777"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.5ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.9ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1
+  [1m[36m (0.3ms)[0m  [1mROLLBACK TO SAVEPOINT active_record_1[0m
+  [1m[35m (0.6ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.6ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$OIX.BlhzK3rSGLJ5W9GryeB1.xyUS/39FCMHGbxOHeMwyvkLp1Uia"], ["date_of_birth", "2015-11-06 01:47:42.342260"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (1.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (8.3ms)[0m  [1mINSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"[0m  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+PG::NotNullViolation: ERROR:  null value in column "user_id" violates not-null constraint
+DETAIL:  Failing row contains (1, example title, 37.864645, -122.254734, example description, 12.34, 56.78, 1, null, 2015-11-05 00:00:00, 2015-11-05 00:00:00, 1, null, 2525 Benvenue Ave, Berkeley, CA).
+: INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"
+  [1m[35m (0.3ms)[0m  ROLLBACK TO SAVEPOINT active_record_1
+  [1m[36m (0.6ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (1.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.7ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$.XBwkWmuGreDbLZjqoP5JOUb8d.v.kxGvTkilmd7rPHs8rm5rSiHy"], ["date_of_birth", "2015-11-06 01:47:42.743864"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.4ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (2.2ms)[0m  INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+PG::NotNullViolation: ERROR:  null value in column "user_id" violates not-null constraint
+DETAIL:  Failing row contains (2, example title, 37.864645, -122.254734, example description, 12.34, 56.78, 1, null, 2015-11-05 00:00:00, 2015-11-05 00:00:00, 1, null, 2525 Benvenue Ave, Berkeley, CA).
+: INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"
+  [1m[36m (0.3ms)[0m  [1mROLLBACK TO SAVEPOINT active_record_1[0m
+  [1m[35m (0.7ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.6ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.7ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$O8mY.ztBFsTKZK/3mnXXu.lKwmAZdNWN6cmrmwVvJA5Vg/aEi0FYa"], ["date_of_birth", "2015-11-06 01:47:42.975358"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (1.2ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1[0m
+  [1m[35m (0.3ms)[0m  ROLLBACK TO SAVEPOINT active_record_1
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.7ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.9ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1
+  [1m[36mSQL (1.0ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$al1tLv1zg7VxgOn/fKpx9uU//NCuEBhnW1KLnmGubEI74ClKtlhMa"], ["date_of_birth", "2015-11-06 01:47:43.017266"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.4ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.6ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mROLLBACK TO SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36mActiveRecord::SchemaMigration Load (0.9ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.5ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (1.7ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1
+  [1m[36mSQL (1.0ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$kGdt.PzVbJnVz3VP5SPMCerm2op69LlqSxUucHbQXcVTesdH4yh82"], ["date_of_birth", "2015-11-06 01:48:42.838955"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.4ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.8ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1
+  [1m[36mSQL (0.8ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$4rP3tqP/uv7rE0RNkLXZJe6dN7UzZ8ULi3Jd.7sOoP1gDSWTbND4a"], ["date_of_birth", "2015-11-06 01:48:42.857080"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (2.2ms)[0m  INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+PG::NotNullViolation: ERROR:  null value in column "user_id" violates not-null constraint
+DETAIL:  Failing row contains (3, example title, 37.864645, -122.254734, example description, 12.34, 56.78, 1, null, 2015-11-05 00:00:00, 2015-11-05 00:00:00, 1, null, 2525 Benvenue Ave, Berkeley, CA).
+: INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"
+  [1m[36m (0.3ms)[0m  [1mROLLBACK TO SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.5ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.7ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$OW0a2oT0IlZ1vvAjejfzLO7qcSrmCbON9iPPoLo2yuUBtlEFUOtvq"], ["date_of_birth", "2015-11-06 01:48:43.061577"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.7ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$g4NXIeTIaNcnSGxD8JqYr.Y5BdOVVhG9Z2uheTRi3h017NohzP5g6"], ["date_of_birth", "2015-11-06 01:48:43.073689"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.3ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (2.0ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1
+  [1m[36mSQL (1.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$bOa.5xETUnJ4mcp31kXRSOfV0NYupBtYn6BjodYDmN6MW2QuCjODK"], ["date_of_birth", "2015-11-06 01:49:21.740580"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.5ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.4ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (0.5ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.5ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.6ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$4coPynQUvqFdhAjvJB0OeOU/VjJxwllfCDTWuL5YcDVCXSIjacdiC"], ["date_of_birth", "2015-11-06 01:49:21.781322"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (7.6ms)[0m  INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+PG::NotNullViolation: ERROR:  null value in column "user_id" violates not-null constraint
+DETAIL:  Failing row contains (4, example title, 37.864645, -122.254734, example description, 12.34, 56.78, 1, null, 2015-11-05 00:00:00, 2015-11-05 00:00:00, 1, null, 2525 Benvenue Ave, Berkeley, CA).
+: INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"
+  [1m[36m (0.2ms)[0m  [1mROLLBACK TO SAVEPOINT active_record_1[0m
+  [1m[35m (0.4ms)[0m  ROLLBACK
+  [1m[36m (0.6ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.7ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.9ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$PIb9MBtuPOag01clsI5L2O.xDDt93YxwgNL1qlMlZS0SAWh6iUBXe"], ["date_of_birth", "2015-11-06 01:49:22.041171"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.3ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.6ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.5ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.5ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$s/lTiufm7AZAWB1cRZ2Eo.wbigAm8idYGGLZL7W3A9inmx8fRern."], ["date_of_birth", "2015-11-06 01:49:22.071264"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.3ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36mActiveRecord::SchemaMigration Load (1.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (1.7ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1
+  [1m[36mSQL (1.1ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$rCdRw0kwuJptdz8GPxbOzuR8RZLOHKQfDdcoB8cLZvrZTURBA5w3a"], ["date_of_birth", "2015-11-06 01:51:12.366328"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.3ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.7ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$0inJgPBFKspmnTXSt5HWguOG1LKbp8wFDZZsWNvzhDSF16Q/8hjGe"], ["date_of_birth", "2015-11-06 01:51:12.382956"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (2.4ms)[0m  INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+PG::NotNullViolation: ERROR:  null value in column "user_id" violates not-null constraint
+DETAIL:  Failing row contains (5, example title, 37.864645, -122.254734, example description, 12.34, 56.78, 1, null, 2015-11-05 00:00:00, 2015-11-05 00:00:00, 1, null, 2525 Benvenue Ave, Berkeley, CA).
+: INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"
+  [1m[36m (0.2ms)[0m  [1mROLLBACK TO SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.3ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.7ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$FVOtJ2FmlKKfXOE2pTQu5O/08J93tGzUZt4Ynoqxc5GjZBEtMuB/y"], ["date_of_birth", "2015-11-06 01:51:12.566812"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.7ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$n0PX8j42t92QLPaxt4CRI.VgIh3KfAW6LPVCV4dMwc6JSIfAggH1W"], ["date_of_birth", "2015-11-06 01:51:12.577580"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.8ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36mActiveRecord::SchemaMigration Load (0.9ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (1.7ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1
+  [1m[36mSQL (0.8ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$VzuOAuCOSW2FzY3mwu2eluMMyo8sqd/MPoK8/k5oiNag..FKT3zP2"], ["date_of_birth", "2015-11-06 01:51:57.932804"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.5ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwynkoh@gmail.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "sidwynkoh@gmail.com"], ["encrypted_password", "$2a$04$k4AE5Svw.a3tmH1X42H1CO7aNzvNXSVcmhytAIItDOt1TLkU2GCNO"], ["date_of_birth", "2015-11-06 01:51:57.943947"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (4.7ms)[0m  INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+PG::NotNullViolation: ERROR:  null value in column "user_id" violates not-null constraint
+DETAIL:  Failing row contains (6, example title, 37.864645, -122.254734, example description, 12.34, 56.78, 1, null, 2015-11-05 00:00:00, 2015-11-05 00:00:00, 1, null, 2525 Benvenue Ave, Berkeley, CA).
+: INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"
+  [1m[36m (0.4ms)[0m  [1mROLLBACK TO SAVEPOINT active_record_1[0m
+  [1m[35m (0.6ms)[0m  ROLLBACK
+  [1m[36m (0.5ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.3ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (1.0ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwynkoh@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "sidwynkoh@gmail.com"], ["encrypted_password", "$2a$04$jt7ekeYWpXJwYzRLyyIeNeBSRAs3X81OD/oW1d8396/3SvmFBRzyW"], ["date_of_birth", "2015-11-06 01:51:58.139327"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (4.1ms)[0m  [1mINSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"[0m  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+PG::NotNullViolation: ERROR:  null value in column "user_id" violates not-null constraint
+DETAIL:  Failing row contains (7, example title, 37.864645, -122.254734, example description, 12.34, 56.78, 1, null, 2015-11-05 00:00:00, 2015-11-05 00:00:00, 1, null, 2525 Benvenue Ave, Berkeley, CA).
+: INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"
+  [1m[35m (0.2ms)[0m  ROLLBACK TO SAVEPOINT active_record_1
+  [1m[36m (0.9ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.4ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.7ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$qrr7yosHapatCF.H7hD0p.m7N4OTMkr6U0mTuR4X5FvTfFM5EyoZO"], ["date_of_birth", "2015-11-06 01:51:58.271540"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.6ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (1.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (12.3ms)[0m  INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+PG::NotNullViolation: ERROR:  null value in column "user_id" violates not-null constraint
+DETAIL:  Failing row contains (8, example title, 37.864645, -122.254734, example description, 12.34, 56.78, 1, null, 2015-11-05 00:00:00, 2015-11-05 00:00:00, 1, null, 2525 Benvenue Ave, Berkeley, CA).
+: INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"
+  [1m[36m (0.2ms)[0m  [1mROLLBACK TO SAVEPOINT active_record_1[0m
+  [1m[35m (0.5ms)[0m  ROLLBACK
+  [1m[36m (0.7ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.3ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.9ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$Epr/FG4Suu3YGZXoh.LekOnL6Y5mzDwIjtujwZ87RReRGjKgQtalu"], ["date_of_birth", "2015-11-06 01:51:58.453555"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.4ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (1.5ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwynkoh@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (1.3ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "sidwynkoh@gmail.com"], ["encrypted_password", "$2a$04$/WJ1ab90Po5pgyspoy5Xwu9b41HpvxvT4QrUpsjfb0knICMK40LSS"], ["date_of_birth", "2015-11-06 01:51:58.467607"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[36m (0.7ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.4ms)[0m  ROLLBACK
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (1.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$bYdo/QWoyZAudTlgv1525u3rY.emXBsPKV2Y98srHJS/sGPCwc6Ei"], ["date_of_birth", "2015-11-06 01:51:58.562813"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (2.0ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwynkoh@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "sidwynkoh@gmail.com"], ["encrypted_password", "$2a$04$731SIZTE6WMc3XoR8I/8S.RKmhJWgywJOeygungKjvOFWaIv5Y.Qy"], ["date_of_birth", "2015-11-06 01:51:58.577405"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (3.4ms)[0m  [1mINSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"[0m  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+PG::NotNullViolation: ERROR:  null value in column "user_id" violates not-null constraint
+DETAIL:  Failing row contains (9, example title, 37.864645, -122.254734, example description, 12.34, 56.78, 1, null, 2015-11-05 00:00:00, 2015-11-05 00:00:00, 1, null, 2525 Benvenue Ave, Berkeley, CA).
+: INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"
+  [1m[35m (0.2ms)[0m  ROLLBACK TO SAVEPOINT active_record_1
+  [1m[36m (0.7ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (2.4ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1
+  [1m[36mSQL (0.8ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$s5k/PmNR.Evr.nyH2YNKfuqinG6yGFywXLuOdIGWdxe2S6CwFA4je"], ["date_of_birth", "2015-11-06 01:54:13.249326"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.6ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwynkoh@gmail.com' LIMIT 1
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "sidwynkoh@gmail.com"], ["encrypted_password", "$2a$04$4A6/iQlYb8U4wnz4you.4eHHgsQsfwYsRTinMb8DRLrYcYg31a5TC"], ["date_of_birth", "2015-11-06 01:54:13.259312"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[35m (0.3ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.5ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1
+  [1m[36m (0.3ms)[0m  [1mROLLBACK TO SAVEPOINT active_record_1[0m
+  [1m[35m (1.7ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.3ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.9ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwynkoh@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.9ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "sidwynkoh@gmail.com"], ["encrypted_password", "$2a$04$Td1PvtwyrB31jPiwl379wOktm3RH2mEGTTZeFF5..uGf1G8.ahPOe"], ["date_of_birth", "2015-11-06 01:54:13.323263"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[36m (0.3ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (1.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.9ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$l4morqpMLtviKkGcwqFuseLQqDdI1au5H8UjuZlKUz9pN17W0jjOy"], ["date_of_birth", "2015-11-06 01:54:13.367170"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.3ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (2.4ms)[0m  [1mINSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"[0m  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+PG::NotNullViolation: ERROR:  null value in column "user_id" violates not-null constraint
+DETAIL:  Failing row contains (10, example title, 37.864645, -122.254734, example description, 12.34, 56.78, 1, null, 2015-11-05 00:00:00, 2015-11-05 00:00:00, 1, null, 2525 Benvenue Ave, Berkeley, CA).
+: INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"
+  [1m[35m (0.3ms)[0m  ROLLBACK TO SAVEPOINT active_record_1
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.5ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1
+  [1m[36mSQL (0.8ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$MkUA1S4Q65YlqOru6rmqde8tnTmgni0rrEIPOjPnpQEPZSUSb0AOS"], ["date_of_birth", "2015-11-06 01:54:13.479722"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.3ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.5ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mROLLBACK TO SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.4ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.7ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$L1zZUahO8V2pqIJ3dl773ujgcm0f2k2l0pYrW3WNqV5eVuZcI/9sq"], ["date_of_birth", "2015-11-06 01:54:13.500880"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.9ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwynkoh@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "sidwynkoh@gmail.com"], ["encrypted_password", "$2a$04$QB9Br.lLQZS1kOvUvyvGU.QEriJNLJY/OSDolss.wnLgyic2MLIF."], ["date_of_birth", "2015-11-06 01:54:13.509768"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[36m (0.3ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.4ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.6ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$Pci3XQ78A0wyuvL26SdP.OANV6BU2tTwfEqYQ.yoWESiP/Pz3eA3q"], ["date_of_birth", "2015-11-06 01:54:13.533893"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.9ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwynkoh@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "sidwynkoh@gmail.com"], ["encrypted_password", "$2a$04$0GdeYt/4N8w2mM3VscxeOOmdeg/v2avv/R9eYXk0LKkClq7z4mfn2"], ["date_of_birth", "2015-11-06 01:54:13.542103"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.9ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK TO SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.3ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.4ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (1.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1
+  [1m[36mSQL (0.9ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "sidwyn@gmail.com"], ["encrypted_password", "$2a$04$.c3bnqRk3l4n6JChLdcE8u18rmtdjkjd6eqNcMybdDWrCz/5HwgNy"], ["date_of_birth", "2015-11-06 01:54:57.468838"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (1.4ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwynkoh@gmail.com' LIMIT 1
+  [1m[36mSQL (2.8ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "sidwynkoh@gmail.com"], ["encrypted_password", "$2a$04$wCIDGhOLndi4nIXhgwTmvOXifj8KkqMxlmFXPFsktN23YX0hxegKy"], ["date_of_birth", "2015-11-06 01:54:57.495836"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.9ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mROLLBACK TO SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.5ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'sidwyn@gmail.com' LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK TO SAVEPOINT active_record_1
+  [1m[36mActiveRecord::SchemaMigration Load (0.9ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (1.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email1@factory.com' LIMIT 1
+  [1m[36mSQL (0.8ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email1@factory.com"], ["encrypted_password", "$2a$04$E44csBgnhG7vXYwi0D3TH.9UWGPt1v5q1NuuzMoyG5ZqAth2O2hTS"], ["date_of_birth", "2015-11-06 01:56:37.180931"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.4ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email2@factory.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email2@factory.com"], ["encrypted_password", "$2a$04$AqdlGqDrmJoFfDEZ99PvauTaP8JqPoypz8OOLGPnZDOFEk9qN0c4W"], ["date_of_birth", "2015-11-06 01:56:37.191293"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.4ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email3@factory.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email3@factory.com"], ["encrypted_password", "$2a$04$4ocfz4aoQX.vVTdyd2np4eMHNDBtEatX2A0MWM.f/dVLHA2E5sIhy"], ["date_of_birth", "2015-11-06 01:56:37.226629"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (1.3ms)[0m  INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+PG::NotNullViolation: ERROR:  null value in column "user_id" violates not-null constraint
+DETAIL:  Failing row contains (11, example title, 37.864645, -122.254734, example description, 12.34, 56.78, 1, null, 2015-11-05 00:00:00, 2015-11-05 00:00:00, 1, null, 2525 Benvenue Ave, Berkeley, CA).
+: INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"
+  [1m[36m (0.2ms)[0m  [1mROLLBACK TO SAVEPOINT active_record_1[0m
+  [1m[35m (0.4ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email4@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email4@factory.com"], ["encrypted_password", "$2a$04$VcbMeNcT/4pZguomy1aXtukTgwjuWn1jpA9/PVIAq3acrkNsQHtqC"], ["date_of_birth", "2015-11-06 01:56:37.740908"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.6ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email5@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email5@factory.com"], ["encrypted_password", "$2a$04$2aYtpKBbhUMJzRAaqg2wFeigAZE/bFz.IGpM42iYA1rPRGzA0rByK"], ["date_of_birth", "2015-11-06 01:56:37.750421"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (1.5ms)[0m  [1mINSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"[0m  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+PG::NotNullViolation: ERROR:  null value in column "user_id" violates not-null constraint
+DETAIL:  Failing row contains (12, example title, 37.864645, -122.254734, example description, 12.34, 56.78, 1, null, 2015-11-05 00:00:00, 2015-11-05 00:00:00, 1, null, 2525 Benvenue Ave, Berkeley, CA).
+: INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"
+  [1m[35m (0.2ms)[0m  ROLLBACK TO SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.5ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email6@factory.com' LIMIT 1
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email6@factory.com"], ["encrypted_password", "$2a$04$SwPaSdt1t3w2tfaVbvbX4ObL9J9teJxmtMehcHo70NOlf1G9KcF8O"], ["date_of_birth", "2015-11-06 01:56:37.857909"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.6ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email7@factory.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email7@factory.com"], ["encrypted_password", "$2a$04$B5Jl4ZAjtYTP4Y2LJHtiUevlkNCGtMFda5I90ImEFVd1Tga4LhAfG"], ["date_of_birth", "2015-11-06 01:56:37.866999"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (3.5ms)[0m  INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+PG::NotNullViolation: ERROR:  null value in column "user_id" violates not-null constraint
+DETAIL:  Failing row contains (13, example title, 37.864645, -122.254734, example description, 12.34, 56.78, 1, null, 2015-11-05 00:00:00, 2015-11-05 00:00:00, 1, null, 2525 Benvenue Ave, Berkeley, CA).
+: INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"
+  [1m[36m (0.2ms)[0m  [1mROLLBACK TO SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.7ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.7ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email8@factory.com' LIMIT 1[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email8@factory.com"], ["encrypted_password", "$2a$04$enFX/76h8p5sM4udaBqt7.WfmMqpCKgWw0tP/cvus3di9XWqt.1wq"], ["date_of_birth", "2015-11-06 01:56:37.985899"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.6ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (1.5ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email9@factory.com' LIMIT 1[0m
+  [1m[35mSQL (1.8ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email9@factory.com"], ["encrypted_password", "$2a$04$EcFnuaMr/E72lyEysv6pRu7UinfeB5JOqmTIrQV6WDG5o4UKDY66a"], ["date_of_birth", "2015-11-06 01:56:38.010754"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.7ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email10@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.9ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email10@factory.com"], ["encrypted_password", "$2a$04$upflkt.QKFxIInDwYM1ue.u2Ilc52HJeu6lDd7D9nPN0gCg2Nje.W"], ["date_of_birth", "2015-11-06 01:56:38.076351"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.7ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email11@factory.com' LIMIT 1[0m
+  [1m[35mSQL (2.1ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email11@factory.com"], ["encrypted_password", "$2a$04$1VT1MHbmN7Rpt9hnowAtG.OjNObX9bAQyLEBMJS61ocIAhLI6Dxiy"], ["date_of_birth", "2015-11-06 01:56:38.088792"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.8ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email12@factory.com' LIMIT 1[0m
+  [1m[35mSQL (1.7ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email12@factory.com"], ["encrypted_password", "$2a$04$RQRkU7Wst.1bkuNTmh0I6O1B.wKzQzNZBhwbNiqfocpMFXdw7pI7C"], ["date_of_birth", "2015-11-06 01:56:38.110602"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.6ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.5ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (1.1ms)[0m  [1mINSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"[0m  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+PG::NotNullViolation: ERROR:  null value in column "user_id" violates not-null constraint
+DETAIL:  Failing row contains (14, example title, 37.864645, -122.254734, example description, 12.34, 56.78, 1, null, 2015-11-05 00:00:00, 2015-11-05 00:00:00, 1, null, 2525 Benvenue Ave, Berkeley, CA).
+: INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"
+  [1m[35m (0.2ms)[0m  ROLLBACK TO SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (1.8ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email1@factory.com' LIMIT 1
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email1@factory.com"], ["encrypted_password", "$2a$04$RfO20dAkJxqS3EDnf6QRYOf54uX1upvLG0.XdI1oHMEATPZpexStq"], ["date_of_birth", "2015-11-06 01:57:05.575576"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.5ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email2@factory.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email2@factory.com"], ["encrypted_password", "$2a$04$Vo8ekPN7FAp/oCBd0PRipuWabsHdkn.8cTHvmwGxwGfWFPmaLWr0u"], ["date_of_birth", "2015-11-06 01:57:05.585129"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.4ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email3@factory.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email3@factory.com"], ["encrypted_password", "$2a$04$xI7/VzaPUNQnO3X82hEKpO8ypdGkmvaKlstYL5qMP.XIh4hZrtv6K"], ["date_of_birth", "2015-11-06 01:57:05.620653"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (5.8ms)[0m  INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "user_id", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING "id"  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["user_id", 56], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mROLLBACK TO SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email4@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email4@factory.com"], ["encrypted_password", "$2a$04$y2h4/1tfHqaT9qCMrBHEceOvALZHkY9Hn/m8UAAOkezXzY7TgtotW"], ["date_of_birth", "2015-11-06 01:57:05.754657"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.5ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email5@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email5@factory.com"], ["encrypted_password", "$2a$04$9f46H8bFhDYcfK4EuiPNyu9y./bFAAdBGINmCXC/99n54re9adCjq"], ["date_of_birth", "2015-11-06 01:57:05.764229"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "user_id", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING "id"[0m  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["user_id", 58], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.5ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.5ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email6@factory.com' LIMIT 1
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email6@factory.com"], ["encrypted_password", "$2a$04$qu0GKlJc/k.laZluxOBdFOV6tHFrlGqecM.sGB5EGjBr2rV1iUijq"], ["date_of_birth", "2015-11-06 01:57:05.865520"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.4ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email7@factory.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email7@factory.com"], ["encrypted_password", "$2a$04$KVE3vo.q7e2oMsHNP0Cc8.FUqV4uE9s1Muap7m2IkJjZKPHstENmq"], ["date_of_birth", "2015-11-06 01:57:05.873519"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "user_id", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING "id"  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["user_id", 60], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.5ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email8@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email8@factory.com"], ["encrypted_password", "$2a$04$S.Kj0VO529X0ig3gd8cCu.WtGgu.H6AkWSAiKTykNAW7A.Jn3nLpy"], ["date_of_birth", "2015-11-06 01:57:05.974661"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email9@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email9@factory.com"], ["encrypted_password", "$2a$04$kjbq6rRV4qSzYP0j34v11ehRuvN0WLzN3hxccAvgjMakj0I7K.Bmq"], ["date_of_birth", "2015-11-06 01:57:05.982694"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.8ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.5ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email10@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email10@factory.com"], ["encrypted_password", "$2a$04$O3P5GF2kjVa.rnwjbTIEKur9KSIc4AzUZpswKZ/99j5VFXVDwsdVq"], ["date_of_birth", "2015-11-06 01:57:05.995505"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email11@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email11@factory.com"], ["encrypted_password", "$2a$04$JOzrE.Su5fC.aGD.x527me7QKSMG/EO1XdG1HXIJOsQ5M5fofPHzS"], ["date_of_birth", "2015-11-06 01:57:06.003517"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.5ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email12@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email12@factory.com"], ["encrypted_password", "$2a$04$iX0t0taun0rCt.pv3NBjs.ICG.31CHYiVbRN/Lt2YAJfVYkgwsyuu"], ["date_of_birth", "2015-11-06 01:57:06.013880"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "user_id", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING "id"[0m  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["user_id", 65], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (1.0ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email1@factory.com' LIMIT 1
+  [1m[36mSQL (0.8ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email1@factory.com"], ["encrypted_password", "$2a$04$7ce7/7b6Imrwr1.3LpZW4uGMhyQMd5e1UbGo7KOKw9bxx47PYzXny"], ["date_of_birth", "2015-11-06 01:57:22.907450"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.6ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email2@factory.com' LIMIT 1
+  [1m[36mSQL (1.0ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email2@factory.com"], ["encrypted_password", "$2a$04$S3HTa8QVD1rsodEVhmBNVe55L2Ncqc4WpEsTprqM.JCJyY49odsN6"], ["date_of_birth", "2015-11-06 01:57:22.923256"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[35m (0.4ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.5ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email3@factory.com' LIMIT 1
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email3@factory.com"], ["encrypted_password", "$2a$04$tRb24TXEGY74vOI7QA9M9eP/WxLfUE.1k3hlL4KN2KlsZ2kvOf9vO"], ["date_of_birth", "2015-11-06 01:57:22.972029"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.3ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (1.1ms)[0m  INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "user_id", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING "id"  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["user_id", 68], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+  [1m[36m (0.5ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (4.5ms)[0m  [1mINSERT INTO "exchanges" ("lender_id", "borrower_id", "post_id", "status", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["lender_id", 66], ["borrower_id", 67], ["post_id", 19], ["status", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.5ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email4@factory.com' LIMIT 1
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email4@factory.com"], ["encrypted_password", "$2a$04$.Cd2tWdh7d5n9bDO/Gr3hOoZ4mhuzAF...2/Z..yRyBLc0M9os/Cu"], ["date_of_birth", "2015-11-06 01:57:23.092778"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.4ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email5@factory.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email5@factory.com"], ["encrypted_password", "$2a$04$Y1gKDd6epWnIkkGLc7540./LnTJoVGl9XXG3uVso239e.inJ5Jj1K"], ["date_of_birth", "2015-11-06 01:57:23.100804"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "user_id", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING "id"  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["user_id", 70], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.5ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email6@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email6@factory.com"], ["encrypted_password", "$2a$04$0/9dw46MbEAc/KC3ni1FveEI.5Q032P0u8C8sK3M7L7nJ4TVGEgVe"], ["date_of_birth", "2015-11-06 01:57:23.216123"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email7@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email7@factory.com"], ["encrypted_password", "$2a$04$FszTet/2S7mJeyyc4O8v7eWOHtrQa7r/Sw7vZV/g3pSr.Xz9PD79i"], ["date_of_birth", "2015-11-06 01:57:23.223769"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.9ms)[0m  [1mINSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "user_id", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING "id"[0m  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["user_id", 72], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.5ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email8@factory.com' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email8@factory.com"], ["encrypted_password", "$2a$04$Uqu0.c1sV12VEN.C07JmbuxErtL09gWMqljMJf5BRGhuMYax7pAYe"], ["date_of_birth", "2015-11-06 01:57:23.330114"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.5ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email9@factory.com' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email9@factory.com"], ["encrypted_password", "$2a$04$/.zxwKnUKW4Qscg9owd6UeOACDM.zHb6bE1PyiqLjFhcLZOivEfN2"], ["date_of_birth", "2015-11-06 01:57:23.337044"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.4ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email10@factory.com' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email10@factory.com"], ["encrypted_password", "$2a$04$zUmDH5lbUK4L..X/Oe6wt.pTnoZzbD/J81DI3SPYrIYR5fBZ15.r6"], ["date_of_birth", "2015-11-06 01:57:23.348170"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.5ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email11@factory.com' LIMIT 1
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email11@factory.com"], ["encrypted_password", "$2a$04$H/wz64MLciDLIN7PXb2Ng.MvJlaz/tB7CWjhJzZ4lnJU0g6JLxxS6"], ["date_of_birth", "2015-11-06 01:57:23.355045"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (1.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email12@factory.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email12@factory.com"], ["encrypted_password", "$2a$04$ct.54Pz4i1TtRGb/S.kCJea3spiZlZ.fc26viCBRBQ2oZENH3LBMG"], ["date_of_birth", "2015-11-06 01:57:23.366235"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "user_id", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING "id"  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["user_id", 77], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36mActiveRecord::SchemaMigration Load (0.9ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (0.5ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (2.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email1@factory.com' LIMIT 1
+  [1m[36mSQL (1.0ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email1@factory.com"], ["encrypted_password", "$2a$04$NqOu8Jo/sYVg6sHEnKjZquvD0qqDEbi2IkJ32T0ioryns18KLY4mO"], ["date_of_birth", "2015-11-06 01:59:30.872876"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.3ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.9ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email2@factory.com' LIMIT 1
+  [1m[36mSQL (0.9ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email2@factory.com"], ["encrypted_password", "$2a$04$AcvtRARPdmMooB3F3KH/kuvAPfJrEGNVncbwO1VGzAb5JXQcMIEUq"], ["date_of_birth", "2015-11-06 01:59:30.903039"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[35m (0.3ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (3.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email3@factory.com' LIMIT 1
+  [1m[36mSQL (0.9ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email3@factory.com"], ["encrypted_password", "$2a$04$Uw1YdzEzljpSGtYXtZ3WS.FnrbGUbnLYU7ub8bW8PUSZmFsSRW2Ie"], ["date_of_birth", "2015-11-06 01:59:31.003407"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (2.2ms)[0m  INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "user_id", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING "id"  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["user_id", 80], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+  [1m[36m (0.3ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "exchanges" ("lender_id", "borrower_id", "post_id", "status", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["lender_id", 78], ["borrower_id", 79], ["post_id", 23], ["status", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.6ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (1.0ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email4@factory.com' LIMIT 1
+  [1m[36mSQL (0.8ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email4@factory.com"], ["encrypted_password", "$2a$04$HTrzZHN/KWsGRT1EFO.DJeGZ2Z48ai2rhfr4svcg8mZMJ3xuuSqGW"], ["date_of_birth", "2015-11-06 01:59:31.220627"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[35m (0.3ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.7ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email5@factory.com' LIMIT 1
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email5@factory.com"], ["encrypted_password", "$2a$04$G3yRIG5tjkYruIKQdOQBAuc3yWOIbqnrIB/a4J8JaZDyOXpGNqeiK"], ["date_of_birth", "2015-11-06 01:59:31.234263"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.3ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (1.1ms)[0m  INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "user_id", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING "id"  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["user_id", 82], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+  [1m[36m (0.3ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.6ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (1.2ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email6@factory.com' LIMIT 1[0m
+  [1m[35mSQL (2.2ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email6@factory.com"], ["encrypted_password", "$2a$04$1ovlUDmwoRJV6caLcgmhtu5Y.v9SHygoxx2uE73WmVA1JMhDsaXay"], ["date_of_birth", "2015-11-06 01:59:31.466050"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.3ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.4ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (1.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email7@factory.com' LIMIT 1[0m
+  [1m[35mSQL (2.1ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email7@factory.com"], ["encrypted_password", "$2a$04$5WtIM660ffEgRWeWrFDy/u0CTzFErb6U.iNiuINnid9eVyR1l41yG"], ["date_of_birth", "2015-11-06 01:59:31.509356"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.3ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.9ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (1.3ms)[0m  [1mINSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "user_id", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING "id"[0m  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["user_id", 84], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+  [1m[35m (0.7ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.5ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.6ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (1.0ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email8@factory.com' LIMIT 1
+  [1m[36mSQL (0.8ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email8@factory.com"], ["encrypted_password", "$2a$04$GtEuE.aYuAGwvoLiIzmaYuvZx8uD1EuUetGZnPPUsd.lrjBMyGWnq"], ["date_of_birth", "2015-11-06 01:59:31.730950"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.4ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.5ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (1.7ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email9@factory.com' LIMIT 1
+  [1m[36mSQL (1.5ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email9@factory.com"], ["encrypted_password", "$2a$04$4AJpVlDXoiQcOfyLsWnoguXEeA2vGeJiDlgDbosboeVZomgrgNn9a"], ["date_of_birth", "2015-11-06 01:59:31.757060"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[35m (0.3ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (4.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (1.6ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email10@factory.com' LIMIT 1
+  [1m[36mSQL (0.9ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email10@factory.com"], ["encrypted_password", "$2a$04$mFmVmrCwKMoFfAmro79CG.qC9ajc9w7GKym5haY159KKXYAqcx/O6"], ["date_of_birth", "2015-11-06 01:59:31.804816"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (2.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.6ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email11@factory.com' LIMIT 1
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email11@factory.com"], ["encrypted_password", "$2a$04$vj5M/wfnnPEkY1Gh1Nf0SuuPtwGzJtNQseep.S6I8.WubYuQ9kZF2"], ["date_of_birth", "2015-11-06 01:59:31.826173"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[35m (0.4ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.4ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (1.2ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email12@factory.com' LIMIT 1
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email12@factory.com"], ["encrypted_password", "$2a$04$2jjJC953ojuwXfwDVI9V0OPXdhv6Ta/4gtHdngaQCD7OV8.mH0KkO"], ["date_of_birth", "2015-11-06 01:59:31.850712"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.3ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (1.5ms)[0m  INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "user_id", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING "id"  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["user_id", 89], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+  [1m[36m (0.5ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.6ms)[0m  ROLLBACK
+  [1m[36mActiveRecord::SchemaMigration Load (1.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (1.7ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email1@factory.com' LIMIT 1
+  [1m[36mSQL (1.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email1@factory.com"], ["encrypted_password", "$2a$04$THacPUtqwsLXzIkDaynriu9P8wEH2Ag7u6w8mA/kjJTNss7ol1asW"], ["date_of_birth", "2015-11-06 02:00:34.520533"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[35m (0.3ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.5ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email2@factory.com' LIMIT 1
+  [1m[36mSQL (0.9ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email2@factory.com"], ["encrypted_password", "$2a$04$oC0fk/t1cDZM0NTRt6z0IOgluctwAH4ua0EeJMNxTtYT1uWKw1Bha"], ["date_of_birth", "2015-11-06 02:00:34.542114"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.3ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.8ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email3@factory.com' LIMIT 1
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email3@factory.com"], ["encrypted_password", "$2a$04$EYqSzp1Q1UAKu49oqGkF1.JAaueHeLd..a1F2UCcJFH3jfJNq3qXS"], ["date_of_birth", "2015-11-06 02:00:34.584433"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.3ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.7ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email4@factory.com' LIMIT 1
+  [1m[36mSQL (1.1ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email4@factory.com"], ["encrypted_password", "$2a$04$DE6przCj..yBpailLVWlQ.2EU92f1ptGIl8OijDMS7BmLOj3r.y.i"], ["date_of_birth", "2015-11-06 02:00:34.596147"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.6ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'email5@factory.com' LIMIT 1
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["email", "email5@factory.com"], ["encrypted_password", "$2a$04$SkU9ebwWWBM8LT1eqgwGauPHrfeUkMv1gb9NCbft/UoJo4gUFCoBi"], ["date_of_birth", "2015-11-06 02:00:34.643204"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (5.2ms)[0m  INSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "user_id", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING "id"  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["user_id", 94], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.6ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (3.4ms)[0m  [1mINSERT INTO "exchanges" ("lender_id", "borrower_id", "post_id", "status", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["lender_id", 92], ["borrower_id", 93], ["post_id", 27], ["status", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (6.3ms)[0m  INSERT INTO "reviews" ("reviewer_id", "lender_id", "exchange_id", "rating", "content", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"  [["reviewer_id", 90], ["lender_id", 91], ["exchange_id", 3], ["rating", 1.0], ["content", "Joseph is my sucky sucky"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+  [1m[36m (0.3ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.4ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.6ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email6@factory.com' LIMIT 1[0m
+  [1m[35mSQL (1.1ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email6@factory.com"], ["encrypted_password", "$2a$04$9oDde0hahuBvY..jCxT9XeSz4bXE5bXMD4aiDGTXmtoMS1DFec1SO"], ["date_of_birth", "2015-11-06 02:00:34.883309"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.4ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.7ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.8ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email7@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email7@factory.com"], ["encrypted_password", "$2a$04$bLb8JP9xK4HqWOPk.6S3iuPtMblFpA3LMLDAY2L5sRRVFE9Jk0Hdi"], ["date_of_birth", "2015-11-06 02:00:34.907984"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.9ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email8@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email8@factory.com"], ["encrypted_password", "$2a$04$Ct3rhi/tEtyyhvOzPHy9hOh95fjBIlkxXW7OCWTWzTTPgXjoC9K.C"], ["date_of_birth", "2015-11-06 02:00:34.934586"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[36m (0.7ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (2.3ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email9@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email9@factory.com"], ["encrypted_password", "$2a$04$6H7606jvyW1MbAe3x4fFHuvX91h7l3N.QNPyRl/cCPrX9ia4g16BW"], ["date_of_birth", "2015-11-06 02:00:34.962865"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (3.3ms)[0m  [1mINSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "user_id", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING "id"[0m  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["user_id", 98], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "exchanges" ("lender_id", "borrower_id", "post_id", "status", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["lender_id", 96], ["borrower_id", 97], ["post_id", 28], ["status", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.4ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.3ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (1.0ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email10@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email10@factory.com"], ["encrypted_password", "$2a$04$wB1b2ruwG4BSPqxrGgC0SO6HftqN/ETKCI9Ea1UbTjsSYWi5tR./e"], ["date_of_birth", "2015-11-06 02:00:35.161743"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[36m (0.6ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.9ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email11@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email11@factory.com"], ["encrypted_password", "$2a$04$2GXw7MEZ9GtsMUTivskgLOF3bMw.TT0QxiGLgq1Ju61m8iV911I/G"], ["date_of_birth", "2015-11-06 02:00:35.174663"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.3ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (1.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (3.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email12@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email12@factory.com"], ["encrypted_password", "$2a$04$lA7qqUj9UVxIwXiFZQQbQ.izctWhKg6/p0C/mmYgT/i59ZddF0Xny"], ["date_of_birth", "2015-11-06 02:00:35.192084"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.6ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email13@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email13@factory.com"], ["encrypted_password", "$2a$04$eEYLaqss0uQJDLmQYkSYKOXLAAf81tebt6sZbRgYmBV5rBvUec2xO"], ["date_of_birth", "2015-11-06 02:00:35.211378"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (2.2ms)[0m  [1mINSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "user_id", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING "id"[0m  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["user_id", 102], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+  [1m[35m (0.3ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.6ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "exchanges" ("lender_id", "borrower_id", "post_id", "status", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["lender_id", 100], ["borrower_id", 101], ["post_id", 29], ["status", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+  [1m[36m (0.5ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (1.7ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.6ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (2.6ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email14@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email14@factory.com"], ["encrypted_password", "$2a$04$9c8jHKfsZ9.fTOOlOu.F4.OAnbv.v0Dwv2PzodOntDXz/TGhvAivi"], ["date_of_birth", "2015-11-06 02:00:35.412183"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.9ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email15@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email15@factory.com"], ["encrypted_password", "$2a$04$5zfcBOmgmlE9nj1YSuPXQeSXHpMpTrPmP1Pj1KwoyYdr/4Q5WmXu2"], ["date_of_birth", "2015-11-06 02:00:35.428661"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.8ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.7ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email16@factory.com' LIMIT 1[0m
+  [1m[35mSQL (2.8ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email16@factory.com"], ["encrypted_password", "$2a$04$XWXA092jFP9/CnZZSamp3eiiGOnzBBgBsKulS/TKX/.X6ewQGkT2W"], ["date_of_birth", "2015-11-06 02:00:35.473204"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (1.7ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email17@factory.com' LIMIT 1[0m
+  [1m[35mSQL (1.2ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email17@factory.com"], ["encrypted_password", "$2a$04$NBgZktu0Uht8NSuzi5EVxuAdKxV6pygQPh2dCf8h4wlSY7lrGrQ/q"], ["date_of_birth", "2015-11-06 02:00:35.503724"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.6ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email18@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email18@factory.com"], ["encrypted_password", "$2a$04$Egg12z7BBF5dnlN6IizFpujwy53KfcJkME0oDz/ek04vNf9NIkvQC"], ["date_of_birth", "2015-11-06 02:00:35.535472"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (1.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email19@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email19@factory.com"], ["encrypted_password", "$2a$04$encNcsAazCidOufCleFZGecqHUvZUhTcQIDliXM8PVdnftJJCFV8."], ["date_of_birth", "2015-11-06 02:00:35.558678"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (2.5ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email20@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email20@factory.com"], ["encrypted_password", "$2a$04$7Tphe1.G5MnGE5E8DcvSLOrSx2VDcP7PaFoGG45xorPw9pTSUXfPS"], ["date_of_birth", "2015-11-06 02:00:35.579700"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.3ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.8ms)[0m  [1mINSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "user_id", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING "id"[0m  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["user_id", 109], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+  [1m[35m (0.3ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.4ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "exchanges" ("lender_id", "borrower_id", "post_id", "status", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["lender_id", 107], ["borrower_id", 108], ["post_id", 30], ["status", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.4ms)[0m  ROLLBACK
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.9ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (1.0ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email21@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email21@factory.com"], ["encrypted_password", "$2a$04$S4o6iv7vq/eOWdoCyoVvVe..Wrjq39JQo5hUSU8s6.Ptq//SztuGG"], ["date_of_birth", "2015-11-06 02:00:35.778695"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[36m (0.7ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.5ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (1.6ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email22@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email22@factory.com"], ["encrypted_password", "$2a$04$erZejS58KzE2PiCj48BQU.AMsjPsBKOyjK.VKyRcM2O1uEcSFfkUm"], ["date_of_birth", "2015-11-06 02:00:35.797794"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.3ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (1.9ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email23@factory.com' LIMIT 1[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email23@factory.com"], ["encrypted_password", "$2a$04$CN6F8uvzddoebxvWWRzSZuqmc8Pj/p9nBb3fdTAn508XBA4qrRut2"], ["date_of_birth", "2015-11-06 02:00:35.820248"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.4ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (1.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (1.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email24@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email24@factory.com"], ["encrypted_password", "$2a$04$1BXsHdbqLl1BhDxp5J5z2ehIxmKoo25F9AEhzMhgwSup0Rft7uh0W"], ["date_of_birth", "2015-11-06 02:00:35.839324"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKY"]]
+  [1m[36m (0.3ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.7ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'email25@factory.com' LIMIT 1[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "date_of_birth", "latitude", "longitude", "first_name", "last_name", "created_at", "updated_at", "authentication_token") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["email", "email25@factory.com"], ["encrypted_password", "$2a$04$cD.CQJwowzNQpHHZHFlczOH3qm9tTPIaN/0ia8kGVxskMre49DUXC"], ["date_of_birth", "2015-11-06 02:00:35.853002"], ["latitude", "37.86449"], ["longitude", "-122.254504"], ["first_name", "Sidwyn"], ["last_name", "Koh"], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"], ["authentication_token", "hxfRD4EykqGeZPsBiwKX"]]
+  [1m[36m (0.3ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (1.1ms)[0m  [1mINSERT INTO "posts" ("title", "latitude", "longitude", "description", "price", "security_deposit", "status", "user_id", "street", "city", "state", "category", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING "id"[0m  [["title", "example title"], ["latitude", 37.864645], ["longitude", -122.254734], ["description", "example description"], ["price", 12.34], ["security_deposit", 56.78], ["status", 1], ["user_id", 114], ["street", "2525 Benvenue Ave"], ["city", "Berkeley"], ["state", "CA"], ["category", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "exchanges" ("lender_id", "borrower_id", "post_id", "status", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["lender_id", 112], ["borrower_id", 113], ["post_id", 31], ["status", 1], ["created_at", "2015-11-05 00:00:00.000000"], ["updated_at", "2015-11-05 00:00:00.000000"]]
+  [1m[36m (0.3ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  ROLLBACK

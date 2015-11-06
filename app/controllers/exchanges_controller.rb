@@ -155,11 +155,10 @@ class ExchangesController < ApplicationController
 			return render_errors(["The post belongs to no one. The post that you linked to is #{@post.user_id}."])
 		end
 
-		if status < 4
-			@exchange.create_activity(action: :update_status, owner: @owner, recipient: @borrower, post_id: @post.id, exchange_id: @exchange.id, parameters: {from_status: @exchange.status, to_status: status})
-		else
-			# Transaction completed
+		if status == 4
 			@exchange.create_activity(action: :exchange_completed, owner: @owner, recipient: @borrower, post_id: @post.id, exchange_id: @exchange.id)
+		else
+			@exchange.create_activity(action: :update_status, owner: @owner, recipient: @borrower, post_id: @post.id, exchange_id: @exchange.id, parameters: {from_status: @exchange.status, to_status: status})
 		end
 
 		@exchange.update_attributes(status: status)

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151105043406) do
+ActiveRecord::Schema.define(version: 20151106013005) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,54 +38,40 @@ ActiveRecord::Schema.define(version: 20151105043406) do
   add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type", using: :btree
 
   create_table "exchanges", force: :cascade do |t|
-    t.integer  "lender_id"
-    t.integer  "borrower_id"
-    t.integer  "post_id"
+    t.integer  "lender_id",   null: false
+    t.integer  "borrower_id", null: false
+    t.integer  "post_id",     null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-    t.integer  "status"
-  end
-
-  create_table "listings", force: :cascade do |t|
-    t.string   "title"
-    t.float    "latitude"
-    t.float    "longitude"
-    t.string   "picture"
-    t.string   "description"
-    t.float    "price"
-    t.float    "deposit"
-    t.integer  "posted_by"
-    t.integer  "status"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer  "status",      null: false
   end
 
   create_table "posts", force: :cascade do |t|
-    t.string   "title"
-    t.float    "latitude"
-    t.float    "longitude"
-    t.text     "description"
-    t.float    "price"
-    t.float    "security_deposit"
-    t.integer  "status"
-    t.integer  "user_id"
+    t.string   "title",            null: false
+    t.float    "latitude",         null: false
+    t.float    "longitude",        null: false
+    t.text     "description",      null: false
+    t.float    "price",            null: false
+    t.float    "security_deposit", null: false
+    t.integer  "status",           null: false
+    t.integer  "user_id",          null: false
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
-    t.integer  "category"
+    t.integer  "category",         null: false
     t.string   "image_url"
-    t.string   "street"
-    t.string   "city"
-    t.string   "state"
+    t.string   "street",           null: false
+    t.string   "city",             null: false
+    t.string   "state",            null: false
   end
 
   add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
 
   create_table "reviews", force: :cascade do |t|
-    t.integer  "reviewer_id"
-    t.integer  "lender_id"
-    t.integer  "exchange_id"
-    t.float    "rating"
-    t.text     "content"
+    t.integer  "reviewer_id", null: false
+    t.integer  "lender_id",   null: false
+    t.integer  "exchange_id", null: false
+    t.float    "rating",      null: false
+    t.text     "content",     null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
@@ -119,14 +105,6 @@ ActiveRecord::Schema.define(version: 20151105043406) do
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-
-  create_table "widgets", force: :cascade do |t|
-    t.string   "name"
-    t.text     "description"
-    t.integer  "stock"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   add_foreign_key "posts", "users"
 end

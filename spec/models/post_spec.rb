@@ -9,12 +9,6 @@ describe Post do
 	it "is invalid without a title" do
 		FactoryGirl.build(:post, title: nil).should_not be_valid
 	end
-	it "is invalid without a latitude" do
-		FactoryGirl.build(:post, latitude: nil).should_not be_valid
-	end
-	it "is invalid without a longitude" do
-		FactoryGirl.build(:post, longitude: nil).should_not be_valid
-	end
 	it "is invalid without a description" do
 		FactoryGirl.build(:post, description: nil).should_not be_valid
 	end
