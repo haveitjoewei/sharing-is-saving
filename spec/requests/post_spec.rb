@@ -31,8 +31,7 @@ describe "Post API" do
         :last_name => last_name, 
         :date_of_birth => date_of_birth, 
         :latitude => latitude, 
-        :longitude => longitude},
-      :format => :json
+        :longitude => longitude}
 
       
       # Basic check to expect response to be 200
