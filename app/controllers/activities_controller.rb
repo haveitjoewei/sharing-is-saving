@@ -1,10 +1,10 @@
-class Activity::ActivitiesController < ApplicationController
+class ActivitiesController < ApplicationController
 
   # GET /activities
   # Get all activities, based on current_user and an optional tag for specifying task
   def index
     # byebug
-    @activities = PublicActivity::Activity.all
+    @activities = ::Activity.all
 
     
     if params.has_key?(:filter)
@@ -40,7 +40,7 @@ class Activity::ActivitiesController < ApplicationController
   # GET /activities/1.json
   def show
     begin
-      @activity = PublicActivity::Activity.all.find(params[:id])
+      @activity = ::Activity.all.find(params[:id])
     rescue ActiveRecord::RecordNotFound
       return render_errors(['No activity found.'])
     end
