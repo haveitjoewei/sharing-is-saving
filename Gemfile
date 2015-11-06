@@ -10,7 +10,6 @@ gem 'pg'
 # Use SCSS for stylesheets
 gem 'foundation-rails', '~> 5.5.0'
 gem 'sass-rails', '~>5.0.0'
-gem 'rails-assets-bootstrap'
 
 gem "compass", "~> 1.0"
 # Use Uglifier as compressor for JavaScript assets
