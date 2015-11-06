@@ -1,3 +1,4 @@
+<script type="text/javascript" src="https://raw.githubusercontent.com/blueimp/jQuery-File-Upload/master/js/jquery.fileupload.js">
 <script>
 $(function() {
   $('.directUpload').find("input:file").each(function(i, elem) {
@@ -66,7 +67,7 @@ $(function() {
 	    <%= f.text_field :title, class: 'title', placeholder: 'What are you listing?', autofocus: true %>
 	    <%= f.select :category, [["Apparel & Accessories", "1"], ["Arts and Crafts", "2"], ["Electronics", "3"], ["Home Appliances", "4"], ["Kids & Baby", "5"], ["Movies, Music, Books & Games", "6"],[ "Motor Vehicles", "7"], ["Office & Education", "8"], ["Parties & Events", "9"], ["Spaces & Venues", "10"], ["Sports & Outdoors", "11"], ["Tools & Gardening", "12"], ["Other", "13"]], prompt: "Choose a category" %>
 	    <%= f.text_area :description, placeholder: 'Description' %>
-		<%= f.file_field :image_url %>
+		  <%= f.file_field :image_url %>
 	  </div>
 
 	  <div class="field">
