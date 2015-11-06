@@ -1,4 +1,4 @@
-class ActivitiesController < ApplicationController
+class Activity::ActivitiesController < ApplicationController
 
   # GET /activities
   # Get all activities, based on current_user and an optional tag for specifying task
