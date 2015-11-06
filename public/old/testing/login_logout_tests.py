@@ -10,7 +10,7 @@ class LoginLogoutTestCase(unittest.TestCase):
 		self.browser.get('http://sharingissaving.herokuapp.com/')
 		self.addCleanup(self.browser.quit)
 	def testPageTitle(self):
-		self.assertIn('SharingIsSaving', self.browser.title)
+		self.assertIn('Sharing Is Saving', self.browser.title)
 	def testDialog(self):
 		self.browser.find_element_by_id('login').click()
 		self.assertTrue(self.browser.find_element_by_id('darken').is_displayed())

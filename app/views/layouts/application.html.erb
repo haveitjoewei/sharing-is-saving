@@ -24,12 +24,12 @@
 </head>
 <body>
 	<header>
-	    <%= link_to 'Sharing Is Saving', root_url  %>  
+	    <%= link_to 'Sharing Is Saving', root_url, :id => 'home' %>  
 		<nav>
-		    <%= link_to('Listings', posts_path)  %>
+		    <%= link_to 'Listings', posts_path, :id => 'listings_tab' %>
 	        <% if user_signed_in? %>
-			    <%= link_to('New Post', new_post_path)  %>  
-                <%= link_to("#{current_user.email}", profile_path) %>
+			    <%= link_to('New Post', new_post_path, :id => 'new_post')  %>  
+                <%= link_to("#{current_user.email}", profile_path, :id => 'username') %>
 				<div id="notification_li">
 					<span id="notification_count">3</span>
 					<div id="notificationContainer">
@@ -81,10 +81,10 @@
 					</div>
 				</div>
 				<a href="#" id="notificationLink">Notifications</a>
-			    <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>        
+			    <%= link_to('Logout', destroy_user_session_path, :method => :delete, :id => 'logout_button') %>        
 	        <% else %>
-			    <%= link_to('Sign Up', new_user_registration_path)  %>  
-			    <%= link_to('Login', new_user_session_path)  %>  
+			    <%= link_to('Sign Up', new_user_registration_path, :id => 'signup')  %>  
+			    <%= link_to('Login', new_user_session_path, :id => 'login')  %>  
 			<% end %>
 		</nav>
 	</header>

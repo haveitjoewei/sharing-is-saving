@@ -47,7 +47,7 @@
 	<section class="listings">
 		<% i = 1 %>
 		<% @allPosts.each do |post| %>
-			<article class="listing">
+			<article class="listing" >
 				<%= link_to i.to_s + '. ' + post.title, post, :class => 'title' %>
 				<div class="images">
 					<%= image_tag post.image_url %>
