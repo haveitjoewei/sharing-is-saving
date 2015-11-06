@@ -5,18 +5,15 @@ RSpec.describe ExchangesController, type: :controller do
 
   describe "factory user" do
     before :each do
-      @ma_user = FactoryGirl.create(:user)
-      @ma_user2 = FactoryGirl.create(:user2)
-      @post = FactoryGirl.create(:post)
-      sign_in @ma_user
-      byebug
+      @borrower = FactoryGirl.create(:user)
+      @lender = FactoryGirl.create(:user2)
+      @post = FactoryGirl.create(:post, :user => @lender)
+      sign_in @borrower
     end
 
     it "should make a request for an exchange" do
-      byebug
-      post :create, { id: @post.id }
-      expect( response ).to redirect_to( new_user_session_path )
-    end
+    	post :create, { post_id: @post.id }
+		expect(response.status).to eq(200)
   end
 
 end
