@@ -11,9 +11,10 @@ class ReviewsController < ApplicationController
 	#Creates review
 	def create
 		@user = current_user
-		lender_id = ::Exchange.find(params["reviews"]["exchange_id"]).lender_id
+		@exchange = ::Exchange.where(id: params["reviews"]["exchange_id"]).first
+		lender_id = @exchange.lender_id
 		@review = ::Review.new(:reviewer_id => @user.id, :lender_id => lender_id, :exchange_id => params["reviews"]["exchange_id"], :rating => params["reviews"]["rating"], :content => params["reviews"]["content"])
-
+		
 		#shouldn't be able to write review if exchange.lender = user
 		if @user.id == lender_id
 			return render_errors(["Can not review transaction if user is the lender"])

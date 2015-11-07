@@ -6,33 +6,82 @@ RSpec.describe ReviewsController, type: :controller do
 	describe "factory user" do
 	before :each do
 	  @borrower = FactoryGirl.create(:user)
+	  @borrower.save!
 	  @lender = FactoryGirl.create(:user2)
+	  @lender.save!
 	  @post = FactoryGirl.create(:post, :user => @lender)
+	  @post.save!
 	  @exchange = FactoryGirl.create(:exchange, :post => @post)
+	  @exchange.save!
+	  @review = FactoryGirl.create(:review, :exchange => @exchange)
+	  @review.save!
 	  sign_in @borrower
 	end
 
-
-	it "should make a request for an review and test showing it" do
-		response = post :create, "reviews"=>{ exchange_id: @exchange.id, rating: 1, content: "great!" }
-		expect(response.status).to eq(302)
-		#@createdReview= controller.instance_variable_get(:@Review)
-
-		# # Show created Exchange
-		# response2 = get :show, { id: @createdExchange.id }
-		# expect(response2.status).to eq(200)
+	it "should make a request to new" do
+		response = get :new, "reviews"=>{ exchange_id: @exchange.id }
+		expect(response.status).to eq(200)
+		@createdReview= controller.instance_variable_get(:@review)
 	end
 
-	# it "should update status for an exchange" do
-	# 	response = post :create, { post_id: @post.id }
+	it "should make a request to create an review" do
+		response = post :create, "reviews"=>{ exchange_id: @exchange.id, rating: 1, content: "great!" }
+		expect(response.status).to eq(302)
+		@createdReview= controller.instance_variable_get(:@review)
+	end
+
+	# it "should make a request to create an review created by borrower and error" do
+	# 	@exchange.update_attribute(:lender_id, @borrower.id)
+	# 	response = post :create, "reviews"=>{ exchange_id: @exchange.id, rating: 1, content: "great!" }
+	# 	expect(response.status).to eq(404)
+	# 	@createdReview= controller.instance_variable_get(:@review)
+	# end
+
+	it "should make a request to create a bad_review and error" do
+		@exchange.update_attribute(:lender_id, 1)
+		response = post :create, "reviews"=>{ exchange_id: @exchange.id, rating: 1, content: "great!" }
+		expect(response.status).to eq(404)
+		@createdReview= controller.instance_variable_get(:@review)
+	end
+
+	it "should make a request to show a review" do
+		# Show created Exchange
+		response = get :show, { id: @review.id }
+		expect(response.status).to eq(200)
+	end
+
+	it "should make a request to show a review and get an error" do
+		response = get :show, { id: 0 }
+		expect(response.status).to eq(404)
+	end
+
+	it "should make a request to index all reviews" do
+		response = get :index
+		expect(response.status).to eq(200)
+	end
+
+	it "should make a request to index all reviews" do
+		response = get :index, { reviewer_id: @borrower.id }
+		expect(response.status).to eq(200)
+	end
+
+	it "should delete a request" do
+		response = delete :destroy, { id: @review.id }
+		expect(response.status).to eq(200)
+	end
+
+	it "should delete a request that can't be found and error" do
+		response = delete :destroy, { id: 0 }
+		expect(response.status).to eq(404)
+	end
+
+	# it "should make an patch request to update a review" do
+	# 	response = patch :update, { id: @review.id, rating: 5, content: "changed" }
 	# 	expect(response.status).to eq(200)
-	# 	@createdExchange= controller.instance_variable_get(:@exchange)
+	# end
 
-	# 	response2 = put :update_status, { id: @createdExchange.id, status: 2 }
-	# 	expect(response2.status).to eq(200)
 
-	# 	@modifiedExchange= controller.instance_variable_get(:@exchange)
-	# 	expect(@modifiedExchange.status == 2)
+
 
 	# end
 
