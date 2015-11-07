@@ -1,4 +1,9 @@
 <div id="mainbody">
-	<%= link_to 'Find Stuff', posts_path, :class => 'button' %>
-	<%= link_to 'List Something', new_post_path, :class => 'button' %>
+	<% if user_signed_in? %>
+		<%= link_to 'Find Stuff', posts_path, :class => 'button' %>
+		<%= link_to 'List Something', new_post_path, :class => 'button' %>
+	<% else %>
+		<%= link_to('Sharing makes the world a better place', new_user_registration_path, :id => 'signup', :class=> 'button')  %>
+		<%= link_to('Already a member? Login', new_user_session_path, :id => 'login')  %> 
+	<% end %>
 </div>
