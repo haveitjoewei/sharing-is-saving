@@ -1,7 +1,7 @@
 # http://everydayrails.com/2012/03/19/testing-series-rspec-models-factory-girl.html
 FactoryGirl.define do
 	sequence :email do |n|
-		"email#{n}@factory.com"
+		"email#{n}@example.com"
 	end
 
 	factory :user do |f|
@@ -67,4 +67,11 @@ FactoryGirl.define do
 	    f.created_at Date.today
 	    f.updated_at Date.today
 	end
+
+	factory :activity, class: 'PublicActivity::Activity' do
+	   trackable_id :answer
+	   recipient_id :user
+	   owner_id :user
+	end
+	
 end

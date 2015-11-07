@@ -26,7 +26,9 @@ Rails.application.routes.draw do
     end
   end
 
-  get '/activity', to: 'activity/activities#index'
+  resources :activities, :controller => 'activities'
+
+  # get '/activity', to: 'activity/activities#index'
 
   # get '/exchanges', as: 'exchange_item'
   
