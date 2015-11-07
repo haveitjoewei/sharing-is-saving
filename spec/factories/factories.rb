@@ -67,4 +67,11 @@ FactoryGirl.define do
 	    f.created_at Date.today
 	    f.updated_at Date.today
 	end
+
+	factory :activity, class: 'PublicActivity::Activity' do
+	   trackable_id :answer
+	   recipient_id :user
+	   owner_id :user
+	end
+	
 end
