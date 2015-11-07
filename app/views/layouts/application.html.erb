@@ -1,33 +1,5 @@
 <!DOCTYPE html>
 <html>
-<script>
-var ready = function() {
-  $("#notificationContainer").hide();
-
-  $("#notificationLink").click(function(){
-      $("#notificationContainer").toggle();
-      // $("#notification_count").fadeOut("slow");
-      // return false;
-  });
-  // // Document Click hiding the popup 
-  // $(document).click(function()
-  //   {
-  //     $("#notificationContainer").hide();
-  //   });
-
-  // // Popup on click
-  // $("#notificationContainer").click(function()
-  //   {
-  //     return false;
-  //   });
-
-    // do stuff here.
-
-};
-
-$(document).ready(ready);
-$(document).on('page:load', ready);
-</script>
 <head>
 	<title>Sharing Is Saving</title>
 	<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
@@ -56,6 +28,34 @@ $(document).on('page:load', ready);
 		<nav>
 		    <%= link_to 'Listings', posts_path, :id => 'listings_tab' %>
 	        <% if user_signed_in? %>
+	        <script>
+		        var ready = function() {
+		        	$("#notificationContainer").hide();
+
+		        	$("#notificationLink").click(function(){
+		        		$("#notificationContainer").toggle();
+	      			// $("#notification_count").fadeOut("slow");
+	      			// return false;
+  				});
+				  // // Document Click hiding the popup 
+				  // $(document).click(function()
+				  //   {
+				  //     $("#notificationContainer").hide();
+				  //   });
+
+				  // // Popup on click
+				  // $("#notificationContainer").click(function()
+				  //   {
+				  //     return false;
+				  //   });
+
+				    // do stuff here.
+
+				};
+
+				$(document).ready(ready);
+				$(document).on('page:load', ready);
+			</script>
 			    <%= link_to('New Post', new_post_path, :id => 'new_post')  %>  
                 <%= link_to("#{current_user.email}", profile_path, :id => 'username') %>
 				<div id="notification_li">
