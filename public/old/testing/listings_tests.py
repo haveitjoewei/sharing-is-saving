@@ -8,10 +8,8 @@ import random
 class ListingsTestCase(unittest.TestCase):
 	def setUp(self):
 		chrome_options = Options()
-		chrome_options.binary_location = 'C:\Users\Victor\AppData\Local\Google\Chrome SxS\Application\chrome.exe'
-		self.url = 'http://sharingissaving.herokuapp.com/'
-		self.browser = webdriver.Chrome(chrome_options=chrome_options)
-		self.browser.get(self.url)
+		self.browser = webdriver.Chrome("./chromedriver")
+		self.browser.get('http://localhost:3000/')
 		self.addCleanup(self.browser.quit)
 	def testLoginLogoutListings(self):
 		# Sign up
