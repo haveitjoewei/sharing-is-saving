@@ -31,7 +31,6 @@ class PostsController < ApplicationController
 		@post.created_at = @post.created_at.to_f
 		@post.updated_at = @post.updated_at.to_f
 
-		# byebug
 		@allExchanges = ::Exchange.all.order(:created_at).reverse_order
 		@pendingExchange = @allExchanges.where(status: 1, post_id: @post.id)
 		@acceptedExchange = @allExchanges.where(status: 2, post_id: @post.id)
@@ -44,13 +43,10 @@ class PostsController < ApplicationController
 		allExchanges = Array.new 
 
 		@completedExchange.each do |exchange|
-			# byebug
 			allExchanges.push(exchange.id)
 		end
 
 		@allReviews = @allReviews.where(exchange_id: allExchanges)
-
-		# render :json => {:status => 1, :post => newPost}
 	end		
 
 	# GET posts(.:format)   
@@ -92,7 +88,8 @@ class PostsController < ApplicationController
 		errorsArr = Array.new
 		if !params[:center].include? "," # Crucial error
 			errorsArr.push('Center does not have both latitude and longitude. Please make sure to separate them, e.g. center=37.152,38.100.')
-			render render_errors(errorsArr)
+			render_errors(errorsArr)
+			return
 		end
 
 		begin
@@ -155,11 +152,7 @@ class PostsController < ApplicationController
 
 		if thePost.user_id == currentUserId # Delete the post
 			::Post.delete(params[:id])
-			render :json => {:status => 1}, :status => 200
-			return 
-		else
-			render :json => {:status => -1, :message => 'User does not have permissions to delete this post.' }, :status => 404
-			return
+			redirect_to @post
 		end
 	end
 
