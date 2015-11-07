@@ -1,5 +1,31 @@
-<script type="text/javascript" src="https://rawgit.com/blueimp/jQuery-File-Upload/master/js/jquery.fileupload.js"></script>
+<!-- <script type="text/javascript" src="https://rawgit.com/blueimp/jQuery-File-Upload/master/js/jquery.fileupload.js"></script> -->
 <script>
+function loadScript( url, callback ) {
+  var script = document.createElement( "script" )
+  script.type = "text/javascript";
+  if(script.readyState) {  //IE
+    script.onreadystatechange = function() {
+      if ( script.readyState === "loaded" || script.readyState === "complete" ) {
+        script.onreadystatechange = null;
+        callback();
+      }
+    };
+  } else {  //Others
+    script.onload = function() {
+      callback();
+    };
+  }
+
+  script.src = url;
+  document.getElementsByTagName( "head" )[0].appendChild( script );
+}
+
+
+// call the function...
+loadScript("../../assets/javascripts/z.jqeury.fileupload.js", function() {
+  console.log('script ready!'); 
+});
+
 $(function() {
   $('.directUpload').find("input:file").each(function(i, elem) {
     var fileInput    = $(elem);
@@ -59,34 +85,34 @@ $(function() {
 </script>
 
 <div id="mainbody">
-	<div class = "create">
-	<h3>Post an item</h3>
-	<%= form_for(:post, url: {action: "create"}, html: {class: "directUpload", data: {'form-data' => (@s3_direct_post.fields), 'url' => @s3_direct_post.url, 'host' => URI.parse(@s3_direct_post.url).host}}) do |f| %>
+  <div class = "update">
+  <h3>Update your item</h3>
+  <%= form_for(:post, url: {action: "update"}, html: {:method => :put, class: "directUpload", data: {'form-data' => (@s3_direct_post.fields), 'url' => @s3_direct_post.url, 'host' => URI.parse(@s3_direct_post.url).host}}) do |f| %>
 
-	  <div class="field">
-	    <%= f.text_field :title, class: 'title', placeholder: 'What are you listing?', autofocus: true %>
-	    <%= f.select :category, [["Apparel & Accessories", "1"], ["Arts and Crafts", "2"], ["Electronics", "3"], ["Home Appliances", "4"], ["Kids & Baby", "5"], ["Movies, Music, Books & Games", "6"],[ "Motor Vehicles", "7"], ["Office & Education", "8"], ["Parties & Events", "9"], ["Spaces & Venues", "10"], ["Sports & Outdoors", "11"], ["Tools & Gardening", "12"], ["Other", "13"]], prompt: "Choose a category" %>
-	    <%= f.text_area :description, placeholder: 'Description' %>
-		  <%= f.file_field :image_url %>
-	  </div>
+    <div class="field">
+      <%= f.text_field :title, class: 'title', placeholder: 'What are you listing?', autofocus: true %>
+      <%= f.select :category, [["Apparel & Accessories", "1"], ["Arts and Crafts", "2"], ["Electronics", "3"], ["Home Appliances", "4"], ["Kids & Baby", "5"], ["Movies, Music, Books & Games", "6"],[ "Motor Vehicles", "7"], ["Office & Education", "8"], ["Parties & Events", "9"], ["Spaces & Venues", "10"], ["Sports & Outdoors", "11"], ["Tools & Gardening", "12"], ["Other", "13"]], prompt: "Choose a category" %>
+      <%= f.text_area :description, placeholder: 'Description' %>
+    <%= f.file_field :image_url %>
+    </div>
 
-	  <div class="field">
-	    <h4>Address</h4>
-	    <%= f.text_field :street, placeholder: 'Street' %>
-	    <%= f.text_field :city, class: 'city', placeholder: 'City' %>
-	    <%= f.text_field :state, class: 'state', placeholder: 'State' %>
-	  </div>
+    <div class="field">
+      <h4>Address</h4>
+      <%= f.text_field :street, placeholder: 'Street' %>
+      <%= f.text_field :city, class: 'city', placeholder: 'City' %>
+      <%= f.text_field :state, class: 'state', placeholder: 'State' %>
+    </div>
 
-	  <div class="field">
-	  	<h4>Pricing</h4>
-	    <%= f.text_field :price, class: 'price', placeholder: 'Rate' %>
-	    <%= f.text_field :security_deposit, class: 'deposit', placeholder: 'Deposit' %>
-	  </div>
+    <div class="field">
+      <h4>Pricing</h4>
+      <%= f.text_field :price, class: 'price', placeholder: 'Rate' %>
+      <%= f.text_field :security_deposit, class: 'deposit', placeholder: 'Deposit' %>
+    </div>
 
-	  <div class="actions">
-	    <%= f.submit "Post" %>
-	  </div>
-	<% end %>
+    <div class="actions">
+      <%= f.submit "Update" %>
+    </div>
+  <% end %>
 
-	</div>
+  </div>
 </div>
