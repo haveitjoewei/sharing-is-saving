@@ -1,29 +1,6 @@
-var ready = function() {
-  $("#notificationContainer").hide();
 
-  $("#notificationLink").click(function(){
-      $("#notificationContainer").toggle();
-      // $("#notification_count").fadeOut("slow");
-      // return false;
-  });
 
-  // // Document Click hiding the popup 
-  // $(document).click(function()
-  //   {
-  //     $("#notificationContainer").hide();
-  //   });
 
-  // // Popup on click
-  // $("#notificationContainer").click(function()
-  //   {
-  //     return false;
-  //   });
-
-    // do stuff here.
-};
-
-$(document).ready(ready);
-$(document).on('page:load', ready);
 
 // $(document).ready(function(){
 //   $("#signup_dialog").hide();
