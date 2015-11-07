@@ -10,9 +10,7 @@ class ReviewsController < ApplicationController
 	#POST /api/v1/reviews(.:format) 
 	#Creates review
 	def create
-		# byebug
 		@user = current_user
-		# byebug
 		lender_id = ::Exchange.find(params["reviews"]["exchange_id"]).lender_id
 		@review = ::Review.new(:reviewer_id => @user.id, :lender_id => lender_id, :exchange_id => params["reviews"]["exchange_id"], :rating => params["reviews"]["rating"], :content => params["reviews"]["content"])
 
