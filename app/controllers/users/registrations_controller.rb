@@ -20,7 +20,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def view
     @allNotificationsForCompletedTransactions = PublicActivity::Activity.all.where(:key => 'exchange.exchange_completed')
-    @allExchanges = @allNotificationsForCompletedTransactions.map { |notification| ::Exchange.find(notification.exchange_id)}
+    @allExchanges = @allNotificationsForCompletedTransactions.reverse_order.map { |notification| ::Exchange.find(notification.exchange_id)}
 
     @allExchanges = @allExchanges.select { |exchange| exchange.lender_id == current_user.id or exchange.borrower_id == current_user.id }
 
