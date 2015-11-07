@@ -46,8 +46,8 @@ gem 'simple_token_authentication'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'rails_12factor', group: :production
 gem 'public_activity'
-
 gem 'geocoder'
+gem 'simplecov', :require => false, :group => :test
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

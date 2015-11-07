@@ -145,7 +145,7 @@ class PostsController < ApplicationController
 	def destroy
 		currentUserId = current_user.id
 		postId = params[:id]
-		response.headers['Access-Control-Allow-Origin'] = "*"# * means any. specify to 
+		response.headers['Access-Control-Allow-Origin'] = "*" # * means any. specify to 
 		begin
 			thePost = ::Post.find(postId)
 			rescue ActiveRecord::RecordNotFound  
@@ -173,17 +173,10 @@ class PostsController < ApplicationController
 		postId = params[:id]
 		currentUserId = current_user.id
 		@post = ::Post.find(postId)
-		if @post.user_id == currentUserId # Delete the post
+		if @post.user_id == currentUserId
 			if @post.update_attributes(post_params)
-				# render :json => {:status => 1}, :status => 200
 				render :show
-			# else
-			# 	render :json => {:status => -1, :message => 'Updating post failed.' }, :status => 404
-			# 	return
 			end
-		# else
-		# 	render :json => {:status => -1, :message => 'User does not have permissions to update this post.' }, :status => 404
-		# 	return
 		end
 	end
 
@@ -248,7 +241,7 @@ class PostsController < ApplicationController
 
 	private
 		def post_params
-			params.require(:post).permit(:title, :street, :city, :state, :country, :description, :price, :security_deposit, :user, :status, :category, :image_url)
+			params.require(:post).permit(:title, :street, :city, :state, :description, :price, :security_deposit, :user, :status, :category, :image_url)
 		end
 
 		def to_rad(degrees)
