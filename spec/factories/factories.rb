@@ -61,6 +61,21 @@ FactoryGirl.define do
 	    updated_at Date.today
 	end
 
+	factory :post2, class: Post do |f|
+		f.title 'example title'
+		f.description 'example description'
+		f.price 12.34
+		f.security_deposit 56.78
+		f.status 2
+		f.association :user, factory: :user
+		f.street '2525 Benvenue Ave'
+		f.city 'Berkeley'
+		f.state 'CA'
+		f.category 1
+	    created_at Date.today
+	    updated_at Date.today
+	end
+
 	factory :exchange do |f|
 		f.association :lender, factory: :user
 		f.association :borrower, factory: :user2
