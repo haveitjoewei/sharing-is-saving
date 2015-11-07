@@ -34,8 +34,6 @@ FactoryGirl.define do
 
 	factory :post do |f|
 		f.title 'example title'
-		f.latitude 123.45
-		f.longitude 123.56
 		f.description 'example description'
 		f.price 12.34
 		f.security_deposit 56.78
