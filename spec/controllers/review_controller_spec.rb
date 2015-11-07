@@ -8,15 +8,14 @@ RSpec.describe ReviewsController, type: :controller do
 	  @borrower = FactoryGirl.create(:user)
 	  @lender = FactoryGirl.create(:user2)
 	  @post = FactoryGirl.create(:post, :user => @lender)
-	  exchange = FactoryGirl.create(:exchange, :post => @post)
+	  @exchange = FactoryGirl.create(:exchange, :post => @post)
 	  sign_in @borrower
 	end
 
 
 	it "should make a request for an review and test showing it" do
-		byebug
 		response = post :create, "reviews"=>{ exchange_id: @exchange.id, rating: 1, content: "great!" }
-		expect(response.status).to eq(200)
+		expect(response.status).to eq(302)
 		#@createdReview= controller.instance_variable_get(:@Review)
 
 		# # Show created Exchange

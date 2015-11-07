@@ -23,17 +23,8 @@ class ApplicationController < ActionController::Base
     end
 
   end
-  
   protected
 
-  def handle_options_request
-    head(:ok) if request.request_method == "OPTIONS"
-  end
-
-  def json_request?
-    request.format.json?
-  end
-  
   def cors_set_access_control_headers
     headers['Access-Control-Allow-Origin'] = 'http://localhost'
     headers['Access-Control-Allow-Methods'] = 'POST, GET, PUT, DELETE, OPTIONS'
@@ -44,5 +35,5 @@ class ApplicationController < ActionController::Base
   def render_errors(errorsArr)
     return render :json => {:status => -1, :errors => errorsArr}, :status => 404
   end
-  
+
 end
