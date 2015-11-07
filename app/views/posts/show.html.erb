@@ -5,7 +5,7 @@
 			<p class="title"><%= @post.title %></p>
 			<div class="images">
 				<%= image_tag @post.image_url %>
-				<img src="https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=400x400&markers=<%= @post.latitude%>,<%= @post.longitude%>&key=AIzaSyBOdAeTafFu5ZgatsNFiZ51N9gVpOUjQDk"></img>
+				<img src="https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=400x400&markers=<%= @post.latitude%>,<%= @post.longitude%>&key=AIzaSyD9eJ9Bm8-3DPZNyMigx1EAABmD-h0OPag"></img>
 			</div>
 			<div class="content">
 				<p class="posted_by">Posted by <%= User.find(@post.user_id).first_name %> in <%= map_category(@post.category) %></p>
