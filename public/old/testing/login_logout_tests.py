@@ -7,7 +7,7 @@ class LoginLogoutTestCase(unittest.TestCase):
 	def setUp(self):
 		chrome_options = Options()
 		self.browser = webdriver.Chrome('./chromedriver')
-		self.browser.get('http://sharingissaving.herokuapp.com/')
+		self.browser.get('http://localhost:3000/')
 		self.addCleanup(self.browser.quit)
 	def testPageTitle(self):
 		self.assertIn('Sharing Is Saving', self.browser.title)

@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import Select
+import os
 import unittest
 import time
 import string
@@ -43,7 +44,7 @@ class PostTestCase(unittest.TestCase):
 		self.browser.find_element_by_id('post_title').send_keys(testpost)
 		select = Select(self.browser.find_element_by_id('post_category'))
 		select.select_by_visible_text('Apparel & Accessories')
-		self.browser.find_element_by_id('post_image_url').send_keys("/Users/josephwei/Downloads/IMG_0039.JPG")
+		self.browser.find_element_by_id('post_image_url').send_keys(os.getcwd()+"/testimage.jpg")
 		self.browser.find_element_by_id('post_description').send_keys("Nifty Description")
 		self.browser.find_element_by_id('post_street').send_keys("2419 Durant Ave.")
 		self.browser.find_element_by_id('post_city').send_keys("Berkeley")
@@ -80,7 +81,7 @@ class PostTestCase(unittest.TestCase):
 		self.browser.find_element_by_id('post_title').send_keys(testpost)
 		select = Select(self.browser.find_element_by_id('post_category'))
 		select.select_by_visible_text('Apparel & Accessories')
-		self.browser.find_element_by_id('post_image_url').send_keys("/Users/josephwei/Downloads/IMG_0039.JPG")
+		self.browser.find_element_by_id('post_image_url').send_keys(os.getcwd()+"/testimage.jpg")
 		self.browser.find_element_by_id('post_description').send_keys("Nifty Description")
 		self.browser.find_element_by_id('post_street').send_keys("2419 Durant Ave.")
 		self.browser.find_element_by_id('post_city').send_keys("Berkeley")
@@ -122,7 +123,7 @@ class PostTestCase(unittest.TestCase):
 		self.browser.find_element_by_id('post_title').send_keys(testpost)
 		select = Select(self.browser.find_element_by_id('post_category'))
 		select.select_by_visible_text('Apparel & Accessories')
-		self.browser.find_element_by_id('post_image_url').send_keys("/Users/josephwei/Downloads/IMG_0039.JPG")
+		self.browser.find_element_by_id('post_image_url').send_keys(os.getcwd()+"/testimage.jpg")
 		self.browser.find_element_by_id('post_description').send_keys("Nifty Description")
 		self.browser.find_element_by_id('post_street').send_keys("2419 Durant Ave.")
 		self.browser.find_element_by_id('post_city').send_keys("Berkeley")
@@ -165,7 +166,7 @@ class PostTestCase(unittest.TestCase):
 		self.browser.find_element_by_id('post_title').send_keys(testpost)
 		select = Select(self.browser.find_element_by_id('post_category'))
 		select.select_by_visible_text('Apparel & Accessories')
-		self.browser.find_element_by_id('post_image_url').send_keys("/Users/josephwei/Downloads/IMG_0039.JPG")
+		self.browser.find_element_by_id('post_image_url').send_keys(os.getcwd()+"/testimage.jpg")
 		self.browser.find_element_by_id('post_description').send_keys("Nifty Description")
 		self.browser.find_element_by_id('post_street').send_keys("2419 Durant Ave.")
 		self.browser.find_element_by_id('post_city').send_keys("Berkeley")
@@ -221,7 +222,7 @@ class PostTestCase(unittest.TestCase):
 		self.browser.find_element_by_id('post_title').send_keys(testpost)
 		select = Select(self.browser.find_element_by_id('post_category'))
 		select.select_by_visible_text('Apparel & Accessories')
-		self.browser.find_element_by_id('post_image_url').send_keys("/Users/josephwei/Downloads/IMG_0039.JPG")
+		self.browser.find_element_by_id('post_image_url').send_keys(os.getcwd()+"/testimage.jpg")
 		self.browser.find_element_by_id('post_description').send_keys("Nifty Description")
 		self.browser.find_element_by_id('post_street').send_keys("2419 Durant Ave.")
 		self.browser.find_element_by_id('post_city').send_keys("Berkeley")
@@ -295,7 +296,7 @@ class PostTestCase(unittest.TestCase):
 		self.browser.find_element_by_id('post_title').send_keys(testpost)
 		select = Select(self.browser.find_element_by_id('post_category'))
 		select.select_by_visible_text('Apparel & Accessories')
-		self.browser.find_element_by_id('post_image_url').send_keys("/Users/josephwei/Downloads/IMG_0039.JPG")
+		self.browser.find_element_by_id('post_image_url').send_keys(os.getcwd()+"/testimage.jpg")
 		self.browser.find_element_by_id('post_description').send_keys("Nifty Description")
 		self.browser.find_element_by_id('post_street').send_keys("2419 Durant Ave.")
 		self.browser.find_element_by_id('post_city').send_keys("Berkeley")
@@ -372,7 +373,7 @@ class PostTestCase(unittest.TestCase):
 		self.browser.find_element_by_id('post_title').send_keys(testpost)
 		select = Select(self.browser.find_element_by_id('post_category'))
 		select.select_by_visible_text('Apparel & Accessories')
-		self.browser.find_element_by_id('post_image_url').send_keys("/Users/josephwei/Downloads/IMG_0039.JPG")
+		self.browser.find_element_by_id('post_image_url').send_keys(os.getcwd()+"/testimage.jpg")
 		self.browser.find_element_by_id('post_description').send_keys("Nifty Description")
 		self.browser.find_element_by_id('post_street').send_keys("2419 Durant Ave.")
 		self.browser.find_element_by_id('post_city').send_keys("Berkeley")
