@@ -10,11 +10,6 @@ class ApplicationController < ActionController::Base
   def home
   end
 
-  def options_for_mopd
-    render :nothing => true, :status => 200
-  end
-
-
   def get_notifications
     @allActivities = PublicActivity::Activity.all
 
@@ -49,28 +44,5 @@ class ApplicationController < ActionController::Base
   def render_errors(errorsArr)
     return render :json => {:status => -1, :errors => errorsArr}, :status => 404
   end
-
-  private
   
-  def authenticate_user_from_token!
-    user_email = request.headers["X-API-EMAIL"].presence
-    user_auth_token = request.headers["X-API-TOKEN"].presence
-
-    if !user_email or !user_auth_token
-      render :json => { :status => '-1', :message => 'Email or auth token is not present. Please add it to your headers using X-API-EMAIL and X-API-TOKEN.' }, :status => 404
-      return
-    end
-
-    user = user_email && User.find_by_email(user_email)
-
-    # Notice how we use Devise.secure_compare to compare the token
-    # in the database with the token given in the params, mitigating
-    # timing attacks.
-    if user && Devise.secure_compare(user.authentication_token, user_auth_token)
-      sign_in(user, store: false)
-    else
-	    render :json => { :status => '-1', :message => 'Email and token combination is invalid.' }, :status => 404
-      return
-    end
-  end
 end

@@ -4,7 +4,7 @@ class ActivitiesController < ApplicationController
   # Get all activities, based on current_user and an optional tag for specifying task
   def index
     @activities = PublicActivity::Activity.all
-    byebug
+
     if params.has_key?(:filter)
       filter = params[:filter].to_s
       if filter == 'lender'

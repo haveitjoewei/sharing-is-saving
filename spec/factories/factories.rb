@@ -32,6 +32,20 @@ FactoryGirl.define do
 	    f.authentication_token "hxfRD4EykqGeZPsBiwKY"
 	end
 
+	factory :user3, class: User do |f|
+	    email
+	    f.password "password"
+	    f.password_confirmation "password"
+	    f.date_of_birth Date.today
+	    f.latitude 37.86449
+	    f.longitude -122.254504
+	    f.first_name "Sidwyn"
+	    f.last_name "Koh3"
+	    f.created_at Date.today
+	    f.updated_at Date.today
+	    f.authentication_token "hxfRD4EykqGeZPsBiwKY"
+	end
+
 	factory :post do |f|
 		f.title 'example title'
 		f.description 'example description'

@@ -8,11 +8,10 @@ RSpec.describe ReviewsController, type: :controller do
 	  @borrower = FactoryGirl.create(:user)
 	  @lender = FactoryGirl.create(:user2)
 	  @post = FactoryGirl.create(:post, :user => @lender)
-	  @exchange = FactoryGirl.create(:exchange, :post => @post)
+	  exchange = FactoryGirl.create(:exchange, :post => @post)
 	  sign_in @borrower
 	end
 
-	
 
 	it "should make a request for an review and test showing it" do
 		byebug

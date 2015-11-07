@@ -59,12 +59,22 @@ RSpec.describe ActivitiesController, type: :controller do
   describe "GET #index" do
     it "assigns all activities as @activities" do
       activity = PublicActivity::Activity.create! valid_attributes
-      byebug
+      
       get :index
-
-      # @activities = controller.instance_variable_get(:@activities)
-
       expect(assigns(:activities)).to eq([activity])
+
+      response = get :index, { filter: 'lender' }
+      expect(response.status).to eq(200)
+
+      response = get :index, { filter: 'borrower' }
+      expect(response.status).to eq(200)
+
+      response = get :index, { key: 'exchange.update_status' }
+      expect(response.status).to eq(200)
+
+      response = get :index, { filter: 'neither_lender_nor_borrower' }
+      expect(response.status).to eq(404)
+
     end
   end
 
@@ -73,6 +83,9 @@ RSpec.describe ActivitiesController, type: :controller do
       activity = PublicActivity::Activity.create! valid_attributes
       get :show, {:id => activity.to_param}, valid_session
       expect(assigns(:activity)).to eq(activity)
+
+      response = get :show, { id: 5000 }
+      expect(response.status).to eq(404)
     end
   end
 

@@ -86,18 +86,6 @@ class ExchangesController < ApplicationController
 		end
 	end
 
-	# DELETE /api/v1/exchanges/:id(.:format)  
-	# ONLY FOR ADMIN PURPOSES ONLY
-	def destroy
-		begin
-			@exchange = ::Exchange.find(params[:id])
-			return render_errors(["Couldn't delete exchange because post does not exist."])
-		else
-			::Exchange.delete(params[:id])
-			render :json => {:status => 1}
-		end
-	end
-
 	# PUT /api/v1/exchanges/:id/update_status
 	def update_status
 
