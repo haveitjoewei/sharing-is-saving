@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   match '*path' => 'application#options_for_mopd', :via => :options
 
   # Users
-  devise_for :users, :controllers => {sessions: 'users/sessions', registrations: 'users/registrations'}
+  devise_for :users, :controllers => {sessions: 'users/sessions', registrations: 'users/registrations', :omniauth_callbacks => "users/omniauth_callbacks"}
   devise_scope :user do
     get '/profile', to: 'users/registrations#view'
   end
