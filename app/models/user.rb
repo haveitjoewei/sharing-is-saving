@@ -16,6 +16,10 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:facebook]
 
+  if Rails.env.production?
+    devise :confirmable
+  end
+
   before_create :set_foo_to_now
   
   def set_foo_to_now
