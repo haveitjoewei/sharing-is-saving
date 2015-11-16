@@ -13,12 +13,8 @@ class User < ActiveRecord::Base
   has_many :exchanges
   has_many :reviews
   
-  devise :database_authenticatable, :registerable,
+  devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:facebook]
-
-  if Rails.env.production?
-    devise :confirmable
-  end
 
   before_create :set_foo_to_now
   
