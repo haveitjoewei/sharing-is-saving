@@ -42,8 +42,8 @@ nav {
 }
 
 #search-bar {
-	width: 500px;
 	overflow: hidden;
+	width: 300px;
 }
 
 #search-button {
@@ -52,6 +52,7 @@ nav {
 
 #search-form {
 	float: left;
+	width: 400px;
 }
 
 .button {
@@ -140,7 +141,7 @@ input[type="submit"] {
 }
 
 #map {
-	width: 100%;
+	width: 50%;
 	height: 400px;
 }
 
