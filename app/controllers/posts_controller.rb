@@ -78,6 +78,11 @@ class PostsController < ApplicationController
 			@allPosts = @allPosts.where(category: filter_categories)
 		end
 
+		# search titles and descriptions. see post.rb
+		if params.has_key?(:search)
+			@allPosts = @allPosts.search(params[:search])
+		end
+
 		@allPosts.each do |post|
 			post.created_at = post.created_at.to_f
 			post.updated_at = post.updated_at.to_f

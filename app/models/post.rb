@@ -20,4 +20,13 @@ class Post < ActiveRecord::Base
 	validates :security_deposit, presence: true, :format => { :with => /\A\d+(?:\.\d{0,2})?\z/ }, :numericality => {:greater_than => 0}
 	validates :status, presence: true, numericality: true, :inclusion => {:in => 1..4, :message => "must be an integer between 1 and 4"}
 	validates :category, presence: true, numericality: true, :inclusion => {:in => 1..11, :message => "must be an integer between 1 and 11"}
+
+	def self.search(query)
+	  # where(:title, query) -> This would return an exact match of the query
+		if query
+			where("title like ? or description like ?", "%#{query}%", "%#{query}%") 
+		else
+			self.all
+		end
+	end
 end

@@ -20,14 +20,18 @@ header {
 	padding: 30px;
 }
 
-header a {
+#home {
+	float: left;
+}
+
+header a, #submit-button {
 	color: white;
 	padding: 15px;
 	margin: 0 5px;
 	transition: background 0.25s ease-in-out;
 }
 
-header a:hover {
+header a:hover, #submit-button {
 	color: white;
 	background-color: #0082E0;
 	border-radius: 3px;
@@ -35,6 +39,19 @@ header a:hover {
 
 nav {
 	float: right;
+}
+
+#search-bar {
+	width: 500px;
+	overflow: hidden;
+}
+
+#search-button {
+	float: right;
+}
+
+#search-form {
+	float: left;
 }
 
 .button {
