@@ -17,7 +17,7 @@ a:hover {
 
 header {
 	background-color: #0094FF;
-	padding: 30px;
+	padding: 0px;
 }
 
 #home {
@@ -26,8 +26,11 @@ header {
 
 header a, #submit-button {
 	color: white;
-	padding: 15px;
-	margin: 0 5px;
+	background-color: #0094FF;
+    border-radius: 3px;
+    padding: 15px;
+    margin: 5px;
+    border: none;
 	transition: background 0.25s ease-in-out;
 }
 
@@ -39,15 +42,34 @@ header a:hover, #submit-button {
 
 nav {
 	float: right;
+    position: relative;
+    top: 50%;
+    transform: translateY(100%);
 }
 
 #search-bar {
 	width: 500px;
+	top:50%;
+	padding: 5px;
+	transform: translateY(10%);
 	overflow: hidden;
 }
 
 #search-button {
 	float: right;
+	color: white;
+	background-color: #0094FF;
+    border-radius: 3px;
+    padding: 15px;
+    margin: 5px;
+    border: none;
+	transition: background 0.25s ease-in-out;
+}
+
+#search-button:hover{
+	color: white;
+	background-color: #0082E0;
+	border-radius: 3px;
 }
 
 #search-form {
