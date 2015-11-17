@@ -48,6 +48,9 @@ gem 'rails_12factor', group: :production
 gem 'public_activity'
 gem 'geocoder'
 gem 'simplecov', :require => false, :group => :test
+gem 'sendgrid'
+gem 'omniauth-facebook'
+gem 'figaro'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

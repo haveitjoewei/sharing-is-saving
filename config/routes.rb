@@ -2,11 +2,13 @@ Rails.application.routes.draw do
   root 'application#home'
 
   match '*path' => 'application#options_for_mopd', :via => :options
-
+  
   # Users
-  devise_for :users, :controllers => {sessions: 'users/sessions', registrations: 'users/registrations'}
+  devise_for :users, :controllers => {sessions: 'users/sessions', registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks', confirmations: 'users/confirmations'}
   devise_scope :user do
     get '/profile', to: 'users/registrations#view'
+    get '/activation', to: 'users/registrations#activation'
+    get '/confirmed', to: 'users/registrations#confirmed'
   end
   
   resources :posts, :controller => 'posts' do

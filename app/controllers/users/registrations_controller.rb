@@ -18,6 +18,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
     super
   end
 
+  def activation
+  end
+
+  def confirmed
+  end
+
   def view
     @allNotificationsForCompletedTransactions = PublicActivity::Activity.all.where(:key => 'exchange.exchange_completed')
     @allExchanges = @allNotificationsForCompletedTransactions.reverse_order.map { |notification| ::Exchange.find(notification.exchange_id)}
@@ -91,9 +97,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # The path used after sign up for inactive accounts.
-  # def after_inactive_sign_up_path_for(resource)
-  #   super(resource)
-  # end
+  def after_inactive_sign_up_path_for(resource)
+    '/activation'
+  end
 
   
 end
