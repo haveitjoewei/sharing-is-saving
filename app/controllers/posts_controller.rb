@@ -172,6 +172,7 @@ class PostsController < ApplicationController
 		postId = params[:id]
 		currentUserId = current_user.id
 		@post = ::Post.find(postId)
+		@allReviews = ::Review.all.order(:created_at).reverse_order
 		if @post.user_id == currentUserId
 			if @post.update_attributes(post_params)
 				render :show

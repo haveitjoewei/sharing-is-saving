@@ -60,8 +60,8 @@ $(function() {
 
 <div id="mainbody">
   <div class = "create">
-  <h3>Post an item</h3>
-  <%= form_for(:post, url: {action: "create"}, html: {class: "directUpload", data: {'form-data' => (@s3_direct_post.fields), 'url' => @s3_direct_post.url, 'host' => URI.parse(@s3_direct_post.url).host}}) do |f| %>
+  <h3>Edit your item</h3>
+  <%= form_for @post, url: {action: "update"}, html: {class: "directUpload", data: {'form-data' => (@s3_direct_post.fields), method: :patch, 'url' => @s3_direct_post.url, 'host' => URI.parse(@s3_direct_post.url).host}} do |f| %>
 
     <div class="field">
       <%= f.text_field :title, class: 'title', placeholder: 'What are you listing?', autofocus: true %>
@@ -84,7 +84,7 @@ $(function() {
     </div>
 
     <div class="actions">
-      <%= f.submit "Post" %>
+      <%= f.submit "Update Item" %>
     </div>
   <% end %>
 
