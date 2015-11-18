@@ -24,7 +24,7 @@ class Post < ActiveRecord::Base
 	def self.search(query)
 	  # where(:title, query) -> This would return an exact match of the query
 		if query
-			where("title like ? or description like ?", "%#{query}%", "%#{query}%") 
+			where("title ILIKE ? or description ILIKE ?", "%#{query}%", "%#{query}%") 
 		else
 			self.all
 		end
