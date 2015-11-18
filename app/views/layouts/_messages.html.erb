@@ -1,10 +1,23 @@
 <% flash.each do |key, value| %>
-  <div class="alert alert-<%= key %>">
-    <a href="#" data-dismiss="alert" class="close">×</a>
-    <ul>
-      <li>
-        <%= value %>
-      </li>
-    </ul>
-  </div>
+	<% if value.kind_of?(Array) %>
+		<div class="alert alert-<%= key %>">
+			<a href="#" data-dismiss="alert" class="close">×</a>
+			<ul>
+				<% value.each do |m| %>
+				<li>
+					<%= m %>
+				</li>
+				<% end %>
+			</ul>
+		</div>
+	<% else %>
+		<div class="alert alert-<%= key %>">
+			<a href="#" data-dismiss="alert" class="close">×</a>
+			<ul>
+				<li>
+					<%= value %>
+				</li>
+			</ul>
+		</div>
+	<% end %>
 <% end %>

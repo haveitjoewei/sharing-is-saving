@@ -16,7 +16,17 @@ class PostsController < ApplicationController
 		@post.status = 1
 		@post.user_id = current_user.id
 		@post.save
-		redirect_to @post
+		flash[:alert] ||= []
+		if @post.save
+			flash[:notice] = "Post successfully created"
+			redirect_to @post
+		else
+			flash.now[:alert] << "Post can not be saved, please correct the following information:"
+			@post.errors.each do |key, value|
+    			flash[:alert] << key.to_s + " " + value
+			end
+			render :new
+		end
 	end
 
 	# GET posts/:id(.:format)
@@ -24,7 +34,8 @@ class PostsController < ApplicationController
 	def show
 		begin
 			@post = ::Post.find(params[:id])
-			rescue ActiveRecord::RecordNotFound  
+			rescue ActiveRecord::RecordNotFound 
+			flash[:alert] = "Couldn't find post because post does not exist."
 			render :json => {:status => -1, :message => 'Couldn\'t find post because post does not exist.' }, :status => 404
 			return
 		end
@@ -175,6 +186,7 @@ class PostsController < ApplicationController
 		@allReviews = ::Review.all.order(:created_at).reverse_order
 		if @post.user_id == currentUserId
 			if @post.update_attributes(post_params)
+				flash[:notice] = "Post successfully updated"
 				render :show
 			end
 		end

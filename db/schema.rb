@@ -46,20 +46,6 @@ ActiveRecord::Schema.define(version: 20151114052645) do
     t.integer  "status",      null: false
   end
 
-  create_table "listings", force: :cascade do |t|
-    t.string   "title"
-    t.float    "latitude"
-    t.float    "longitude"
-    t.string   "picture"
-    t.string   "description"
-    t.float    "price"
-    t.float    "deposit"
-    t.integer  "posted_by"
-    t.integer  "status"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
   create_table "posts", force: :cascade do |t|
     t.string   "title",            null: false
     t.float    "latitude",         null: false
@@ -123,14 +109,6 @@ ActiveRecord::Schema.define(version: 20151114052645) do
   add_index "users", ["provider"], name: "index_users_on_provider", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["uid"], name: "index_users_on_uid", using: :btree
-
-  create_table "widgets", force: :cascade do |t|
-    t.string   "name"
-    t.text     "description"
-    t.integer  "stock"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   add_foreign_key "posts", "users"
 end

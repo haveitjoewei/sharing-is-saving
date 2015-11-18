@@ -27,11 +27,16 @@ class ReviewsController < ApplicationController
 		# 	return render_errors(["Review already exist for this specific exchange. The exchange id is: #{ids}."])
 		# end
 
-		if @review.save 
-			redirect_to @review
+		flash[:alert] ||= []
+		if @review.save
+			flash[:notice] = "Review successfully created"
 		else
-			render :json => {:status => '-1', :errors => @review.errors.full_messages}, :status => 404 #confused
+			flash.now[:alert] << "Review cannot be saved, please correct the following information:"
+			@review.errors.each do |key, value|
+				flash[:alert] << key.to_s + " " + value
+			end
 		end
+		redirect_to @review
 	end
 
 	#GET /api/v1/reviews(.:format) 
@@ -51,7 +56,7 @@ class ReviewsController < ApplicationController
 			newReview = update_created_and_updated_at(review)
 			reviewArray.push newReview
 		end
-		render :json => {:status => 1, :review => reviewArray}
+		# render :json => {:status => 1, :review => reviewArray}
 	end
 
 	#GET /api/v1/reviews/:id(.:format)

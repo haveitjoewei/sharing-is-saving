@@ -18,16 +18,19 @@ class ExchangesController < ApplicationController
 		begin
 			@lender = ::User.find(@post.user_id)
 		rescue ActiveRecord::RecordNotFound
+			flash[:alert] = "Lender does not exist."
 			return render_errors(['Lender does not exist.'])
 		end
 
 		if @borrower.id == @lender.id
+			flash[:alert] = "Borrower and lender cannot be the same."
 			return render_errors(["Borrower and lender cannot be the same."])
 		end
 
 		existingExchanges = ::Exchange.where(post: @post, lender: @lender, borrower: @borrower, status:1)
 		if existingExchanges.count > 0
 			ids = existingExchanges.collect(&:id).to_sentence
+			flash[:alert] = "Transactions already exist for this specific post, lender, and borrower. The transaction ids are: #{ids}."
 			return render_errors(["Transactions already exist for this specific post, lender, and borrower. The transaction ids are: #{ids}."])
 		end
 
@@ -53,6 +56,7 @@ class ExchangesController < ApplicationController
 			elsif filter == 'borrower'
 				@allExchanges = @allExchanges.where(borrower_id: current_user.id)
 			else
+				flash[:alert] = "Filter has to be either lender or borrower."
 				return render_errors(["Filter has to be either lender or borrower."])
 			end
 		else
@@ -81,6 +85,7 @@ class ExchangesController < ApplicationController
 				newExchange = update_created_and_updated_at(@oneExchange)
 				return render :json => {:status => 1, :exchange => newExchange}
 			else
+				flash[:alert] = "User is not authorized to see this exchange."
 				return render_errors(["User is not authorized to see this exchange."])
 			end
 		end
@@ -92,6 +97,7 @@ class ExchangesController < ApplicationController
 		begin
 			@exchange = ::Exchange.find(params[:id])
 		rescue ActiveRecord::RecordNotFound
+			flash[:alert] = "User is not authorized to see this exchange."
 			return render_errors(['Exchange does not exist.'])
 		end
 
@@ -102,26 +108,31 @@ class ExchangesController < ApplicationController
 		begin
 			status = Integer(params[:status])
 		rescue ArgumentError
+			flash[:alert] = "Status must be an integer. #{whats_available}"
 			return render_errors(["Status must be an integer. #{whats_available}"])
 		end
 
 		if !status.between?(1, 5)
+			flash[:alert] = "Please pick a status from 1 to 5. #{whats_available}"
 			return render_errors(["Please pick a status from 1 to 5. #{whats_available}"])
 		end
 
 		status = params[:status].to_i
 
 		if status == 1
+			flash[:alert] = "Setting an exchange to 'Pending' is not allowed. #{whats_available}"
 			return render_errors(["Setting an exchange to 'Pending' is not allowed. #{whats_available}"])
 		end
 
 		if status == @exchange.status
+			flash[:alert] = "The status of this exchange is already #{status}. #{whats_available}"
 			return render_errors(["The status of this exchange is already #{status}. #{whats_available}"])
 		end
 
 		begin
 			@post = ::Post.find(@exchange.post_id)
 		rescue ActiveRecord::RecordNotFound
+			flash[:alert] = "The post that this exchange is linked to is invalid. The post that you linked to is #{post.id}."
 			return render_errors(["The post that this exchange is linked to is invalid. The post that you linked to is #{post.id}."])
 		end
 
@@ -140,6 +151,7 @@ class ExchangesController < ApplicationController
 		begin
 			@owner = User.find(@post.user_id)
 		rescue ActiveRecord::RecordNotFound
+			flash[:alert] = "The post belongs to no one. The post that you linked to is #{@post.user_id}."
 			return render_errors(["The post belongs to no one. The post that you linked to is #{@post.user_id}."])
 		end
 
