@@ -1,30 +1,40 @@
-<h2>Log in</h2>
+<div class="log-in">
+  <%= link_to user_omniauth_authorize_path(:facebook) do
+      image_tag('facebook-sign-in.png', id:"log-in-facebook", onMouseover:"this.src='#{asset_path('facebook-sign-in-hover.png')}'", onMouseout:"this.src='#{asset_path('facebook-sign-in.png')}'")
+  end %>
 
-<%= link_to "Sign In with Facebook", user_omniauth_authorize_path(:facebook) %>
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <%= devise_error_messages! %>
+    <div class="blank-vertical-space"></div>
+    <b>or</b>
+    
+    <%= f.email_field :email, class:"email-field", autofocus: true, placeholder: "Email" %>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
-  
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
-  </div>
+    <%= f.password_field :password, class:"password-field", autocomplete: "off", placeholder: "Password" %>
 
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "off" %>
-  </div>
+    <% if devise_mapping.rememberable? -%>
+      <div class="field remember-me">
+        <%= f.check_box :remember_me %>
+          Remember Me
+        <%= link_to new_user_password_path do %> 
+          <span class="forgot-password">Forgot password?</span>
+        <% end %>
+      </div>
+    <% end -%>
 
-  <% if devise_mapping.rememberable? -%>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+    <div class="actions">
+      <%= f.submit "Log In", class:"button"%>
     </div>
-  <% end -%>
 
-  <div class="actions">
-    <%= f.submit "Log in" %>
-  </div>
-<% end %>
+    <div class="gray-divider">
+    </div>
 
-<%= render "devise/shared/links" %>
+    <div class="sign-up-footer">
+      Don't have an account? 
+      <%= link_to new_user_registration_path do %>
+        Sign up
+      <% end %>
+    </div>
+  <% end %>
+</div>
+

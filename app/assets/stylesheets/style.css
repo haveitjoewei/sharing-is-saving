@@ -4,6 +4,7 @@ body {
 	background-color: #EFEFEF;
 	background-repeat: no-repeat;
 	background-size: cover;
+	color: #555;
 }
 
 a {
@@ -81,13 +82,32 @@ nav {
 	background-color: #0094FF;
 	padding: 15px;
 	color: white;
-	font-size: 1.5em;
+	font-size: 1em;
 	border-radius: 3px;
+	border: none;
 	transition: background 0.25s ease-in-out;
 }
 
 .button:hover {
 	background-color: #38ACFF;
+}
+
+// For IE
+
+.btn-inverse:active,
+.btn-inverse.active {
+  background-color: #080808 \9;
+}
+
+// Add 'btn-flat' to your buttons
+.btn-flat {
+    filter:progid:DXImageTransform.Microsoft.Gradient(enabled='false');
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    background-image:none;
+    border:0;
+    background-color: #0094FF;
 }
 
 .itemlink {
@@ -476,4 +496,52 @@ input[type="submit"] {
 	position: absolute;
 	margin-top: -11px;
 	font-size: 11px;
+}
+
+.log-in,.sign-up {
+	text-align: center;
+	width: 328px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#log-in-facebook {
+	margin-top: 40px;
+	width: 100%;
+	background-image: url('/assets/facebook-sign-in.png');
+}
+
+#log-in-or {
+	margin-top: 40px;
+}
+
+.blank-vertical-space {
+	height: 20px;
+}
+
+.email-field {
+	margin-top: 20px;
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+.password-field {
+	margin-top: 20px;
+	padding: 10px;
+}
+
+.remember-me,.sign-up-footer{
+	text-align: left;
+}
+
+.forgot-password {
+	float: right;
+}
+
+.gray-divider {
+	margin-top: 4px;
+	margin-bottom: 16px;
+	background-color: #cecece;
+	height: 0.5px;
 }
