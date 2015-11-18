@@ -6,43 +6,44 @@
 	<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 	<%= csrf_meta_tags %>
 	<script>
-		var pos;
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(function(position) {
-				pos = {
-					lat: position.coords.latitude,
-					lng: position.coords.longitude
-				};
-				var finds = document.getElementsByClassName("find")
-				for (i = 0; i < finds.length; i++) {
-					finds[i].href = "/posts?center=" + pos.lat + "," + pos.lng + "&radius=10"
-				}
-			});
-		}
+	var pos;
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(function(position) {
+			pos = {
+				lat: position.coords.latitude,
+				lng: position.coords.longitude
+			};
+			var finds = document.getElementsByClassName("find")
+			for (i = 0; i < finds.length; i++) {
+				finds[i].href = "/posts?center=" + pos.lat + "," + pos.lng + "&radius=10"
+			}
+		});
+	}
 	</script>
 
 </head>
 <body>
 	<header class="clearfix">
-	    <%= link_to 'Sharing Is Saving', root_url, :id => 'home' %>  
+
+		<%= link_to 'Sharing Is Saving', root_url, :id => 'home' %>  
 
 		<%= form_tag(posts_path, :method => "get", id: "search-form") do %>
 		<span class="input-append">
-		    <%= text_field_tag :search, params[:search], id: "search-bar", placeholder: "What are you looking for?" %><button type="submit" id="search-button">Search</button>
+			<%= text_field_tag :search, params[:search], id: "search-bar", placeholder: "What are you looking for?" %><button type="submit" id="search-button">Search</button>
 		</span>
 		<% end %>
 
 		<nav>
-	        <% if user_signed_in? %>
-	        <script>
-		        var ready = function() {
-		        	$("#notificationContainer").hide();
+			<% if user_signed_in? %>
+			<script>
+			var ready = function() {
+				$("#notificationContainer").hide();
 
-		        	$("#notificationLink").click(function(){
-		        		$("#notificationContainer").toggle();
+				$("#notificationLink").click(function(){
+					$("#notificationContainer").toggle();
 	      			// $("#notification_count").fadeOut("slow");
 	      			// return false;
-  				});
+	      		});
 				  // // Document Click hiding the popup 
 				  // $(document).click(function()
 				  //   {
@@ -61,54 +62,54 @@
 
 				$(document).ready(ready);
 				$(document).on('page:load', ready);
-			</script>
-		    	<%= link_to 'Listings', posts_path, :id => 'listings_tab' %>
-			    <%= link_to('New Post', new_post_path, :id => 'new_post')  %>  
-                <%= link_to("#{current_user.email}", profile_path, :id => 'username') %>
+				</script>
+				<%= link_to 'Listings', posts_path, :id => 'listings_tab' %>
+				<%= link_to('New Post', new_post_path, :id => 'new_post')  %>  
+				<%= link_to("#{current_user.email}", profile_path, :id => 'username') %>
 				<div id="notification_li">
 					<!-- <span id="notification_count">3</span> -->
 					<div id="notificationContainer">
 						<div id="notificationTitle">Notifications</div>
 						<div id="notificationsBody" class="notifications">
-					        <ul class="list-group">
+							<ul class="list-group">
 
-							<% @allActivities.each_with_index do |activity, index| %>
+								<% @allActivities.each_with_index do |activity, index| %>
 
 								<% if activity.owner_id == current_user.id %>
-									<% if activity.key == 'exchange.create_exchange' %>
-						        		<li class="list-group-item"><%= @allRecipientsN[index].first_name %> requested to borrow your item <%= @allPostsN[index].title %>.</li>
+								<% if activity.key == 'exchange.create_exchange' %>
+								<li class="list-group-item"><%= @allRecipientsN[index].first_name %> requested to borrow your item <%= @allPostsN[index].title %>.</li>
 
-									<% elsif activity.key == 'exchange.exchange_completed' %>
-										<li class="list-group-item"><%= @allRecipientsN[index].first_name %> has returned your item <%= @allPostsN[index].title %>.</li>
+								<% elsif activity.key == 'exchange.exchange_completed' %>
+								<li class="list-group-item"><%= @allRecipientsN[index].first_name %> has returned your item <%= @allPostsN[index].title %>.</li>
 
-									<% elsif activity.key == 'exchange.update_status' %>
-										<% if activity.parameters[:to_status] == 5 %>
-											<li class="list-group-item">You declined <%= @allRecipientsN[index].first_name %>'s request to rent <%= @allPostsN[index].title %>.</li>
-										<% end %>
-									<% end %>
+								<% elsif activity.key == 'exchange.update_status' %>
+								<% if activity.parameters[:to_status] == 5 %>
+								<li class="list-group-item">You declined <%= @allRecipientsN[index].first_name %>'s request to rent <%= @allPostsN[index].title %>.</li>
+								<% end %>
+								<% end %>
 
 								<% elsif activity.recipient_id == current_user.id %>
 
-									<% if activity.key == 'exchange.update_status' %>
+								<% if activity.key == 'exchange.update_status' %>
 
-										<% if activity.parameters[:to_status] == 2 %>
-											<li class="list-group-item">You are now renting <%= @allOwnersN[index].first_name %>'s <%= @allPostsN[index].title %>.</li>
+								<% if activity.parameters[:to_status] == 2 %>
+								<li class="list-group-item">You are now renting <%= @allOwnersN[index].first_name %>'s <%= @allPostsN[index].title %>.</li>
 
-										<% elsif activity.parameters[:to_status] == 5 %>
-											<li class="list-group-item">Your request to rent <%= @allOwnersN[index].first_name %>'s <%= @allPostsN[index].title %> was cancelled.</li>
+								<% elsif activity.parameters[:to_status] == 5 %>
+								<li class="list-group-item">Your request to rent <%= @allOwnersN[index].first_name %>'s <%= @allPostsN[index].title %> was cancelled.</li>
 
-										<% elsif activity.parameters[:to_status] == 3 %>
-											<li class="list-group-item">Your request to rent <%= @allOwnersN[index].first_name %>'s <%= @allPostsN[index].title %> was rejected.</li>
-										<% end %>
+								<% elsif activity.parameters[:to_status] == 3 %>
+								<li class="list-group-item">Your request to rent <%= @allOwnersN[index].first_name %>'s <%= @allPostsN[index].title %> was rejected.</li>
+								<% end %>
 
-									<% elsif activity.key == 'exchange.exchange_completed' %>
-										<li class="list-group-item">You have returned <%= @allOwnersN[index].first_name %>'s item <%= @allPostsN[index].title %>.</li>
-
-									<% end %>
+								<% elsif activity.key == 'exchange.exchange_completed' %>
+								<li class="list-group-item">You have returned <%= @allOwnersN[index].first_name %>'s item <%= @allPostsN[index].title %>.</li>
 
 								<% end %>
 
-							<% end %>
+								<% end %>
+
+								<% end %>
 
 							</ul>
 						</div>
@@ -116,15 +117,18 @@
 					</div>
 				</div>
 				<a href="#" id="notificationLink">Notifications</a>
-			    <%= link_to('Logout', destroy_user_session_path, :method => :delete, :id => 'logout_button') %>        
-	        <% else %>
-			    <%= link_to('Sign Up', new_user_registration_path, :id => 'signup')  %>  
-			    <%= link_to('Login', new_user_session_path, :id => 'login')  %>  
-			<% end %>
-		</nav>
-	</header>
+				<%= link_to('Logout', destroy_user_session_path, :method => :delete, :id => 'logout_button') %>        
+				<% else %>
+				<%= link_to('Sign Up', new_user_registration_path, :id => 'signup')  %>  
+				<%= link_to('Login', new_user_session_path, :id => 'login')  %>  
+				<% end %>
+			</nav>
+		</header>
 
-	<%= yield %>
+		<div class="container">
+			<%= render 'layouts/messages' %>
+			<%= yield %>
+		</div>
 
-</body>
-</html>
+	</body>
+	</html>
