@@ -11,8 +11,42 @@
 		<%= link_to('Sharing makes the world a better place', new_user_registration_path, :id => 'signup', :class=> 'button')  %>
 		<%= link_to('Already a member? Login', new_user_session_path, :id => 'login')  %> 
 	<% end %>
+
+	<%= "Apparel & Accessories" %>
 	<%= link_to posts_path(category: 1) do
-      image_tag('clothes.jpg', id:"filter_clothes",)
+      image_tag('clothes.png', id:"filter_apparel",)
   	end %>
-  	 <%= "Apparel & Accessories" %>
+  	<%= "Arts & Crafts" %>
+	<%= link_to posts_path(category: 2) do
+      image_tag('art-supplies.png', id:"filter_arts",)
+  	end %>
+  	  	<%= "Electronics" %>
+	<%= link_to posts_path(category: 3) do
+      image_tag('electronics.jpg', id:"filter_electronics",)
+  	end %>
+  	  	<%= "Kids & Baby" %>
+	<%= link_to posts_path(category: 5) do
+      image_tag('baby.jpg', id:"filter_baby",)
+  	end %>
+  	  	<%= "Movies, Music, Books & Games" %>
+	<%= link_to posts_path(category: 6) do
+      image_tag('games.png', id:"filter_games",)
+  	end %>
+  	  	<%= "Motor Vehicles" %>
+	<%= link_to posts_path(category: 7) do
+      image_tag('car.png', id:"filter_vehicles",)
+  	end %>
+  	  	<%= "Spaces & Venues" %>
+	<%= link_to posts_path(category: 10) do
+      image_tag('space.jpg', id:"filter_space",)
+  	end %>
+  	  	<%= "Sports & Outdoors" %>
+	<%= link_to posts_path(category: 11) do
+      image_tag('outdoor.png', id:"filter_outdoors",)
+  	end %>
+  	  	<%= "Tools & Gardening" %>
+	<%= link_to posts_path(category: 12) do
+      image_tag('tools.png', id:"filter_tools",)
+  	end %>
+
 </div>
