@@ -28,6 +28,7 @@ class User < ActiveRecord::Base
       user.password = Devise.friendly_token[0,20]
       user.first_name = auth.extra.raw_info.first_name   # assuming the user model has a name
       user.last_name = auth.extra.raw_info.last_name   # assuming the user model has a name
+      user.confirmed_at = Time.now # prevent confirmation email from being sent
       if auth.extra.raw_info.birthday
         user.date_of_birth = auth.extra.raw_info.birthday
       else

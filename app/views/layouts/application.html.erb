@@ -26,11 +26,12 @@
 	<header class="clearfix">
 
 		<%= link_to 'Sharing Is Saving', root_url, :id => 'home' %>  
-
-		<%= form_tag(posts_path, :method => "get", id: "search-form") do %>
-		<span class="input-append">
-			<%= text_field_tag :search, params[:search], id: "search-bar", placeholder: "What are you looking for?" %><button type="submit" id="search-button">Search</button>
-		</span>
+		<% unless current_page?(root_path) %>
+			<%= form_tag(posts_path, :method => "get", id: "search-form") do %>
+				<span class="input-append">
+				    <%= text_field_tag :search, params[:search], id: "search-bar", placeholder: "What are you looking for?", autofocus: true %><button type="submit" id="search-button">Search</button>
+				</span>
+			<% end %>
 		<% end %>
 
 		<nav>
@@ -65,7 +66,8 @@
 				</script>
 				<%= link_to 'Listings', posts_path, :id => 'listings_tab' %>
 				<%= link_to('New Post', new_post_path, :id => 'new_post')  %>  
-				<%= link_to("#{current_user.email}", profile_path, :id => 'username') %>
+				<%= link_to('Profile', profile_path, :id => 'username') %>
+				<!-- <%= link_to("#{current_user.email}", profile_path, :id => 'username') %> -->
 				<div id="notification_li">
 					<!-- <span id="notification_count">3</span> -->
 					<div id="notificationContainer">
