@@ -11,4 +11,8 @@
 		<%= link_to('Sharing makes the world a better place', new_user_registration_path, :id => 'signup', :class=> 'button')  %>
 		<%= link_to('Already a member? Login', new_user_session_path, :id => 'login')  %> 
 	<% end %>
+	<%= link_to posts_path(category: 1) do
+      image_tag('clothes.jpg', id:"filter_clothes",)
+  	end %>
+  	 <%= "Apparel & Accessories" %>
 </div>
