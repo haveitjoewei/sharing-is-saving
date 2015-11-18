@@ -44,6 +44,15 @@
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9eJ9Bm8-3DPZNyMigx1EAABmD-h0OPag&signed_in=true&callback=initMap" async defer></script>
 <div id="mainbody">
+	<section class="filter">
+		<form class="filter_form", method="get">
+			<% @categories.each do |c| %>
+			    <%= check_box_tag("category[]", c[1]) %>
+			    <%= c[0] %>
+			<% end %>
+			<input type="submit" value="Apply Filter" />
+		</form>
+	</section>
 	<section class="listings">
 		<% i = 1 %>
 		<% @allPosts.each do |post| %>
