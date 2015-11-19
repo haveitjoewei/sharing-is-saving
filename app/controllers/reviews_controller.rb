@@ -27,10 +27,10 @@ class ReviewsController < ApplicationController
 		# 	return render_errors(["Review already exist for this specific exchange. The exchange id is: #{ids}."])
 		# end
 
-		flash[:alert] ||= []
 		if @review.save
 			flash[:notice] = "Review successfully created"
 		else
+			flash[:alert] ||= []
 			flash.now[:alert] << "Review cannot be saved, please correct the following information:"
 			@review.errors.each do |key, value|
 				flash[:alert] << key.to_s + " " + value
