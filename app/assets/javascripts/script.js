@@ -1,4 +1,10 @@
-
+$(document).ready(function(){
+	setTimeout(function(){
+		$('.alert-notice').fadeOut("slow", function(){
+			$(this).remove();
+		})
+	}, 4500);
+});
 
 
 
