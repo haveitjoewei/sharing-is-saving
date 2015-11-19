@@ -85,9 +85,15 @@
 		<% i = 1 %>
 		<% @allPosts.each do |post| %>
 			<article class="listing" >
-				<div>
-					<%= link_to i.to_s + '. ' + post.title, post, :class => 'title' %>
-				</div>
+				<% if user_signed_in? %>
+					<div>
+						<%= link_to i.to_s + '. ' + post.title, post, :class => 'title' %>
+					</div>
+				<% else %>
+					<div>
+						<%= link_to i.to_s + '. ' + post.title, new_user_registration_path, :class => 'title'%>
+					</div>
+				<% end %>
 				<div class="listing-content">
 					<div class="images">
 						<%= image_tag post.image_url %>
