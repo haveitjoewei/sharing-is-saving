@@ -287,7 +287,6 @@ nav a {
 #mainbody {
 	position: relative;
 	width: 100%;
-	/*width: 50%;*/
 	margin: 0;
 	padding: 0;
 }
@@ -393,20 +392,20 @@ nav a {
 
 .listing .images {
 	background-color: #DDD;
-	width: 200px;
-	height: 200px;
+	width: 260px;
+	height: 260px;
 	float: left;
-	padding: 0px;
+	padding: 0;
 }
 
 .listing .images img {
-	max-width: 200px;
-	max-height: 200px;
+	max-width: 260px;
+	max-height: 260px;
 }
 
 .listing .content {
 	float: left;
-	width: calc(100% - 350px);
+	width: calc(100% - 410px);
 	margin: 0;
 	padding: 15px;
 }
@@ -445,22 +444,17 @@ nav a {
 	margin: 0;
 }
 
-.listing .actionbar .action {
-	text-align: center;
-	width: 100%;
-	height: 50px;
-}
-
 .listing .actionbar .action a {
+	display: block;
 	font-size: 18px;
 	border-radius: 2px;
 	position: relative;
-	top: 13px;
 	background-color: #0094FF;
 	color: white;
 	width: 100%;
 	height: 100%;
-	padding: 15px 35px;
+	margin-bottom: 10px;
+	padding: 12px 35px;
 	transition: background-color 0.1s ease-in-out;
 }
 
