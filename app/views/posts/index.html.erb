@@ -1,7 +1,10 @@
-<div id="map"></div>
+<div id="map-wrapper"><div id="map"></div></div>
 <script>
+	var map;
+	var pos;
+
 	function initMap() {
-		var map = new google.maps.Map(document.getElementById('map'), {
+		map = new google.maps.Map(document.getElementById('map'), {
 			center: {lat: -34.397, lng: 150.644},
 			disableDefaultUI: true,
 			scrollWheel: false,
@@ -24,7 +27,7 @@
 
 		if (navigator.geolocation) {
 	    	navigator.geolocation.getCurrentPosition(function(position) {
-				var pos = {
+				pos = {
 					lat: position.coords.latitude,
 					lng: position.coords.longitude
 				};
@@ -41,61 +44,94 @@
 		infoWindow.setPosition(pos);
 		infoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.');
 	}
+
+	$(document).ready(function() {
+		var width = $(window).width() / 5;
+		$("#map-wrapper").width(width * 2);
+		$("#mainbody").width(width * 3);
+		$("#mainbody").css({left: width * 2});
+		$(".filter_form").hide();
+		$("#categories").click(function() {
+			$(".filter_form").slideToggle();
+		});
+	});
+
+
+	$(window).resize(function() {
+    	var width = $(window).width() / 5; 
+		$("#map-wrapper").width(width * 2);
+		map.setCenter(pos);
+		$("#mainbody").width(width * 3);
+		$("#mainbody").css({left: width * 2});
+  	});
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9eJ9Bm8-3DPZNyMigx1EAABmD-h0OPag&signed_in=true&callback=initMap" async defer></script>
 <div id="mainbody">
 	<section class="filter">
+		<a href="#"><h4 id="categories">Categories</h4></a>
 		<form class="filter_form", method="get">
+			<ul>
 			<% @categories.each do |c| %>
-			    <%= check_box_tag("category[]", c[1]) %>
-			    <%= c[0] %>
+				<li>
+			    <label><%= check_box_tag("category[]", c[1]) %>
+			    <p><%= c[0] %></p></label>
+			    </li>
 			<% end %>
-			<input type="submit" value="Apply Filter" />
+			</ul>
+			<input type="submit" value="Apply Filters" />
 		</form>
 	</section>
 	<section class="listings">
 		<% i = 1 %>
 		<% @allPosts.each do |post| %>
 			<article class="listing" >
-				<%= link_to i.to_s + '. ' + post.title, post, :class => 'title' %>
-				<div class="images">
-					<%= image_tag post.image_url %>
+				<div>
+					<%= link_to i.to_s + '. ' + post.title, post, :class => 'title' %>
 				</div>
-				<div class="content">
-					<p class="posted_by">Posted by <%= User.find(post.user_id).first_name %> in <%= map_category(post.category) %></p>
-					<p class="description"><%= post.description %></p>
-				</div>
-				<div class="actionbar">
-					<p class="price"><%= '$%.2f per day' % post.price %></p>
-					<p class="deposit"><%= '$%.2f deposit' % post.security_deposit %></p>
-					<!-- <p class="category">Category: <%= map_category(post.category) %></p> -->
-					<!-- <p class="status">Status: <%= map_status(post.status) %></p> -->
-					<% if post.user_id != current_user.id %>
-						<% if post.status == 1 %>
-							<%= link_to 'Borrow Item', exchanges_path(post_id: post.id), :method => :post, :class => 'rent', :id => 'borrow' %>
-						<% elsif post.status == 2 %>
-							<% if @allExchanges.where(status: 1, post_id: post.id).first.borrower_id == current_user.id %>
-								<%= link_to 'Cancel Request', update_status_exchange_path(id: @allExchanges.where(status: 1, post_id: post.id).first.id, status: 5), :method => :put, :class => 'rent', :id => "cancel" %>
-							<% else %>
-								<p class="rent">On Hold</p>
+				<div class="listing-content">
+					<div class="images">
+						<%= image_tag post.image_url %>
+					</div>
+					<div class="content">
+						<p class="posted_by">Posted by <%= User.find(post.user_id).first_name %> in <%= map_category(post.category) %></p>
+						<p class="description"><%= post.description %></p>
+					</div>
+					<div class="actionbar">
+						<p class="price"><%= '$%.2f' % post.price %></p>
+						<label>PER DAY</label>
+						<p class="deposit"><%= '$%.2f' % post.security_deposit %></p>
+						<label>DEPOSIT</label>
+						<!-- <p class="category">Category: <%= map_category(post.category) %></p> -->
+						<!-- <p class="status">Status: <%= map_status(post.status) %></p> -->
+						<div class="action">
+						<% if post.user_id != current_user.id %>
+							<% if post.status == 1 %>
+								<%= link_to 'Borrow Item', exchanges_path(post_id: post.id), :method => :post, :class => 'rent', :id => 'borrow' %>
+							<% elsif post.status == 2 %>
+								<% if @allExchanges.where(status: 1, post_id: post.id).first.borrower_id == current_user.id %>
+									<%= link_to 'Cancel Request', update_status_exchange_path(id: @allExchanges.where(status: 1, post_id: post.id).first.id, status: 5), :method => :put, :class => 'rent', :id => "cancel" %>
+								<% else %>
+									<p class="rent">On Hold</p>
+								<% end %>
+							<% elsif post.status == 3 %>
+								<% if @allExchanges.where(status: 2, post_id: post.id).first.borrower_id == current_user.id %>
+									<p class="rent">Please Return</p>
+								<% else %>
+									<p class="rent">Borrowed</p>
+								<% end %>
 							<% end %>
-						<% elsif post.status == 3 %>
-							<% if @allExchanges.where(status: 2, post_id: post.id).first.borrower_id == current_user.id %>
-								<p class="rent">Please Return</p>
-							<% else %>
-								<p class="rent">Borrowed</p>
+						<% else %>
+							<%= link_to 'Update', {:controller => "posts", :id => post.id, :action => "edit"}, :method => :get, :class => 'rent', :id => 'update' %>
+							<% if post.status == 2 %>
+								<%= link_to 'Accept', update_status_exchange_path(id: @allExchanges.where(status: 1, post_id: post.id).first.id, status: 2), :method => :put, :class => 'rent', :id => 'accept' %>
+								<%= link_to 'Reject', update_status_exchange_path(id: @allExchanges.where(status: 1, post_id: post.id).first.id, status: 3), :method => :put, :class => 'rent', :id => 'reject' %>
+							<% elsif post.status == 3 %>
+								<%= link_to 'Returned', update_status_exchange_path(id: @allExchanges.where(status: 2, post_id: post.id).first.id, status: 4), :method => :put, :class => 'rent', :id => 'returned' %>
 							<% end %>
 						<% end %>
-					<% else %>
-						<%= link_to 'Update Item', {:controller => "posts", :id => post.id, :action => "edit"}, :method => :get, :class => 'rent', :id => 'update' %>
-						<% if post.status == 2 %>
-							<%= link_to 'Accept', update_status_exchange_path(id: @allExchanges.where(status: 1, post_id: post.id).first.id, status: 2), :method => :put, :class => 'rent', :id => 'accept' %>
-							<%= link_to 'Reject', update_status_exchange_path(id: @allExchanges.where(status: 1, post_id: post.id).first.id, status: 3), :method => :put, :class => 'rent', :id => 'reject' %>
-						<% elsif post.status == 3 %>
-							<%= link_to 'Returned', update_status_exchange_path(id: @allExchanges.where(status: 2, post_id: post.id).first.id, status: 4), :method => :put, :class => 'rent', :id => 'returned' %>
-						<% end %>
-					<% end %>
-					<!-- <%= link_to 'Rent it!', root_url, :class => 'rent' %> -->
+						<!-- <%= link_to 'Rent it!', root_url, :class => 'rent' %> -->
+						</div>
+					</div>
 				</div>
 			</article>
 			<% i = i + 1 %>

@@ -20,20 +20,20 @@
 		});
 	}
 	</script>
-
 </head>
 <body>
 	<header class="clearfix">
 
 		<%= link_to 'Sharing Is Saving', root_url, :id => 'home' %>  
+		
 		<% unless current_page?(root_path) %>
 			<%= form_tag(posts_path, :method => "get", id: "search-form") do %>
 				<span class="input-append">
-				    <%= text_field_tag :search, params[:search], id: "search-bar", placeholder: "What are you looking for?", autofocus: true %><button type="submit" id="search-button">Search</button>
+				    <%= text_field_tag :search, params[:search], id: "search-bar", placeholder: "What are you looking for?", autofocus: true %><button type="submit" id="search-button">Find Stuff</button>
 				</span>
 			<% end %>
 		<% end %>
-
+		
 		<nav>
 			<% if user_signed_in? %>
 			<script>
@@ -64,10 +64,8 @@
 				$(document).ready(ready);
 				$(document).on('page:load', ready);
 				</script>
-				<%= link_to 'Listings', posts_path, :id => 'listings_tab' %>
-				<%= link_to('New Post', new_post_path, :id => 'new_post')  %>  
-				<%= link_to('Profile', profile_path, :id => 'username') %>
-				<!-- <%= link_to("#{current_user.email}", profile_path, :id => 'username') %> -->
+				<!-- <%= link_to 'Listings', posts_path, :id => 'listings_tab' %> -->
+				<%= link_to('Post', new_post_path, :id => 'new_post')  %>
 				<div id="notification_li">
 					<!-- <span id="notification_count">3</span> -->
 					<div id="notificationContainer">
@@ -119,12 +117,20 @@
 					</div>
 				</div>
 				<a href="#" id="notificationLink">Notifications</a>
-				<%= link_to('Logout', destroy_user_session_path, :method => :delete, :id => 'logout_button') %>        
+				<%= link_to("#{current_user.email}", profile_path, :id => 'username') %>
+				<%= link_to('Logout', destroy_user_session_path, :method => :delete, :id => 'logout_button') %>
 				<% else %>
 				<%= link_to('Sign Up', new_user_registration_path, :id => 'signup')  %>  
 				<%= link_to('Login', new_user_session_path, :id => 'login')  %>  
 				<% end %>
 			</nav>
+			<!-- <% unless current_page?(root_path) %>
+			<% end %>
+			<%= form_tag(posts_path, :method => "get", id: "search-form") do %>
+				<span class="input-append">
+				    <%= text_field_tag :search, params[:search], id: "search-bar", placeholder: "What are you looking for?", autofocus: true %><button type="submit" id="search-button">Find Stuff</button>
+				</span>
+			<% end %> -->
 		</header>
 
 		<div class="container">

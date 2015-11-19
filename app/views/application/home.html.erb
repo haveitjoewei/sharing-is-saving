@@ -1,7 +1,7 @@
 <div id="mainbody">
 	<%= form_tag(posts_path, :method => "get", id: "home-search-form") do %>
 		<span class="home-input-append">
-		    <%= text_field_tag :search, params[:search], id: "home-search-bar", placeholder: "What are you looking for?", autofocus: true %><button type="submit" id="home-search-button">Search</button>
+		    <%= text_field_tag :search, params[:search], id: "home-search-bar", placeholder: "What are you looking for?", autofocus: true %><button type="submit" id="home-search-button">Find Stuff</button>
 		</span>
 	<% end %>
 	<% if user_signed_in? %>

@@ -1,3 +1,4 @@
+<div id="mainbody">
 <div class="log-in">
   <%= link_to user_omniauth_authorize_path(:facebook) do
       image_tag('facebook-sign-up.png', id:"log-in-facebook", onMouseover:"this.src='#{asset_path('facebook-sign-up-hover.png')}'", onMouseout:"this.src='#{asset_path('facebook-sign-up.png')}'")
@@ -42,4 +43,5 @@
       <% end %>
     </div>
   <% end %>
+</div>
 </div>
