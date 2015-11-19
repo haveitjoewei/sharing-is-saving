@@ -51,50 +51,8 @@
 					</div>
 				</div>
 			</article>
+			<!-- <img src="https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=400x400&markers=<%= @post.latitude%>,<%= @post.longitude%>&key=AIzaSyD9eJ9Bm8-3DPZNyMigx1EAABmD-h0OPag"></img> -->
 
-		<article class="listing">
-			<p class="title"><%= @post.title %></p>
-			<div class="images">
-				<%= image_tag @post.image_url %>
-				<img src="https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=400x400&markers=<%= @post.latitude%>,<%= @post.longitude%>&key=AIzaSyD9eJ9Bm8-3DPZNyMigx1EAABmD-h0OPag"></img>
-			</div>
-			<div class="content">
-				<p class="posted_by">Posted by <%= User.find(@post.user_id).first_name %> in <%= map_category(@post.category) %></p>
-				<p class="description"><%= @post.description %></p>
-			</div>
-			<div class="actionbar">
-				<p class="price"><%= '$%.2f per day' % @post.price %></p>
-				<p class="deposit"><%= '$%.2f deposit' % @post.security_deposit %></p>
-				<!-- <p class="category">Category: <%= map_category(@post.category) %></p> -->
-				<!-- <p class="status">Status: <%= map_status(@post.status) %></p> -->
-				<% if @post.user_id != current_user.id %>
-					<% if @post.status == 1 %>
-						<%= link_to 'Borrow Item', exchanges_path(post_id: @post.id), :method => :post, :class => 'rent' %>
-					<% elsif @post.status == 2 %>
-						<% if @pendingExchange.first.borrower_id == current_user.id %>
-							<%= link_to 'Cancel Request', update_status_exchange_path(id: @pendingExchange.first.id, status: 5), :method => :put, :class => 'rent' %>
-						<% else %>
-							<p class="rent">On Hold</p>
-						<% end %>
-					<% elsif @post.status == 3 %>
-						<% if @acceptedExchange.first.borrower_id == current_user.id %>
-							<p class="rent">Please Return</p>
-						<% else %>
-							<p class="rent">Borrowed</p>
-						<% end %>
-					<% end %>
-				<% else %>
-					<%= link_to 'Update Item', {:controller => "posts", :action => "edit"}, :method => :get, :class => 'rent' %>
-					<% if @post.status == 2 %>
-						<%= link_to 'Accept', update_status_exchange_path(id: @pendingExchange.first.id, status: 2), :method => :put, :class => 'rent' %>
-						<%= link_to 'Reject', update_status_exchange_path(id: @pendingExchange.first.id, status: 3), :method => :put, :class => 'rent' %>
-					<% elsif @post.status == 3 %>
-						<%= link_to 'Returned', update_status_exchange_path(id: @acceptedExchange.first.id, status: 4), :method => :put, :class => 'rent' %>
-					<% end %>
-				<% end %>
-				<!-- <%= link_to 'Rent it!', root_url, :class => 'rent' %> -->
-			</div>
-		</article>
 		<div class="reviews">
 			<% @allReviews.each do |review| %>
 				<article class="review">

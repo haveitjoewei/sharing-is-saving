@@ -554,23 +554,41 @@ nav a {
 }
 
 .discovery-tiles {
-	margin-top: 50px;
+	text-align: center;
 	position:relative;
+	padding: 50px;
+}
+
+.col-lg-4 {
+	padding: 0;
+	height: 345px;
+}
+
+.row {
+	margin-bottom: 50px;
 }
 
 .tile-text {
+	background-color: rgba(0, 0, 0, 0.3);
+	display: block;
+	width: 314px;
+	height: 345px;
+	padding: 130px 20px;
 	margin: 0;
 	position: absolute;             
 	top: 50%;                         
 	transform: translate(-50%, -50%);
-	font-size: 2em;
+	font-size: 28px;
 	color: white;
 	left: 50%;
 	margin-right: 50%;
+	z-index: 5;
+	transition: background 0.1s ease-in-out;
 }
 
 .tile-text:hover {
-	color: #d3d3d3;
+	background-color: rgba(0, 0, 0, 0.4);
+	color: #fff;
 }
 
 // For IE
