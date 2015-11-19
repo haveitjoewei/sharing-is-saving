@@ -216,7 +216,7 @@ class PostsController < ApplicationController
 		when 6
 			"Movies, Music, Books & Games"
 		when 7
-			"Electronics"
+			"Motor Vehicles"
 		when 8
 			"Office & Education"
 		when 9
