@@ -4,13 +4,17 @@
 		    <%= text_field_tag :search, params[:search], id: "home-search-bar", placeholder: "What are you looking for?", autofocus: true %><button type="submit" id="home-search-button">Find Stuff</button>
 		</span>
 	<% end %>
-	<!-- <% if user_signed_in? %>
-		<%= link_to 'Find Stuff', posts_path, :class => 'button' %>
-		<%= link_to 'List Something', new_post_path, :class => 'button' %>
+	<% if user_signed_in? %>
+    <div class="splash-buttons">
+  		<%= link_to 'See All Items', posts_path, :class => 'button' %>
+  		<%= link_to 'List Something', new_post_path, :class => 'button' %>
+    </div>
 	<% else %>
-		<%= link_to('Sharing makes the world a better place', new_user_registration_path, :id => 'signup', :class=> 'button')  %>
-		<%= link_to('Already a member? Login', new_user_session_path, :id => 'login')  %> 
-	<% end %> -->
+    <div class="splash-buttons">
+  		<%= link_to('Sharing makes the world a better place', new_user_registration_path, :id => 'signup', :class=> 'button')  %>
+  		<%= link_to('Already a member? Login', new_user_session_path, :id => 'login')  %> 
+    </div>
+	<% end %>
 
   <div class="discovery-tiles">
     <div class="row">

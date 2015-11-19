@@ -104,32 +104,36 @@
 						<!-- <p class="category">Category: <%= map_category(post.category) %></p> -->
 						<!-- <p class="status">Status: <%= map_status(post.status) %></p> -->
 						<div class="action">
-						<% if post.user_id != current_user.id %>
-							<% if post.status == 1 %>
-								<%= link_to 'Borrow', exchanges_path(post_id: post.id), :method => :post, :class => 'rent', :id => 'borrow' %>
-							<% elsif post.status == 2 %>
-								<% if @allExchanges.where(status: 1, post_id: post.id).first.borrower_id == current_user.id %>
-									<%= link_to 'Cancel', update_status_exchange_path(id: @allExchanges.where(status: 1, post_id: post.id).first.id, status: 5), :method => :put, :class => 'rent', :id => "cancel" %>
+							<% if user_signed_in? %>
+								<% if post.user_id != current_user.id %>
+									<% if post.status == 1 %>
+										<%= link_to 'Borrow', exchanges_path(post_id: post.id), :method => :post, :class => 'rent', :id => 'borrow' %>
+									<% elsif post.status == 2 %>
+										<% if @allExchanges.where(status: 1, post_id: post.id).first.borrower_id == current_user.id %>
+											<%= link_to 'Cancel', update_status_exchange_path(id: @allExchanges.where(status: 1, post_id: post.id).first.id, status: 5), :method => :put, :class => 'rent', :id => "cancel" %>
+										<% else %>
+											<p class="rent">On Hold</p>
+										<% end %>
+									<% elsif post.status == 3 %>
+										<% if @allExchanges.where(status: 2, post_id: post.id).first.borrower_id == current_user.id %>
+											<p class="rent">Return</p>
+										<% else %>
+											<p class="rent">Borrowed</p>
+										<% end %>
+									<% end %>
 								<% else %>
-									<p class="rent">On Hold</p>
+									<%= link_to 'Update', {:controller => "posts", :id => post.id, :action => "edit"}, :method => :get, :class => 'rent', :id => 'update' %>
+									<% if post.status == 2 %>
+										<%= link_to 'Accept', update_status_exchange_path(id: @allExchanges.where(status: 1, post_id: post.id).first.id, status: 2), :method => :put, :class => 'rent', :id => 'accept' %>
+										<%= link_to 'Reject', update_status_exchange_path(id: @allExchanges.where(status: 1, post_id: post.id).first.id, status: 3), :method => :put, :class => 'rent', :id => 'reject' %>
+									<% elsif post.status == 3 %>
+										<%= link_to 'Returned', update_status_exchange_path(id: @allExchanges.where(status: 2, post_id: post.id).first.id, status: 4), :method => :put, :class => 'rent', :id => 'returned' %>
+									<% end %>
 								<% end %>
-							<% elsif post.status == 3 %>
-								<% if @allExchanges.where(status: 2, post_id: post.id).first.borrower_id == current_user.id %>
-									<p class="rent">Return</p>
-								<% else %>
-									<p class="rent">Borrowed</p>
-								<% end %>
+								<!-- <%= link_to 'Rent it!', root_url, :class => 'rent' %> -->
+							<% else %>
+								<%= link_to 'Borrow', new_user_registration_path, :id => 'signup', :class => 'rent'%>
 							<% end %>
-						<% else %>
-							<%= link_to 'Update', {:controller => "posts", :id => post.id, :action => "edit"}, :method => :get, :class => 'rent', :id => 'update' %>
-							<% if post.status == 2 %>
-								<%= link_to 'Accept', update_status_exchange_path(id: @allExchanges.where(status: 1, post_id: post.id).first.id, status: 2), :method => :put, :class => 'rent', :id => 'accept' %>
-								<%= link_to 'Reject', update_status_exchange_path(id: @allExchanges.where(status: 1, post_id: post.id).first.id, status: 3), :method => :put, :class => 'rent', :id => 'reject' %>
-							<% elsif post.status == 3 %>
-								<%= link_to 'Returned', update_status_exchange_path(id: @allExchanges.where(status: 2, post_id: post.id).first.id, status: 4), :method => :put, :class => 'rent', :id => 'returned' %>
-							<% end %>
-						<% end %>
-						<!-- <%= link_to 'Rent it!', root_url, :class => 'rent' %> -->
 						</div>
 					</div>
 				</div>

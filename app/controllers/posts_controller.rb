@@ -16,11 +16,11 @@ class PostsController < ApplicationController
 		@post.status = 1
 		@post.user_id = current_user.id
 		@post.save
-		flash[:alert] ||= []
 		if @post.save
 			flash[:notice] = "Post successfully created"
 			redirect_to @post
 		else
+			flash[:alert] ||= []
 			flash.now[:alert] << "Post can not be saved, please correct the following information:"
 			@post.errors.each do |key, value|
     			flash[:alert] << key.to_s + " " + value

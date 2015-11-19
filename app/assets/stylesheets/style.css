@@ -130,6 +130,7 @@ nav a {
 	width: 100%;
 	margin-bottom: 20px;
 	padding: 100px;
+	padding-bottom: 20px;
 }
 
 #home-search-form ::-webkit-input-placeholder {
@@ -169,6 +170,10 @@ nav a {
 	background-color: #38ACFF;
 }
 
+.splash-buttons{
+	width: 100%;
+  	text-align: center;
+}
 
 /*header a, #submit-button {
 	color: white;
