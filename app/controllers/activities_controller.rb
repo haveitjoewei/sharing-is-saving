@@ -39,7 +39,7 @@ class ActivitiesController < ApplicationController
   # GET /activities/1.json
   def show
     begin
-      @activity = ::Activity.all.find(params[:id])
+      @activity = PublicActivity::Activity.all.find(params[:id])
     rescue ActiveRecord::RecordNotFound
       return render_errors(['No activity found.'])
     end

@@ -16,6 +16,7 @@ FactoryGirl.define do
 	    f.created_at Date.today
 	    f.updated_at Date.today
 	    f.authentication_token "hxfRD4EykqGeZPsBiwKX"
+	    after(:create) { |user| user.confirm }
 	end
 
 	factory :user2, class: User do |f|
@@ -30,6 +31,7 @@ FactoryGirl.define do
 	    f.created_at Date.today
 	    f.updated_at Date.today
 	    f.authentication_token "hxfRD4EykqGeZPsBiwKY"
+	    after(:create) { |user| user.confirm }
 	end
 
 	factory :user3, class: User do |f|
@@ -44,6 +46,7 @@ FactoryGirl.define do
 	    f.created_at Date.today
 	    f.updated_at Date.today
 	    f.authentication_token "hxfRD4EykqGeZPsBiwKY"
+	    after(:create) { |user| user.confirm }
 	end
 
 	factory :post do |f|
@@ -57,6 +60,8 @@ FactoryGirl.define do
 		f.city 'Berkeley'
 		f.state 'CA'
 		f.category 1
+	    f.latitude 37.86449
+	    f.longitude -122.254504
 	    created_at Date.today
 	    updated_at Date.today
 	end
@@ -101,4 +106,5 @@ FactoryGirl.define do
 	   owner_id :user
 	end
 	
+
 end
