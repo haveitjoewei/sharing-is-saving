@@ -614,13 +614,17 @@ nav a {
 
 #mainbody .button {
 	background-color: #0094FF;
-	padding: 15px;
 	/*margin: 10px;*/
 	color: white;
 	font-size: 1.5em;
 	border-radius: 3px;
 	transition: background 0.25s ease-in-out;
 }
+
+#mainbody {
+	padding: 80px;
+}
+
 
 #mainbody .button:hover {
 	background-color: #38ACFF;
