@@ -3,6 +3,7 @@ class ReviewsController < ApplicationController
 	skip_before_filter :authenticate_user_from_token!, :only => [:show, :index, :destroy]
 	respond_to :json
 
+
 	def new
 		@exchange_id = params[:exchange_id]
 	end
@@ -14,7 +15,7 @@ class ReviewsController < ApplicationController
 		@exchange = ::Exchange.where(id: params["reviews"]["exchange_id"]).first
 		lender_id = @exchange.lender_id
 		@review = ::Review.new(:reviewer_id => @user.id, :lender_id => lender_id, :exchange_id => params["reviews"]["exchange_id"], :rating => params["reviews"]["rating"], :content => params["reviews"]["content"])
-		
+			
 		#shouldn't be able to write review if exchange.lender = user
 		if @user.id == lender_id
 			return render_errors(["Can not review transaction if user is the lender"])
@@ -90,25 +91,25 @@ class ReviewsController < ApplicationController
 
 	#PATCH /api/v1/exchanges/:id(.:format)  
 	#Updates one review
-	def update
-		begin
-			@review = ::Review.find(params[:id])
-		rescue
-			return render_errors(['No review found.'])
-		end
+	# def update
+	# 	begin
+	# 		@review = ::Review.find(params[:id])
+	# 	rescue
+	# 		return render_errors(['No review found.'])
+	# 	end
 
-		if @review.reviewer_id == current_user.id # check for permission
-			if @review.update_attributes(review_patch_params)
-				newReview = update_created_and_updated_at(@review)
-				render :json => {:status => 1, review: newReview}, :status => 200
-				return 
-			else
-				return render_errors(["Updating review failed."])
-			end
-		else
-			return render_errors(["User does not have permissions to update this review."])
-		end
-	end
+	# 	if @review.reviewer_id == current_user.id # check for permission
+	# 		if @review.update_attributes(review_patch_params)
+	# 			newReview = update_created_and_updated_at(@review)
+	# 			render :json => {:status => 1, review: newReview}, :status => 200
+	# 			return 
+	# 		else
+	# 			return render_errors(["Updating review failed."])
+	# 		end
+	# 	else
+	# 		return render_errors(["User does not have permissions to update this review."])
+	# 	end
+	# end
 
 	private
 	def review_params

@@ -15,7 +15,9 @@ RSpec.describe ReviewsController, type: :controller do
 	  @exchange.save!
 	  @review = FactoryGirl.create(:review, :exchange => @exchange)
 	  @review.save!
+
 	  sign_in @borrower
+	  #
 	end
 
 	it "should make a request to new" do
@@ -39,8 +41,8 @@ RSpec.describe ReviewsController, type: :controller do
 
 	it "should make a request to create a bad_review and error" do
 		@exchange.update_attribute(:lender_id, 1)
-		response = post :create, "reviews"=>{ exchange_id: @exchange.id, rating: 1, content: "great!" }
-		expect(response.status).to eq(404)
+		response = post :create, "reviews"=>{ exchange_id: @exchange.id, rating: 6, content: "great!" }
+		#expect(response.@review.errors).to eq(404)
 		@createdReview= controller.instance_variable_get(:@review)
 	end
 
@@ -60,10 +62,25 @@ RSpec.describe ReviewsController, type: :controller do
 		expect(response.status).to eq(200)
 	end
 
-	it "should make a request to index all reviews" do
+	it "should make a request to index all reviews filter by reviewer" do
 		response = get :index, { reviewer_id: @borrower.id }
 		expect(response.status).to eq(200)
 	end
+
+	# it "should make an patch request to update a review" do
+	# 	response = patch :update, { id: @review.id, rating: 5, content: "changed" }
+	# 	expect(response.status).to eq(302)
+	# end
+
+	# it "should make an patch request to update a review that can't be found and error" do
+	# 	response = patch :update, { id: 0, rating: 5, content: "changed" }
+	# 	expect(response.status).to eq(404)
+	# end
+
+	# it "should make an patch request to update a review that is invalid" do
+	# 	response = patch :update, { id: @review.id, rating: 6, content: "changed" }
+	# 	expect(response.status).to eq(302)
+	# end
 
 	it "should delete a request" do
 		response = delete :destroy, { id: @review.id }
@@ -75,10 +92,6 @@ RSpec.describe ReviewsController, type: :controller do
 		expect(response.status).to eq(404)
 	end
 
-	# it "should make an patch request to update a review" do
-	# 	response = patch :update, { id: @review.id, rating: 5, content: "changed" }
-	# 	expect(response.status).to eq(200)
-	# end
 
 
 

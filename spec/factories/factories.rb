@@ -59,9 +59,9 @@ FactoryGirl.define do
 		f.street '2525 Benvenue Ave'
 		f.city 'Berkeley'
 		f.state 'CA'
-		f.category 1
 	    f.latitude 37.86449
 	    f.longitude -122.254504
+		f.category 1
 	    created_at Date.today
 	    updated_at Date.today
 	end
