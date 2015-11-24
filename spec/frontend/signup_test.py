@@ -8,7 +8,8 @@ import random
 class SignupTestCase(unittest.TestCase):
 	def setUp(self):
 		chrome_options = Options()
-		self.browser = webdriver.Chrome("./chromedriver")
+		self.browser = webdriver.Chrome("spec/frontend/chromedriver")
+		self.browser.set_window_size(1080,800)
 		self.browser.get('http://localhost:3000/')
 		self.addCleanup(self.browser.quit)
 	def testPageTitle(self):

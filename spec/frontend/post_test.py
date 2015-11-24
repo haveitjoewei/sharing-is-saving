@@ -10,7 +10,8 @@ import random
 class PostTestCase(unittest.TestCase):
 	def setUp(self):
 		chrome_options = Options()
-		self.browser = webdriver.Chrome("./chromedriver")
+		self.browser = webdriver.Chrome("spec/frontend/chromedriver")
+		self.browser.set_window_size(1080,1000)
 		self.browser.get('http://localhost:3000/')
 		self.addCleanup(self.browser.quit)
 	def testPageTitle(self):
@@ -20,21 +21,18 @@ class PostTestCase(unittest.TestCase):
 		firstname1 = "George"
 		lastname1 = "Necula"
 		password1 = "1234567890"
-		email1 = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10)) + '@email.com'
+		email1 = "georgenecula@gmail.com"
 		firstname2 = "Charles"
 		lastname2 = "Xue"
 		password2 = "1234567890"
- 		email2 = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10)) + '@email.com'
+ 		email2 = "charlesxue@gmail.com"
 		testpost = "Test Post: " + ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(3))
 
-		#Signup for User 1
-		self.browser.find_element_by_id('signup').click()
+		#Login for User 1
+		self.browser.find_element_by_id('login').click()
 		time.sleep(1)
-		self.browser.find_element_by_id('user_first_name').send_keys(firstname1)
-		self.browser.find_element_by_id('user_last_name').send_keys(lastname1)
 		self.browser.find_element_by_id('user_email').send_keys(email1)
 		self.browser.find_element_by_id('user_password').send_keys(password1)
-		self.browser.find_element_by_id('user_password_confirmation').send_keys(password1)
 		self.browser.find_element_by_name('commit').click()
 		time.sleep(1)
 
@@ -57,21 +55,18 @@ class PostTestCase(unittest.TestCase):
 		firstname1 = "George"
 		lastname1 = "Necula"
 		password1 = "1234567890"
-		email1 = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10)) + '@email.com'
+		email1 = "georgenecula@gmail.com"
 		firstname2 = "Charles"
 		lastname2 = "Xue"
 		password2 = "1234567890"
- 		email2 = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10)) + '@email.com'
+ 		email2 = "charlesxue@gmail.com"
 		testpost = "Test Post: " + ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(3))
 
 		#Signup for User 1
-		self.browser.find_element_by_id('signup').click()
+		self.browser.find_element_by_id('login').click()
 		time.sleep(1)
-		self.browser.find_element_by_id('user_first_name').send_keys(firstname1)
-		self.browser.find_element_by_id('user_last_name').send_keys(lastname1)
 		self.browser.find_element_by_id('user_email').send_keys(email1)
 		self.browser.find_element_by_id('user_password').send_keys(password1)
-		self.browser.find_element_by_id('user_password_confirmation').send_keys(password1)
 		self.browser.find_element_by_name('commit').click()
 		time.sleep(1)
 
@@ -99,21 +94,18 @@ class PostTestCase(unittest.TestCase):
 		firstname1 = "George"
 		lastname1 = "Necula"
 		password1 = "1234567890"
-		email1 = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10)) + '@email.com'
+		email1 = "georgenecula@gmail.com"
 		firstname2 = "Charles"
 		lastname2 = "Xue"
 		password2 = "1234567890"
- 		email2 = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10)) + '@email.com'
+ 		email2 = "charlesxue@gmail.com"
 		testpost = "Test Post: " + ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(3))
 
 		#Signup for User 1
-		self.browser.find_element_by_id('signup').click()
+		self.browser.find_element_by_id('login').click()
 		time.sleep(1)
-		self.browser.find_element_by_id('user_first_name').send_keys(firstname1)
-		self.browser.find_element_by_id('user_last_name').send_keys(lastname1)
 		self.browser.find_element_by_id('user_email').send_keys(email1)
 		self.browser.find_element_by_id('user_password').send_keys(password1)
-		self.browser.find_element_by_id('user_password_confirmation').send_keys(password1)
 		self.browser.find_element_by_name('commit').click()
 		time.sleep(1)
 
@@ -142,21 +134,18 @@ class PostTestCase(unittest.TestCase):
 		firstname1 = "George"
 		lastname1 = "Necula"
 		password1 = "1234567890"
-		email1 = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10)) + '@email.com'
+		email1 = "georgenecula@gmail.com"
 		firstname2 = "Charles"
 		lastname2 = "Xue"
 		password2 = "1234567890"
- 		email2 = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10)) + '@email.com'
+ 		email2 = "charlesxue@gmail.com"
 		testpost = "Test Post: " + ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(3))
 
 		#Signup for User 1
-		self.browser.find_element_by_id('signup').click()
+		self.browser.find_element_by_id('login').click()
 		time.sleep(1)
-		self.browser.find_element_by_id('user_first_name').send_keys(firstname1)
-		self.browser.find_element_by_id('user_last_name').send_keys(lastname1)
 		self.browser.find_element_by_id('user_email').send_keys(email1)
 		self.browser.find_element_by_id('user_password').send_keys(password1)
-		self.browser.find_element_by_id('user_password_confirmation').send_keys(password1)
 		self.browser.find_element_by_name('commit').click()
 		time.sleep(1)
 
@@ -179,13 +168,10 @@ class PostTestCase(unittest.TestCase):
 		#Signup for User 2
 		self.browser.find_element_by_id('logout_button').click()
 		self.browser.find_element_by_id('home').click()
-		self.browser.find_element_by_id('signup').click()
+		self.browser.find_element_by_id('login').click()
 		time.sleep(1)
-		self.browser.find_element_by_id('user_first_name').send_keys(firstname2)
-		self.browser.find_element_by_id('user_last_name').send_keys(lastname2)
 		self.browser.find_element_by_id('user_email').send_keys(email2)
 		self.browser.find_element_by_id('user_password').send_keys(password2)
-		self.browser.find_element_by_id('user_password_confirmation').send_keys(password2)
 		self.browser.find_element_by_name('commit').click()
 		time.sleep(1)
 
@@ -198,21 +184,18 @@ class PostTestCase(unittest.TestCase):
 		firstname1 = "George"
 		lastname1 = "Necula"
 		password1 = "1234567890"
-		email1 = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10)) + '@email.com'
+		email1 = "georgenecula@gmail.com"
 		firstname2 = "Charles"
 		lastname2 = "Xue"
 		password2 = "1234567890"
- 		email2 = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10)) + '@email.com'
+ 		email2 = "charlesxue@gmail.com"
 		testpost = "Test Post: " + ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(3))
 
 		#Signup for User 1
-		self.browser.find_element_by_id('signup').click()
+		self.browser.find_element_by_id('login').click()
 		time.sleep(1)
-		self.browser.find_element_by_id('user_first_name').send_keys(firstname1)
-		self.browser.find_element_by_id('user_last_name').send_keys(lastname1)
 		self.browser.find_element_by_id('user_email').send_keys(email1)
 		self.browser.find_element_by_id('user_password').send_keys(password1)
-		self.browser.find_element_by_id('user_password_confirmation').send_keys(password1)
 		self.browser.find_element_by_name('commit').click()
 		time.sleep(1)
 
@@ -229,19 +212,17 @@ class PostTestCase(unittest.TestCase):
 		self.browser.find_element_by_id('post_state').send_keys("CA")
 		self.browser.find_element_by_id('post_price').send_keys("1.00")
 		self.browser.find_element_by_id('post_security_deposit').send_keys("1.00")
-		time.sleep(5)
+		time.sleep(2)
 		self.browser.find_element_by_name('commit').click()
+		time.sleep(3)
 	
 		#Signup for User 2
 		self.browser.find_element_by_id('logout_button').click()
 		self.browser.find_element_by_id('home').click()
-		self.browser.find_element_by_id('signup').click()
+		self.browser.find_element_by_id('login').click()
 		time.sleep(1)
-		self.browser.find_element_by_id('user_first_name').send_keys(firstname2)
-		self.browser.find_element_by_id('user_last_name').send_keys(lastname2)
 		self.browser.find_element_by_id('user_email').send_keys(email2)
 		self.browser.find_element_by_id('user_password').send_keys(password2)
-		self.browser.find_element_by_id('user_password_confirmation').send_keys(password2)
 		self.browser.find_element_by_name('commit').click()
 		time.sleep(1)
 
@@ -272,11 +253,11 @@ class PostTestCase(unittest.TestCase):
 		firstname1 = "George"
 		lastname1 = "Necula"
 		password1 = "1234567890"
-		email1 = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10)) + '@email.com'
+		email1 = "georgenecula@gmail.com"
 		firstname2 = "Charles"
 		lastname2 = "Xue"
 		password2 = "1234567890"
- 		email2 = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10)) + '@email.com'
+ 		email2 = "charlesxue@gmail.com"
 		testpost = "Test Post: " + ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(3))
 
 		#Signup for User 1
@@ -309,13 +290,10 @@ class PostTestCase(unittest.TestCase):
 		#Signup for User 2
 		self.browser.find_element_by_id('logout_button').click()
 		self.browser.find_element_by_id('home').click()
-		self.browser.find_element_by_id('signup').click()
+		self.browser.find_element_by_id('login').click()
 		time.sleep(1)
-		self.browser.find_element_by_id('user_first_name').send_keys(firstname2)
-		self.browser.find_element_by_id('user_last_name').send_keys(lastname2)
 		self.browser.find_element_by_id('user_email').send_keys(email2)
 		self.browser.find_element_by_id('user_password').send_keys(password2)
-		self.browser.find_element_by_id('user_password_confirmation').send_keys(password2)
 		self.browser.find_element_by_name('commit').click()
 		time.sleep(1)
 
@@ -349,21 +327,18 @@ class PostTestCase(unittest.TestCase):
 		firstname1 = "George"
 		lastname1 = "Necula"
 		password1 = "1234567890"
-		email1 = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10)) + '@email.com'
+		email1 = "georgenecula@gmail.com"
 		firstname2 = "Charles"
 		lastname2 = "Xue"
 		password2 = "1234567890"
- 		email2 = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10)) + '@email.com'
+ 		email2 = "charlesxue@gmail.com"
 		testpost = "Test Post: " + ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(3))
 
 		#Signup for User 1
-		self.browser.find_element_by_id('signup').click()
+		self.browser.find_element_by_id('login').click()
 		time.sleep(1)
-		self.browser.find_element_by_id('user_first_name').send_keys(firstname1)
-		self.browser.find_element_by_id('user_last_name').send_keys(lastname1)
 		self.browser.find_element_by_id('user_email').send_keys(email1)
 		self.browser.find_element_by_id('user_password').send_keys(password1)
-		self.browser.find_element_by_id('user_password_confirmation').send_keys(password1)
 		self.browser.find_element_by_name('commit').click()
 		time.sleep(1)
 
@@ -386,13 +361,10 @@ class PostTestCase(unittest.TestCase):
 		#Signup for User 2
 		self.browser.find_element_by_id('logout_button').click()
 		self.browser.find_element_by_id('home').click()
-		self.browser.find_element_by_id('signup').click()
+		self.browser.find_element_by_id('login').click()
 		time.sleep(1)
-		self.browser.find_element_by_id('user_first_name').send_keys(firstname2)
-		self.browser.find_element_by_id('user_last_name').send_keys(lastname2)
 		self.browser.find_element_by_id('user_email').send_keys(email2)
 		self.browser.find_element_by_id('user_password').send_keys(password2)
-		self.browser.find_element_by_id('user_password_confirmation').send_keys(password2)
 		self.browser.find_element_by_name('commit').click()
 		time.sleep(1)
 
