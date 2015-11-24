@@ -950,8 +950,8 @@ input[type="submit"] {
 }
 
 .navbar {
-	margin: 0; !important;
-	min-height: 0px; !important;
+	margin: 0 !important;
+	min-height: 0px !important;
 	border: none;
 	box-shadow: none;
 	right: 20px;
@@ -960,13 +960,13 @@ input[type="submit"] {
 
 .navbar-default
 .navbar-nav>li>a {
-	color: white; !important;
+	color: white !important;
 
 }
 
 .navbar-default
 .navbar-nav>li>a:hover {
-	color: white; !important;
+	color: white !important;
 }
 
 .navbar-toggle {
@@ -974,7 +974,7 @@ input[type="submit"] {
 }
 
 .nav li a {
-	padding: 5px 10px; !important;
+	padding: 5px 10px !important;
 }
 
 .container-fluid {
