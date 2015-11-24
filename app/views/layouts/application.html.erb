@@ -5,6 +5,7 @@
 	<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
 	<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 	<%= csrf_meta_tags %>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	<script>
 	var pos;
 	if (navigator.geolocation) {
@@ -29,22 +30,28 @@
 	</script>
 </head>
 <body>
-	<header class="clearfix">
+	<nav class="navbar navbar-default">
+			  <div class="container-fluid">
+			    <!-- Brand and toggle get grouped for better mobile display -->
+			    <div class="navbar-header">
+			      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+			        <span class="sr-only">Toggle navigation</span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			      </button>
+			    </div>
 
-		<%= link_to 'Sharing Is Saving', root_url, :id => 'home' %>  
-		
-		<% unless current_page?(root_path) %>
-			<%= form_tag(posts_path, :method => "get", id: "search-form") do %>
-				<span class="input-append">
-				    <%= text_field_tag :search, params[:search], id: "search-bar", placeholder: "What are you looking for?", autofocus: true %><button type="submit" id="search-button">Find Stuff</button>
-				</span>
-			<% end %>
-		<% end %>
-		
-		<nav>
-			<%= link_to 'Listings', posts_path, :id => 'listings_tab' %>
-			<% if user_signed_in? %>
-			<script>
+			    <!-- Collect the nav links, forms, and other content for toggling -->
+			    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			      <ul class="nav navbar-nav">
+			        <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+			        <li><a href="#">Link</a></li> -->
+
+			        <li><%= link_to 'Listings', posts_path, :id => 'listings_tab' %></li>
+
+					<% if user_signed_in? %>
+					<script>
 			var ready = function() {
 				$("#notificationContainer").hide();
 
@@ -72,7 +79,6 @@
 				$(document).ready(ready);
 				$(document).on('page:load', ready);
 				</script>
-				<%= link_to('Post', new_post_path, :id => 'new_post')  %>
 				<div id="notification_li">
 					<!-- <span id="notification_count">3</span> -->
 					<div id="notificationContainer">
@@ -123,14 +129,45 @@
 						<div id="notificationFooter"><a href="#">See All</a></div>
 					</div>
 				</div>
-				<a href="#" id="notificationLink">Notifications</a>
+				<li><a href="#"id="notificationLink"><i class="fa fa-bell" ></i></a></li>
+					<li><%= link_to('Post', new_post_path, :id => 'new_post')  %></li>
+					<li><%= link_to("#{current_user.email}", profile_path, :id => 'username') %></li>
+					<li><%= link_to('Logout', destroy_user_session_path, :method => :delete, :id => 'logout_button') %></li>
+					<% else %>
+					<li><%= link_to('Sign Up', new_user_registration_path, :id => 'signup')  %></li>
+					<li><%= link_to('Login', new_user_session_path, :id => 'login')  %></li>
+					<% end %>
+			        
+			      </ul>
+			    </div><!-- /.navbar-collapse -->
+			  </div><!-- /.container-fluid -->
+			</nav>
+	<header class="clearfix">
+
+		<%= link_to 'Sharing Is Saving', root_url, :id => 'home' %>  
+		
+		<% unless current_page?(root_path) %>
+			<%= form_tag(posts_path, :method => "get", id: "search-form") do %>
+				<span class="input-append">
+				    <%= text_field_tag :search, params[:search], id: "search-bar", placeholder: "What are you looking for?", autofocus: true %><button type="submit" id="search-button"><i class="fa fa-search"></i></button>
+				</span>
+			<% end %>
+		<% end %>
+
+		
+		<!-- <nav>
+			<div>
+			<%= link_to 'Listings', posts_path, :id => 'listings_tab' %>
+			<% if user_signed_in? %>
+			
 				<%= link_to("#{current_user.email}", profile_path, :id => 'username') %>
 				<%= link_to('Logout', destroy_user_session_path, :method => :delete, :id => 'logout_button') %>
 				<% else %>
 				<%= link_to('Sign Up', new_user_registration_path, :id => 'signup')  %>  
 				<%= link_to('Login', new_user_session_path, :id => 'login')  %>  
 				<% end %>
-			</nav>
+				</div>
+			</nav> -->
 			<!-- <% unless current_page?(root_path) %>
 			<% end %>
 			<%= form_tag(posts_path, :method => "get", id: "search-form") do %>
@@ -140,7 +177,10 @@
 			<% end %> -->
 		</header>
 
+
+
 		<div class="container">
+			
 			<%= render 'layouts/messages' %>
 			<%= yield %>
 		</div>
