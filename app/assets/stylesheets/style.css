@@ -839,7 +839,7 @@ input[type="submit"] {
 	overflow: visible;
 	position: absolute;
 	top: 60px;
-	right: 150px;
+	right: 149px;
 	width: 300px;
 	z-index: 1;
 }
@@ -854,7 +854,7 @@ input[type="submit"] {
 	border: 10px solid black;
 	border-color: transparent transparent white;
 	margin-top: -20px;
-	margin-left: 150px;
+	margin-left: 145px;
 }
 
 #notificationTitle
@@ -866,7 +866,8 @@ input[type="submit"] {
 	position: fixed;
 	text-align: center;
 	z-index: 1000;
-	width: 284px;
+	margin-top: 20px;
+	width: 298px;
 	border-bottom: 1px solid #dddddd;
 }
 
