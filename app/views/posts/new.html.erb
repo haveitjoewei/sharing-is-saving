@@ -55,8 +55,11 @@
       }
     });
     }); 
+
   };
-  $(document).ready(ready);
+  $(document).ready(
+    function() { setTimeout(ready,1000); });
+
   </script>
 
 <div id="mainbody">
