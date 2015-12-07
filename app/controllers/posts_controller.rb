@@ -245,8 +245,10 @@ class PostsController < ApplicationController
 		when 1
 			"Available"
 		when 2
-			"Borrowed"
+			"On Hold"
 		when 3
+			"Borrowed"
+		when 4
 			"Unavailable"
 		end
 	end

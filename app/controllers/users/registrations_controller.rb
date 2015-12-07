@@ -77,12 +77,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def get_status(status)
     case status
-    when 1    #compare to 1
-      return "Available"
-    when 2    #compare to 2
-      return "Borrowed"
-    else
-      return "Unavailable"
+    when 1
+      "Available"
+    when 2
+      "On Hold"
+    when 3
+      "Borrowed"
+    when 4
+      "Unavailable"
     end
   end
 

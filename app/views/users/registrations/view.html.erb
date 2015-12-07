@@ -58,13 +58,21 @@
       <div class="list-group">
 
         <% @allPosts.each_with_index do |post, index| %>
-          <%= link_to "/posts/#{post.id}", id: :itemlink do %>
             <div class="list-group-item">
-              <span class="badge"><%= @allStatuses[index] %></span>
-              <h4 class="list-group-item-heading"><%= post.title =%> - $<%= post.price =%></h4>
+              <% if @allStatuses[index] == "Available" %>
+                <h4><span class="label label-pill label-success label-left label-top"><%= @allStatuses[index] %></span></h4>
+              <% elsif @allStatuses[index] == "On Hold" %>
+                <h4><span class="label label-pill label-primary label-left label-top"><%= @allStatuses[index] %></span></h4>
+              <% elsif @allStatuses[index] == "Borrowed" %>
+                <h4><span class="label label-pill label-warning label-left label-top"><%= @allStatuses[index] %></span></h4>
+              <% elsif @allStatuses[index] == "Unavailable" %>
+                <h4><span class="label label-pill label-default label-left label-top"><%= @allStatuses[index] %></span></h4>
+              <% end %>
+              <%= link_to "<h4>#{post.title} - $#{post.price}</h4>".html_safe, post_path(post), data:{id: post.id}%>
               <p class="list-group-item-text"><%= post.description =%></p>
+              <h4><%= link_to 'Destroy', post_path(post), method: :delete, data: { id: post.id }, :class => "label label-pill label-danger label-left"%></h4>
             </div>
-          <% end %>
+          
         <% end %>
 
       </div>
