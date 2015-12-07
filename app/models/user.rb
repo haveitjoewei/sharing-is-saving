@@ -16,7 +16,14 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:facebook]
 
-  before_create :set_foo_to_now
+  before_create :set_foo_to_now, :autoconfirm_on_localhost
+
+  def autoconfirm_on_localhost
+    byebug    
+    if Rails.env.development? or Rails.env.test?
+      self.skip_confirmation!
+    end
+  end
   
   def set_foo_to_now
     self.date_of_birth = Time.now # TODO: Sidwyn, add date of birth
