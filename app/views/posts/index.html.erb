@@ -55,20 +55,24 @@
 		$("#mainbody").css({left: width * 2});
   	});
 
-	$(document).ready(function() {
-		var width = $(window).width() / 5;
+	var ready;
+	ready = function() {
+	  	var width = $(window).width() / 5;
 		$("#map-wrapper").width(width * 2);
-		$("#mainbody").width(width * 3);
-		$("#mainbody").css({left: width * 2});
+		$("#listings-page #mainbody").width(width * 3);
+		$("#listings-page #mainbody").css({left: width * 2});
 		$(".filter_form").hide();
 		$("#categories").click(function() {
 			$(".filter_form").slideToggle();
 		});
 		console.log('hello world');
-	});
+	};
+	$(document).ready(ready);
+	$(document).on('page:load', ready);
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9eJ9Bm8-3DPZNyMigx1EAABmD-h0OPag&signed_in=true&callback=initMap" async defer></script>
-<div id="mainbody">
+<div id="listings-page">
+	<div id="mainbody">
 	<section class="filter">
 		<a href="#"><h4 id="categories">Categories</h4></a>
 		<form class="filter_form", method="get">
@@ -145,4 +149,5 @@
 		<% end %>
 		<%= paginate @allPosts %>
 	</section>
+</div>
 </div>
