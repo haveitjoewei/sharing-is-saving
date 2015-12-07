@@ -50,8 +50,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     @allExchangesToDestroy = ::Exchange.all.where("lender_id = ? OR borrower_id = ?", current_user.id, current_user.id)
     @allPostsToDestroy = ::Post.all.where("user_id = ?", current_user.id)
 
-    byebug
-
     @allExchangesToDestroy.map { |exchange| 
       ::Post.find(exchange.post_id).update(status: 1)
     } # Reset all borrowed posts to available
