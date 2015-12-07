@@ -45,9 +45,26 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   # DELETE /resource
-  # def destroy
-  #   super
-  # end
+  def destroy
+    @allActivityToDestroy = PublicActivity::Activity.all.where("owner_id = ? OR recipient_id = ?", current_user.id, current_user.id)
+    @allExchangesToDestroy = ::Exchange.all.where("lender_id = ? OR borrower_id = ?", current_user.id, current_user.id)
+    @allPostsToDestroy = ::Post.all.where("user_id = ?", current_user.id)
+
+    byebug
+
+    @allExchangesToDestroy.map { |exchange| 
+      ::Post.find(exchange.post_id).update(status: 1)
+    } # Reset all borrowed posts to available
+
+    @allReviewsToDestroy = ::Review.all.where("lender_id = ? OR reviewer_id = ?", current_user.id, current_user.id)
+
+    @allActivityToDestroy.delete_all
+    @allExchangesToDestroy.delete_all
+    @allPostsToDestroy.delete_all
+    @allReviewsToDestroy.delete_all
+
+    super
+  end
 
   # GET /resource/cancel
   # Forces the session data which is usually expired after sign
