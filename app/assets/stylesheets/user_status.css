@@ -1,0 +1,16 @@
+#update-status {
+	margin-top: 50px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+	background-color: #ffffff;
+	border-radius: 5px;
+	padding-top: 5px;
+	padding: 10px;
+	-webkit-transition: background 2s;
+}
+
+#update-status:hover {
+	background-color: #d3d3d3;
+	-webkit-transition: background 2s;
+}

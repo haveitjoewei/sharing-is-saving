@@ -93,6 +93,8 @@ class ExchangesController < ApplicationController
 
 	# PUT /api/v1/exchanges/:id/update_status
 	def update_status
+		@allExchanges = ::Exchange.all.order(:created_at).reverse_order
+		@allUsers = ::User.all.order(:created_at).reverse_order
 
 		begin
 			@exchange = ::Exchange.find(params[:id])
@@ -163,6 +165,14 @@ class ExchangesController < ApplicationController
 
 		@exchange.update_attributes(status: status)
 
+		@allExchanges = ::Exchange.all.order(:created_at).reverse_order
+		if @allExchanges.where(status: 2, post_id: @post.id).first != nil 
+			@borrowerId = @allExchanges.where(status: 2, post_id: @post.id).first.borrower_id
+			@allUsers = ::User.all.order(:created_at).reverse_order
+			@firstName = @allUsers.where(id: @borrowerId).first.first_name
+			@lastName = @allUsers.where(id: @borrowerId).first.last_name
+			@email = @allUsers.where(id: @borrowerId).first.email
+		end
 		# render :json => {:status => 1, :exchange => @exchange}
 
 	end

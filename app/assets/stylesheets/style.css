@@ -1,5 +1,9 @@
 /* @HEADER */
 
+*{
+	font-family: 'Arvo';
+}
+
 body {
 	background-color: #EFEFEF;
 	color: #555;

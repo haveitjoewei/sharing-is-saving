@@ -1,6 +1,24 @@
-<% if @post.status == 3%>
-	<h1>This item is checked out!</h1>
-<% elsif @post.status == 1%>
-	<h1>This item is back on the market!</h1>
-<%end%>
-<%= link_to "OK", posts_path %>
+<div id="update-status">
+	<% if @post.status == 3%>
+		<h1>This item is checked out!</h1>
+		<p>Nice! You have just approved <%= @firstName%>'s request to borrow your item. Now let's setup a time and place to exchange the item!</p>
+		<p>We advise that you collect a security deposit at the time of the transaction to ensure the security of your item.</p>
+
+		<h2>Next steps:</h2>
+		<ol type="1">
+			<li>1. Set up a time and place to meet <%= @firstName%></li>
+			<li>2. Agree on when you want the item back by</li>
+			<li>3. Make the exchange</li>
+			<li>4. Mark the item as "returned" once <%= @firstName%> returns it to you. This will place the item back on our listings page so you can share it with more people!</li>
+		</ol>
+
+		<h2><%= @firstName%>'s Contact Info:</h2>
+		<ul>
+			<li>Email: <%= @email%></li>
+		</ul>
+	<% elsif @post.status == 1%>
+		<h1>This item has been placed back on our listings page!</h1>
+	<%end%>
+
+	<%= link_to "OK", posts_path %>
+</div>
