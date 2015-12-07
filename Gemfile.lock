@@ -36,7 +36,6 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    addressable (2.3.8)
     arel (6.0.3)
     aws-sdk (2.1.35)
       aws-sdk-resources (= 2.1.35)
@@ -83,9 +82,6 @@ GEM
     dotenv-rails (2.0.2)
       dotenv (= 2.0.2)
       railties (~> 4.0)
-    email_spec (1.6.0)
-      launchy (~> 2.1)
-      mail (~> 2.2)
     erubis (2.7.0)
     execjs (2.6.0)
     factory_girl (4.5.0)
@@ -96,6 +92,8 @@ GEM
     faraday (0.9.2)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.10)
+    figaro (1.1.1)
+      thor (~> 0.14)
     foundation-rails (5.5.3.2)
       railties (>= 3.1.0)
       sass (>= 3.3.0, < 3.5)
@@ -114,11 +112,6 @@ GEM
       thor (>= 0.14, < 2.0)
     json (1.8.3)
     jwt (1.5.2)
-    kaminari (0.16.3)
-      actionpack (>= 3.0.0)
-      activesupport (>= 3.0.0)
-    launchy (2.4.3)
-      addressable (~> 2.3)
     le (2.6.2)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
@@ -271,13 +264,12 @@ DEPENDENCIES
   compass (~> 1.0)
   devise
   dotenv-rails
-  email_spec
   factory_girl_rails
+  figaro
   foundation-rails (~> 5.5.0)
   geocoder
   jbuilder (~> 2.0)
   jquery-rails
-  kaminari
   le
   omniauth-facebook
   pg

@@ -65,7 +65,7 @@ class PostsController < ApplicationController
 	def index
 		@allExchanges = ::Exchange.all.order(:created_at).reverse_order
 		# Gets all posts
-		@allPosts = ::Post.all.order(:created_at).reverse_order.page params[:page] 
+		@allPosts = ::Post.all.order(:created_at).reverse_order 
 		@categories = [["Apparel & Accessories", "1"], ["Arts and Crafts", "2"], ["Electronics", "3"], ["Home Appliances", "4"], ["Kids & Baby", "5"], ["Movies, Music, Books & Games", "6"],[ "Motor Vehicles", "7"], ["Office & Education", "8"], ["Parties & Events", "9"], ["Spaces & Venues", "10"], ["Sports & Outdoors", "11"], ["Tools & Gardening", "12"], ["Other", "13"]]
 
 		# Location filtering

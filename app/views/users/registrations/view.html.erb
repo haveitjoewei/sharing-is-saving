@@ -1,3 +1,13 @@
+<script type="text/javascript">
+$( document ).ready(function() {
+  activaTab('notifications');
+
+  function activaTab(tab){
+      $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+  };
+});
+</script>
+
 <% if user_signed_in? %>
 
 <div id="mainbody">

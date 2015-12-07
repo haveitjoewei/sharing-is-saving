@@ -1,5 +1,4 @@
 <div id="map-wrapper"><div id="map"></div></div>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script>
 	var map;
 	var pos;
@@ -46,16 +45,6 @@
 		infoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.');
 	}
 
-
-	$(window).resize(function() {
-    	var width = $(window).width() / 5; 
-		$("#map-wrapper").width(width * 2);
-		map.setCenter(pos);
-		$("#mainbody").width(width * 3);
-		$("#mainbody").css({left: width * 2});
-  	});
-
-
 	$(document).ready(function() {
 		var width = $(window).width() / 5;
 		$("#map-wrapper").width(width * 2);
@@ -65,8 +54,16 @@
 		$("#categories").click(function() {
 			$(".filter_form").slideToggle();
 		});
-		console.log('hello world');
 	});
+
+
+	$(window).resize(function() {
+    	var width = $(window).width() / 5; 
+		$("#map-wrapper").width(width * 2);
+		map.setCenter(pos);
+		$("#mainbody").width(width * 3);
+		$("#mainbody").css({left: width * 2});
+  	});
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9eJ9Bm8-3DPZNyMigx1EAABmD-h0OPag&signed_in=true&callback=initMap" async defer></script>
 <div id="mainbody">
@@ -86,7 +83,6 @@
 	</section>
 	<section class="listings">
 		<% i = 1 %>
-		<%= paginate @allPosts %>
 		<% @allPosts.each do |post| %>
 			<article class="listing" >
 				<div>
@@ -144,6 +140,5 @@
 			</article>
 			<% i = i + 1 %>
 		<% end %>
-		<%= paginate @allPosts %>
 	</section>
 </div>

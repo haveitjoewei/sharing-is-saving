@@ -14,14 +14,14 @@ class Loginlogout_buttonTestCase(unittest.TestCase):
 	def testLogin(self):
 		self.browser.find_element_by_id('login').click()
 		time.sleep(2)
-		self.browser.find_element_by_id('user_email').send_keys('test@gmail.com')
+		self.browser.find_element_by_id('user_email').send_keys('sidwyn@gmail.com')
 		self.browser.find_element_by_id('user_password').send_keys('password')
 		self.browser.find_element_by_name('commit').click()
 		time.sleep(2)
 	def testLoginUser(self):
 		self.browser.find_element_by_id('login').click()
 		time.sleep(2)
-		self.browser.find_element_by_id('user_email').send_keys('test@gmail.com')
+		self.browser.find_element_by_id('user_email').send_keys('sidwyn@gmail.com')
 		self.browser.find_element_by_id('user_password').send_keys('password')
 		self.browser.find_element_by_name('commit').click()
 		time.sleep(2)
@@ -29,7 +29,7 @@ class Loginlogout_buttonTestCase(unittest.TestCase):
 	def testLoginlogout_button(self):
 		self.browser.find_element_by_id('login').click()
 		time.sleep(2)
-		self.browser.find_element_by_id('user_email').send_keys('test@gmail.com')
+		self.browser.find_element_by_id('user_email').send_keys('sidwyn@gmail.com')
 		self.browser.find_element_by_id('user_password').send_keys('password')
 		self.browser.find_element_by_name('commit').click()
 		time.sleep(2)
@@ -37,7 +37,7 @@ class Loginlogout_buttonTestCase(unittest.TestCase):
 	def testlogout_buttonLogin(self):
 		self.browser.find_element_by_id('login').click()
 		time.sleep(2)
-		self.browser.find_element_by_id('user_email').send_keys('test@gmail.com')
+		self.browser.find_element_by_id('user_email').send_keys('sidwyn@gmail.com')
 		self.browser.find_element_by_id('user_password').send_keys('password')
 		self.browser.find_element_by_name('commit').click()
 		time.sleep(2)
@@ -47,7 +47,7 @@ class Loginlogout_buttonTestCase(unittest.TestCase):
 	# def testlogout_buttonUser(self):
 	# 	self.browser.find_element_by_id('login').click()
 	# 	time.sleep(2)
-	# 	self.browser.find_element_by_id('user_email').send_keys('test@gmail.com')
+	# 	self.browser.find_element_by_id('user_email').send_keys('sidwyn@gmail.com')
 	# 	self.browser.find_element_by_id('user_password').send_keys('password')
 	# 	self.browser.find_element_by_name('commit').click()
 	# 	time.sleep(2)
@@ -57,7 +57,7 @@ class Loginlogout_buttonTestCase(unittest.TestCase):
 	# def testlogout_buttonlogout_button(self):
 	# 	self.browser.find_element_by_id('login').click()
 	# 	time.sleep(2)
-	# 	self.browser.find_element_by_id('user_email').send_keys('test@gmail.com')
+	# 	self.browser.find_element_by_id('user_email').send_keys('sidwyn@gmail.com')
 	# 	self.browser.find_element_by_id('user_password').send_keys('password')
 	# 	self.browser.find_element_by_name('commit').click()
 	# 	time.sleep(2)

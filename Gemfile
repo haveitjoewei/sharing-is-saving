@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'dotenv-rails'
+gem 'dotenv-rails', :groups => [:development, :test]
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.3'
 # Use sqlite3 as the database for Active Record
@@ -49,7 +49,7 @@ gem 'geocoder'
 gem 'simplecov', :require => false, :group => :test
 gem 'sendgrid'
 gem 'omniauth-facebook'
-gem 'kaminari'
+gem 'figaro'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -64,7 +64,6 @@ group :development, :test do
   gem 'rspec'
   gem 'rspec-rails', ">= 3.3.2"
   gem 'factory_girl_rails'
-  gem 'email_spec'
 
 end
 

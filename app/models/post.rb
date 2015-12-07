@@ -1,5 +1,4 @@
 class Post < ActiveRecord::Base
-	paginates_per 9
   	belongs_to :user
   	has_many :exchanges
   	has_many :reviews
