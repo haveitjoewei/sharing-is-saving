@@ -83,6 +83,7 @@
 	</section>
 	<section class="listings">
 		<% i = 1 %>
+		<%= paginate @allPosts %>
 		<% @allPosts.each do |post| %>
 			<article class="listing" >
 				<div>
