@@ -62,11 +62,19 @@
 		$("#listings-page #mainbody").width(width * 3);
 		$("#listings-page #mainbody").css({left: width * 2});
 		$(".filter_form").hide();
+
 		$("#categories").click(function() {
-			$(".filter_form").slideToggle();
+			if(!$(".filter_form").hasClass('opened')) {
+	              $(".filter_form").slideDown(500).addClass('opened');
+	            } else {
+	              $(".filter_form").slideUp(500).removeClass('opened');
+	            }
 		});
+
 		console.log('hello world');
+
 	};
+
 	$(document).ready(ready);
 	// $(document).on('page:load', ready);
 </script>

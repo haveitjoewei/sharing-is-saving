@@ -59,9 +59,14 @@
 						$("#notificationContainer").hide();
 
 						$("#notificationLink").click(function(){
-							$("#notificationContainer").slideToggle();
+							// $("#notificationContainer").slideToggle();
 			      			// $("#notification_count").fadeOut("slow");
 			      			// return false;
+			      			if(!$("#notificationContainer").hasClass('opened')) {
+				              $("#notificationContainer").slideDown(500).addClass('opened');
+				            } else {
+				              $("#notificationContainer").slideUp(500).removeClass('opened');
+				            }
 			      		});
 						  // // Document Click hiding the popup 
 						  // $(document).click(function()
