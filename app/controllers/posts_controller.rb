@@ -167,10 +167,10 @@ class PostsController < ApplicationController
 			return
 		end
 
-		# if thePost.user_id == currentUserId # Delete the post
-		::Post.delete(params[:id])
-		redirect_to posts_path
-		# end
+		if thePost.user_id == currentUserId # Delete the post
+			::Post.delete(params[:id])
+			redirect_to posts_path
+		end
 	end
 
 	def edit
