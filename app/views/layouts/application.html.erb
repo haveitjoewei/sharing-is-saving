@@ -115,17 +115,17 @@
 													<% if activity.key == 'exchange.update_status' %>
 
 														<% if activity.parameters[:to_status] == 2 %>
-															<li class="list-group-item">You are now renting <%= link_to "#{@allPostsAsBorrower[index].title}", post_path(@allPostsAsBorrower[index]), data:{id: @allPostsAsBorrower[index].id}%>.</li>
+															<li class="list-group-item">You are now renting <%= link_to "#{@allPostsN[index].title}", post_path(@allPostsN[index]), data:{id: @allPostsN[index].id}%>.</li>
 
 														<% elsif activity.parameters[:to_status] == 5 %>
-															<li class="list-group-item">Your request to rent <%= link_to "#{@allPostsAsBorrower[index].title}", post_path(@allPostsAsBorrower[index]), data:{id: @allPostsAsBorrower[index].id}%> was cancelled.</li>
+															<li class="list-group-item">Your request to rent <%= link_to "#{@allPostsN[index].title}", post_path(@allPostsN[index]), data:{id: @allPostsN[index].id}%> was cancelled.</li>
 
 														<% elsif activity.parameters[:to_status] == 3 %>
-															<li class="list-group-item">Your request to rent <%= link_to "#{@allPostsAsBorrower[index].title}", post_path(@allPostsAsBorrower[index]), data:{id: @allPostsAsBorrower[index].id}%> was rejected.</li>
+															<li class="list-group-item">Your request to rent <%= link_to "#{@allPostsN[index].title}", post_path(@allPostsN[index]), data:{id: @allPostsN[index].id}%> was rejected.</li>
 														<% end %>
 
 													<% elsif activity.key == 'exchange.exchange_completed' %>
-														<li class="list-group-item">You have returned <%= @allOwnersN[index].first_name %>'s item <%= link_to "#{@allPostsAsBorrower[index].title}", post_path(@allPostsAsBorrower[index]), data:{id: @allPostsAsBorrower[index].id}%>.</li>
+														<li class="list-group-item">You have returned <%= @allOwnersN[index].first_name %>'s item <%= link_to "#{@allPostsN[index].title}", post_path(@allPostsN[index]), data:{id: @allPostsN[index].id}%>.</li>
 
 													<% end %>
 
