@@ -56,9 +56,9 @@
     });
     }); 
 
-    setTimeout(ready,2000);
   };
-  $(document).ready(ready);
+  $(document).ready(
+    function() { setTimeout(ready,1000); });
 
   </script>
 
