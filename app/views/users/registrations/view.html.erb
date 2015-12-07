@@ -70,7 +70,7 @@
               <% end %>
               <%= link_to "<h4>#{post.title} - $#{post.price}</h4>".html_safe, post_path(post), data:{id: post.id}%>
               <p class="list-group-item-text"><%= post.description =%></p>
-              <h4><%= link_to 'Destroy', post_path(post), method: :delete, data: { id: post.id }, :class => "label label-pill label-danger label-left"%></h4>
+              <h4><%= link_to 'Delete', post_path(post), method: :delete, data: { id: post.id }, :class => "label label-pill label-danger label-left"%></h4>
             </div>
           
         <% end %>
