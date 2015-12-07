@@ -1,7 +1,7 @@
 <script type="text/javascript" src="https://rawgit.com/blueimp/jQuery-File-Upload/master/js/jquery.fileupload.js"></script>
-<script>
-$( document ).ready(function() {
-  $('.directUpload').find("input:file").each(function(i, elem) {
+  <script>
+
+  var ready = function() { $('.directUpload').find("input:file").each(function(i, elem) {
     var fileInput    = $(elem);
     console.log(fileInput);
     var form         = $(fileInput.parents('form:first'));
@@ -54,9 +54,10 @@ $( document ).ready(function() {
           text(".");
       }
     });
-  });
-});
-</script>
+    }); 
+  };
+  $(document).ready(ready);
+  </script>
 
 <div id="mainbody">
 	<div class = "create">
