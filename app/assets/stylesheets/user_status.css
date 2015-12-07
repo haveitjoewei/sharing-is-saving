@@ -11,6 +11,12 @@
 }
 
 #update-status:hover {
-	background-color: #d3d3d3;
+	background-color: #007BE6;
+	color: white;
 	-webkit-transition: background 2s;
+}
+
+#update-status:hover .ok{
+	color: white;
+	text-decoration: underline;
 }
