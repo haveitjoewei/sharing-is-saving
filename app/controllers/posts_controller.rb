@@ -156,22 +156,22 @@ class PostsController < ApplicationController
 
 	# DELETE posts/:id(.:format) 
 	# Deletes one post
-	# def destroy
-	# 	currentUserId = current_user.id
-	# 	postId = params[:id]
-	# 	response.headers['Access-Control-Allow-Origin'] = "*" # * means any. specify to 
-	# 	begin
-	# 		thePost = ::Post.find(postId)
-	# 		rescue ActiveRecord::RecordNotFound  
-	# 		render :json => {:status => -1, :message => 'Couldn\'t delete post because post does not exist.' }, :status => 404
-	# 		return
-	# 	end
+	def destroy
+		currentUserId = current_user.id
+		postId = params[:id]
+		response.headers['Access-Control-Allow-Origin'] = "*" # * means any. specify to 
+		begin
+			thePost = ::Post.find(postId)
+			rescue ActiveRecord::RecordNotFound  
+			render :json => {:status => -1, :message => 'Couldn\'t delete post because post does not exist.' }, :status => 404
+			return
+		end
 
-	# 	if thePost.user_id == currentUserId # Delete the post
-	# 		::Post.delete(params[:id])
-	# 		redirect_to @post
-	# 	end
-	# end
+		# if thePost.user_id == currentUserId # Delete the post
+		::Post.delete(params[:id])
+		redirect_to posts_path
+		# end
+	end
 
 	def edit
 		@post = ::Post.find(params[:id])
