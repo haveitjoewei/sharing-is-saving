@@ -20,6 +20,22 @@ class ApplicationController < ActionController::Base
       @allRecipientsN = @allActivities.map { |activity| ::User.find(activity.recipient_id)}
       @allExchangesN = @allActivities.map { |activity| ::Exchange.find(activity.exchange_id)}
       @allPostsN = @allActivities.map { |activity| ::Post.find(activity.post_id)}
+
+      # @allNotificationsForCompletedTransactions = PublicActivity::Activity.all.where(:key => 'exchange.exchange_completed')
+      @allExchanges = PublicActivity::Activity.all.reverse_order.map { |activity| ::Exchange.find(activity.exchange_id)}
+
+      # @allExchanges = @allExchanges.select { |exchange| exchange.lender_id == current_user.id or exchange.borrower_id == current_user.id }
+      @allExchangesAsLender = @allExchanges.select { |exchange| exchange.lender_id == current_user.id }
+      # @allPostsAsLender = @allOwnersN.map { |exchange| ::Post.find(exchange.post_id)}
+      # @allBorrowersAsLender = @allPostsAsLender.map { |post| ::User.find(post.user_id)}
+
+      @allExchangesAsBorrower = @allExchanges.select { |exchange| exchange.borrower_id == current_user.id }
+      @allPostsAsBorrower = @allExchangesAsBorrower.map { |exchange| ::Post.find(exchange.post_id)}
+      @allLendersAsBorrower = @allPostsAsBorrower.map { |post| ::User.find(post.user_id)}
+
+      @allPosts = ::Post.all.order(:created_at).reverse_order.where("user_id = ?", current_user.id)
+
+      # @allStatuses = @allPosts.map { |post| get_status(post.status)}
     end
 
   end

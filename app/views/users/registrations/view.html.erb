@@ -16,14 +16,14 @@
       <ul class="list-group">
         <% @allExchangesAsBorrower.each_with_index do |exchange, index| %>
         <% if exchange.status == 1 %>
-          <li class="list-group-item">You sent a request to borrow <%= @allPostsAsBorrower[index].title.to_s %> from <%= @allLendersAsBorrower[index].first_name.to_s + " " + @allLendersAsBorrower[index].last_name.to_s %> at <%= exchange.created_at.to_s %> </li>
+          <li class="list-group-item">You sent a request to borrow <%= link_to "#{@allPostsAsBorrower[index].title}", post_path(@allPostsAsBorrower[index]), data:{id: @allPostsAsBorrower[index].id}%> from <%= @allLendersAsBorrower[index].first_name.to_s + " " + @allLendersAsBorrower[index].last_name.to_s %> at <%= exchange.created_at.to_s %> </li>
         <% elsif exchange.status == 2 %>
-          <li class="list-group-item"><%= @allLendersAsBorrower[index].first_name.to_s + " " + @allLendersAsBorrower[index].last_name.to_s %> accepted your request to borrow <%= @allPostsAsBorrower[index].title.to_s %> at <%= exchange.created_at.to_s %> </li>
+          <li class="list-group-item"><%= @allLendersAsBorrower[index].first_name.to_s + " " + @allLendersAsBorrower[index].last_name.to_s %> accepted your request to borrow <%= link_to "#{@allPostsAsBorrower[index].title}", post_path(@allPostsAsBorrower[index]), data:{id: @allPostsAsBorrower[index].id}%> at <%= exchange.created_at.to_s %> </li>
         <% elsif exchange.status == 3 %>
-        <li class="list-group-item"><%= @allLendersAsBorrower[index].first_name.to_s + " " + @allLendersAsBorrower[index].last_name.to_s %> rejected your request to borrow <%= @allPostsAsBorrower[index].title.to_s %> at <%= exchange.created_at.to_s %> </li>
+        <li class="list-group-item"><%= @allLendersAsBorrower[index].first_name.to_s + " " + @allLendersAsBorrower[index].last_name.to_s %> rejected your request to borrow <%= link_to "#{@allPostsAsBorrower[index].title}", post_path(@allPostsAsBorrower[index]), data:{id: @allPostsAsBorrower[index].id}%> at <%= exchange.created_at.to_s %> </li>
         <% elsif exchange.status == 4 %>
           <li class="list-group-item">
-            You returned <%= @allPostsAsBorrower[index].title.to_s %> to <%= @allLendersAsBorrower[index].first_name.to_s + " " + @allLendersAsBorrower[index].last_name.to_s %> at <%= exchange.created_at.to_s %> 
+            You returned <%= link_to "#{@allPostsAsBorrower[index].title}", post_path(@allPostsAsBorrower[index]), data:{id: @allPostsAsBorrower[index].id}%> to <%= @allLendersAsBorrower[index].first_name.to_s + " " + @allLendersAsBorrower[index].last_name.to_s %> at <%= exchange.created_at.to_s %> 
             <% if ::Review.where(:exchange_id => exchange.id).count > 0 %>
               <%= link_to "You've left a review for this item", post_path(:id => exchange.post_id), :class => 'review_status' %>
             <% else %>
@@ -31,7 +31,7 @@
             <% end %>
           </li>
         <% elsif exchange.status == 5 %>
-          <li class="list-group-item">You cancelled your request to borrow <%= @allPostsAsBorrower[index].title.to_s %> from <%= @allLendersAsBorrower[index].first_name.to_s + " " + @allLendersAsBorrower[index].last_name.to_s %> at <%= exchange.created_at.to_s %> </li>
+          <li class="list-group-item">You cancelled your request to borrow <%= link_to "#{@allPostsAsBorrower[index].title}", post_path(@allPostsAsBorrower[index]), data:{id: @allPostsAsBorrower[index].id}%> from <%= @allLendersAsBorrower[index].first_name.to_s + " " + @allLendersAsBorrower[index].last_name.to_s %> at <%= exchange.created_at.to_s %> </li>
         <% end %>
         <% end %>
       </ul>
@@ -40,15 +40,15 @@
       <ul class="list-group">
         <% @allExchangesAsLender.each_with_index do |exchange, index| %>
         <% if exchange.status == 1 %>
-          <li class="list-group-item"><%= @allBorrowersAsLender[index].first_name.to_s + " " + @allBorrowersAsLender[index].last_name.to_s %> sent a request to borrow <%= @allPostsAsLender[index].title.to_s %> from you at <%= exchange.created_at.to_s %> </li>
+          <li class="list-group-item"><%= @allBorrowersAsLender[index].first_name.to_s + " " + @allBorrowersAsLender[index].last_name.to_s %> sent a request to borrow <%= link_to "#{@allPostsAsLender[index].title}", post_path(@allPostsAsLender[index]), data:{id: @allPostsAsLender[index].id}%> from you at <%= exchange.created_at.to_s %> </li>
         <% elsif exchange.status == 2 %> 
-          <li class="list-group-item">You lent <%= @allPostsAsLender[index].title.to_s %> to <%= @allBorrowersAsLender[index].first_name.to_s + " " + @allBorrowersAsLender[index].last_name.to_s %> at <%= exchange.created_at.to_s %> </li>
+          <li class="list-group-item">You lent <%= link_to "#{@allPostsAsBorrower[index].title}", post_path(@allPostsAsLender[index]), data:{id: @allPostsAsLender[index].id}%> to <%= @allBorrowersAsLender[index].first_name.to_s + " " + @allBorrowersAsLender[index].last_name.to_s %> at <%= exchange.created_at.to_s %> </li>
         <% elsif exchange.status == 3 %>
-          <li class="list-group-item">You rejected <%= @allBorrowersAsLender[index].first_name.to_s + " " + @allBorrowersAsLender[index].last_name.to_s %>s request to borrow <%= @allPostsAsLender[index].title.to_s %> from you at <%= exchange.created_at.to_s %> </li>
+          <li class="list-group-item">You rejected <%= @allBorrowersAsLender[index].first_name.to_s + " " + @allBorrowersAsLender[index].last_name.to_s %>s request to borrow <%= link_to "#{@allPostsAsBorrower[index].title}", post_path(@allPostsAsBorrower[index]), data:{id: @allPostsAsBorrower[index].id}%> from you at <%= exchange.created_at.to_s %> </li>
         <% elsif exchange.status == 4 %>
-          <li class="list-group-item"><%= @allBorrowersAsLender[index].first_name.to_s + " " + @allBorrowersAsLender[index].last_name.to_s %> returned <%= @allPostsAsLender[index].title.to_s %> back to you at <%= exchange.created_at.to_s %> </li>
+          <li class="list-group-item"><%= @allBorrowersAsLender[index].first_name.to_s + " " + @allBorrowersAsLender[index].last_name.to_s %> returned <%= link_to "#{@allPostsAsLender[index].title}", post_path(@allPostsAsLender[index]), data:{id: @allPostsAsLender[index].id}%> back to you at <%= exchange.created_at.to_s %> </li>
         <% elsif exchange.status == 5 %>
-          <li class="list-group-item"><%= @allBorrowersAsLender[index].first_name.to_s + " " + @allBorrowersAsLender[index].last_name.to_s %> cancelled his request to borrow <%= @allPostsAsLender[index].title.to_s %> from you at <%= exchange.created_at.to_s %> </li>
+          <li class="list-group-item"><%= @allBorrowersAsLender[index].first_name.to_s + " " + @allBorrowersAsLender[index].last_name.to_s %> cancelled his request to borrow <%= link_to "#{@allPostsAsBorrower[index].title}", post_path(@allPostsAsBorrower[index]), data:{id: @allPostsAsBorrower[index].id}%> from you at <%= exchange.created_at.to_s %> </li>
         <% end %>
         <% end %>
       </ul>
