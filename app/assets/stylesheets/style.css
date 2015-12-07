@@ -127,6 +127,10 @@ nav a {
 	padding: 10px;
 }
 
+.navbar {
+	position: fixed;
+}
+
 #home-search-form {
 	width: 100%;
 	margin-bottom: 20px;
@@ -360,6 +364,8 @@ nav a {
 
 .listings {
 	padding: 10px;
+	float: right;
+	width: 50%;
 }
 
 .listing {
