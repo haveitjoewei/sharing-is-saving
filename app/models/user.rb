@@ -19,7 +19,6 @@ class User < ActiveRecord::Base
   before_create :set_foo_to_now, :autoconfirm_on_localhost
 
   def autoconfirm_on_localhost
-    byebug    
     if Rails.env.development? or Rails.env.test?
       self.skip_confirmation!
     end
