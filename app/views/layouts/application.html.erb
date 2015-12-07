@@ -52,91 +52,91 @@
 			        <li><%= link_to 'Listings', posts_path, :id => 'listings_tab' %></li>
 
 					<% if user_signed_in? %>
-					<script>
-			var ready = function() {
-				$("#notificationContainer").hide();
+						<li><%= link_to('Post', new_post_path, :id => 'new_post')  %></li>
+						<li><%= link_to("#{current_user.email}", profile_path, :id => 'username') %></li>
+						<script>
+						var ready = function() {
+						$("#notificationContainer").hide();
 
-				$("#notificationLink").click(function(){
-					$("#notificationContainer").toggle();
-	      			// $("#notification_count").fadeOut("slow");
-	      			// return false;
-	      		});
-				  // // Document Click hiding the popup 
-				  // $(document).click(function()
-				  //   {
-				  //     $("#notificationContainer").hide();
-				  //   });
+						$("#notificationLink").click(function(){
+							$("#notificationContainer").slideToggle();
+			      			// $("#notification_count").fadeOut("slow");
+			      			// return false;
+			      		});
+						  // // Document Click hiding the popup 
+						  // $(document).click(function()
+						  //   {
+						  //     $("#notificationContainer").hide();
+						  //   });
 
-				  // // Popup on click
-				  // $("#notificationContainer").click(function()
-				  //   {
-				  //     return false;
-				  //   });
+						  // // Popup on click
+						  // $("#notificationContainer").click(function()
+						  //   {
+						  //     return false;
+						  //   });
 
-				    // do stuff here.
+						    // do stuff here.
 
-				};
+						};
 
-				$(document).ready(ready);
-				$(document).on('page:load', ready);
-				</script>
-				<div id="notification_li">
-					<!-- <span id="notification_count">3</span> -->
-					<div id="notificationContainer">
-						<div id="notificationTitle">Notifications</div>
-						<div id="notificationsBody" class="notifications">
-							<ul class="list-group">
+						$(document).ready(ready);
+						$(document).on('page:load', ready);
+						</script>
+						<div id="notification_li">
+							<!-- <span id="notification_count">3</span> -->
+							<div id="notificationContainer">
+								<div id="notificationTitle">Notifications</div>
+									<div id="notificationsBody" class="notifications">
+										<ul class="list-group">
 
-								<% @allActivities.each_with_index do |activity, index| %>
+											<% @allActivities.each_with_index do |activity, index| %>
 
-								<% if activity.owner_id == current_user.id %>
-								<% if activity.key == 'exchange.create_exchange' %>
-								<li class="list-group-item"><%= @allRecipientsN[index].first_name %> requested to borrow your item <%= @allPostsN[index].title %>.</li>
+												<% if activity.owner_id == current_user.id %>
+													<% if activity.key == 'exchange.create_exchange' %>
+														<li class="list-group-item"><%= @allRecipientsN[index].first_name %> requested to borrow your item <%= @allPostsN[index].title %>.</li>
 
-								<% elsif activity.key == 'exchange.exchange_completed' %>
-								<li class="list-group-item"><%= @allRecipientsN[index].first_name %> has returned your item <%= @allPostsN[index].title %>.</li>
+													<% elsif activity.key == 'exchange.exchange_completed' %>
+														<li class="list-group-item"><%= @allRecipientsN[index].first_name %> has returned your item <%= @allPostsN[index].title %>.</li>
 
-								<% elsif activity.key == 'exchange.update_status' %>
-								<% if activity.parameters[:to_status] == 5 %>
-								<li class="list-group-item">You declined <%= @allRecipientsN[index].first_name %>'s request to rent <%= @allPostsN[index].title %>.</li>
-								<% end %>
-								<% end %>
+													<% elsif activity.key == 'exchange.update_status' %>
+														<% if activity.parameters[:to_status] == 5 %>
+															<li class="list-group-item">You declined <%= @allRecipientsN[index].first_name %>'s request to rent <%= @allPostsN[index].title %>.</li>
+														<% end %>
+													<% end %>
 
-								<% elsif activity.recipient_id == current_user.id %>
+												<% elsif activity.recipient_id == current_user.id %>
 
-								<% if activity.key == 'exchange.update_status' %>
+													<% if activity.key == 'exchange.update_status' %>
 
-								<% if activity.parameters[:to_status] == 2 %>
-								<li class="list-group-item">You are now renting <%= @allOwnersN[index].first_name %>'s <%= @allPostsN[index].title %>.</li>
+														<% if activity.parameters[:to_status] == 2 %>
+															<li class="list-group-item">You are now renting <%= @allOwnersN[index].first_name %>'s <%= @allPostsN[index].title %>.</li>
 
-								<% elsif activity.parameters[:to_status] == 5 %>
-								<li class="list-group-item">Your request to rent <%= @allOwnersN[index].first_name %>'s <%= @allPostsN[index].title %> was cancelled.</li>
+														<% elsif activity.parameters[:to_status] == 5 %>
+															<li class="list-group-item">Your request to rent <%= @allOwnersN[index].first_name %>'s <%= @allPostsN[index].title %> was cancelled.</li>
 
-								<% elsif activity.parameters[:to_status] == 3 %>
-								<li class="list-group-item">Your request to rent <%= @allOwnersN[index].first_name %>'s <%= @allPostsN[index].title %> was rejected.</li>
-								<% end %>
+														<% elsif activity.parameters[:to_status] == 3 %>
+															<li class="list-group-item">Your request to rent <%= @allOwnersN[index].first_name %>'s <%= @allPostsN[index].title %> was rejected.</li>
+														<% end %>
 
-								<% elsif activity.key == 'exchange.exchange_completed' %>
-								<li class="list-group-item">You have returned <%= @allOwnersN[index].first_name %>'s item <%= @allPostsN[index].title %>.</li>
+													<% elsif activity.key == 'exchange.exchange_completed' %>
+														<li class="list-group-item">You have returned <%= @allOwnersN[index].first_name %>'s item <%= @allPostsN[index].title %>.</li>
 
-								<% end %>
+													<% end %>
 
-								<% end %>
+												<% end %>
 
-								<% end %>
+											<% end %>
 
-							</ul>
-						</div>
-						<div id="notificationFooter"><a href="#">See All</a></div>
-					</div>
-				</div>
-				<li><a href="#"id="notificationLink"><i class="fa fa-bell" ></i></a></li>
-					<li><%= link_to('Post', new_post_path, :id => 'new_post')  %></li>
-					<li><%= link_to("#{current_user.email}", profile_path, :id => 'username') %></li>
-					<li><%= link_to('Logout', destroy_user_session_path, :method => :delete, :id => 'logout_button') %></li>
+										</ul>
+									</div>
+									<div id="notificationFooter"><a href="#">See All</a></div>
+								</div>
+							</div>
+						<li><a href="#"id="notificationLink"><i class="fa fa-bell" ></i></a></li>
+						<li><%= link_to('Logout', destroy_user_session_path, :method => :delete, :id => 'logout_button') %></li>
 					<% else %>
-					<li><%= link_to('Sign Up', new_user_registration_path, :id => 'signup')  %></li>
-					<li><%= link_to('Login', new_user_session_path, :id => 'login')  %></li>
+						<li><%= link_to('Sign Up', new_user_registration_path, :id => 'signup')  %></li>
+						<li><%= link_to('Login', new_user_session_path, :id => 'login')  %></li>
 					<% end %>
 			        
 			      </ul>
