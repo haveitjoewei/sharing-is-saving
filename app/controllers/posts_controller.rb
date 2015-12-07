@@ -188,6 +188,13 @@ class PostsController < ApplicationController
 			if @post.update_attributes(post_params)
 				flash[:notice] = "Post successfully updated"
 				render :show
+			else
+				flash[:alert] ||= []
+				flash.now[:alert] << "Post can not be updated, please correct the following information:"
+				@post.errors.each do |key, value|
+    				flash[:alert] << key.to_s + " " + value
+				end
+				render :new
 			end
 		end
 	end
