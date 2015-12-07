@@ -55,7 +55,7 @@
 						<li><%= link_to('Post', new_post_path, :id => 'new_post')  %></li>
 						<li><%= link_to("#{current_user.email}", profile_path, :id => 'username') %></li>
 						<script>
-						var ready = function() {
+						var ready1 = function() {
 						$("#notificationContainer").hide();
 
 						$("#notificationLink").click(function(){
@@ -84,8 +84,8 @@
 
 						};
 
-						$(document).ready(ready);
-						// $(document).on('page:load', ready);
+						$(document).ready(ready1);
+						// $(document).on('page:load', ready1);
 						</script>
 						<div id="notification_li">
 							<!-- <span id="notification_count">3</span> -->
