@@ -582,6 +582,10 @@ nav a {
 	padding: 50px;
 }
 
+.discovery-tiles .tile{
+	border-radius: 5px;
+}
+
 .col-lg-4 {
 	padding: 0;
 	height: 345px;
@@ -606,11 +610,12 @@ nav a {
 	left: 50%;
 	margin-right: 50%;
 	z-index: 5;
-	transition: background 0.1s ease-in-out;
+	border-radius: 5px;
+	transition: background 0.3s ease-in-out;
 }
 
 .tile-text:hover {
-	background-color: rgba(0, 0, 0, 0.4);
+	background-color: rgba(0, 0, 0, 0.5);
 	color: #fff;
 }
 
