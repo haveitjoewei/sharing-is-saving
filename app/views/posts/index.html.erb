@@ -65,8 +65,10 @@
 		$("#categories").click(function() {
 			if(!$(".filter_form").hasClass('opened')) {
 	              $(".filter_form").slideDown(500).addClass('opened');
+	              $("#filter-arrow").toggleClass('rotate');
 	            } else {
 	              $(".filter_form").slideUp(500).removeClass('opened');
+	              $("#filter-arrow").toggleClass('rotate');
 	            }
 		});
 		console.log("hello world")
@@ -79,7 +81,7 @@
 <div id="listings-page">
 	<div id="mainbody">
 	<section class="filter">
-		<a href="#"><h4 id="categories">Categories</h4></a>
+		<a href="#"><h4 id="categories">Filter by &nbsp;<i class="fa fa-chevron-up" id="filter-arrow"></i></h4></a>
 		<form class="filter_form", method="get">
 			<ul>
 			<% @categories.each do |c| %>

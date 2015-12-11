@@ -78,6 +78,7 @@ header a:hover {
 
 #search-bar {
 	background-color: #0094FF;
+	font-size: 16px;
 	border: none;
 	border-radius: 2px 0 0 2px;
 	color: white;
@@ -364,6 +365,20 @@ nav a {
 
 .filter input[type="submit"]:active {
 	background-color: #0094FF;
+}
+
+#filter-arrow{
+	-moz-transition: -moz-transform .8s;
+    -webkit-transition: -webkit-transform .8s;
+    -o-transition: -o-transform .8s;
+    transition: transform .8s;
+}
+
+.rotate {
+    -moz-transform: rotate(180deg);
+     -o-transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
 }
 
 .listings {
@@ -970,12 +985,13 @@ input[type="submit"] {
 .navbar-default
 .navbar-nav>li>a {
 	color: white !important;
-
+	transition: color 0.2s ease-in-out;
 }
 
 .navbar-default
 .navbar-nav>li>a:hover {
-	color: white !important;
+	color: #68BFFF !important;
+	border-radius: 3px;
 }
 
 .navbar-toggle {
